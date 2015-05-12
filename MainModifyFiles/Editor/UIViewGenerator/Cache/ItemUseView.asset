@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: ItemUseView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: e4152f402e3c2c6c68c47b8ee8d24c6d
+    comType: UIButton
+    memberName: CloseBtn
+    path: RGroup/CloseBtn
+  - uid: 1ef0fc00b56a4b59dac79b4f12f06506
+    comType: UIButton
+    memberName: OptBtn
+    path: RGroup/OptBtn
+  - uid: 043fe05dc8657c34b511b7648543f692
+    comType: UILabel
+    memberName: OptlblLabel
+    path: RGroup/OptBtn/OptlblLabel
+  - uid: 62395e3725e6abe9712d07c137a17624
+    comType: UIPageGrid
+    memberName: itemGrid
+    path: RGroup/ItemPanel/itemGrid
+  - uid: 097f6f3f76a58dd2d38426842d231752
+    comType: GameObject
+    memberName: LGroup
+    path: LGroup
+  codePath: 

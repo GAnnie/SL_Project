@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: PlayerChangeNameView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 2f07d12958f90498f7742e3d7c7ff46a
+    comType: UILabel
+    memberName: TipLabel
+    path: TipLabel
+  - uid: 3e064ed40a563e9aa0b675f57939ff7e
+    comType: UIButton
+    memberName: CloseButton
+    path: CloseButton
+  - uid: 1194a7bd4a5aef70fd227975d75f546d
+    comType: UIButton
+    memberName: OkBtn
+    path: OkBtn
+  - uid: 5b51ecd4a1a3147f9d337c8ea6c0b953
+    comType: UIButton
+    memberName: CancelBtn
+    path: CancelBtn
+  - uid: 6a178a8d72e03d368d22fed43fd0ef64
+    comType: UIInput
+    memberName: NameInput
+    path: NameInput
+  codePath: 

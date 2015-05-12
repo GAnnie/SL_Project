@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: AddFriendItemCell
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 039f539b132f78f1f85f4936c723c272
+    comType: UIButton
+    memberName: addBtn
+    path: ContentFrame/addBtn
+  - uid: f35c82490f601f468d8d6d5e9fcb2c1c
+    comType: UISprite
+    memberName: addBtnSprite
+    path: ContentFrame/addBtn/Sprite
+  - uid: f05a69690b0f86230bb01a410d1b3bbe
+    comType: UISprite
+    memberName: icon
+    path: ContentFrame/Face/icon
+  - uid: 4c08361d7460a8b07d12876e4aca6b4f
+    comType: UILabel
+    memberName: PositionLbl
+    path: ContentFrame/PositionLbl
+  - uid: 3073c5f987d357c1b681b986da26671a
+    comType: UILabel
+    memberName: LvLbl
+    path: ContentFrame/LvLbl
+  - uid: 54ba732d60eec4460e88dec3c02f444c
+    comType: UILabel
+    memberName: NameLbl
+    path: ContentFrame/NameLbl
+  codePath: 
+  codeLuaPath: 

@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: PlayerAppellationView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: ec6e46d653862307fc5af05e05511093
+    comType: UIButton
+    memberName: closeBtn
+    path: ContentBg/CloseBtn
+  - uid: 0d75f3181a050ef00252a19f3a14c462
+    comType: UIGrid
+    memberName: itemGrid
+    path: ContentBg/appellationItemBg/ScrollView/itemGrid
+  - uid: 30cde63a42ab4bc2605d081971e8eff4
+    comType: GameObject
+    memberName: appellationItemPrefab
+    path: ContentBg/appellationItemBg/ScrollView/itemGrid/appellationItem
+  - uid: 219aff2b9143a7c14b6ee1f2050b504f
+    comType: UILabel
+    memberName: descLbl
+    path: ContentBg/descBg/ScrollView/descLbl
+  - uid: b68f1af389dda5110849291de1f8ac97
+    comType: UIButton
+    memberName: changBtn
+    path: ContentBg/changBtn
+  - uid: ccb38734bcedcb920234015a82b56c66
+    comType: UIButton
+    memberName: hideBtn
+    path: ContentBg/hideBtn
+  - uid: 9d32e712ada289d48272926d71db9335
+    comType: UIScrollView
+    memberName: descScrollView
+    path: ContentBg/descBg/ScrollView
+  codePath: 
+  codeLuaPath: 

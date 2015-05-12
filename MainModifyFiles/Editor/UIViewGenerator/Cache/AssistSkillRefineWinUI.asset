@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: AssistSkillRefineWinUI
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 51d4e778e973a0943faef1917bba4930
+    comType: UIButton
+    memberName: CloseBtn
+    path: CloseBtn
+  - uid: 35a62c0de3108b73fc0ba36e629ed1fb
+    comType: GameObject
+    memberName: RefineGroup
+    path: RefineGroup
+  - uid: 375b7660fbbf47b8023f28d3bde3ec36
+    comType: UILabel
+    memberName: VigourValLbl
+    path: RefineGroup/vigour/bgSprite/valueBg/VigourValLbl
+  - uid: 818d68a23f20c4850468afd554a21188
+    comType: UIGrid
+    memberName: MaterialsGrid
+    path: RefineGroup/MaterialsGrid
+  - uid: 49ac5a6fb3d9b2da00991d144cc216f1
+    comType: GameObject
+    memberName: ProductsItemPos
+    path: RefineGroup/ProductsItemPos
+  - uid: 874c351b580d43322a122af6196198e8
+    comType: UIGrid
+    memberName: ItemGrid
+    path: RefineGroup/ItemGrid
+  - uid: 1b2421cc1bfca87d67ac84eacea17d8b
+    comType: UIButton
+    memberName: OptBtn
+    path: RefineGroup/OptBtn
+  - uid: e1f62e3c640061fde702198b0a5f595c
+    comType: GameObject
+    memberName: OptBtnPos
+    path: RefineGroup/OptBtnPos
+  - uid: cd0d6574d1544f4a68017c4dd1dd1f09
+    comType: UIButton
+    memberName: TipsBtn
+    path: RefineGroup/TipsBtn
+  - uid: b5a6867fcb3e23a4efa155391dff33a9
+    comType: GameObject
+    memberName: PreviewGroup
+    path: PreviewGroup
+  - uid: 7a48d1757722aa7dc59f7aafa5aab7c3
+    comType: UIGrid
+    memberName: PreviewGrid
+    path: PreviewGroup/PreviewGrid
+  - uid: f580bf4d4686df0e78ad2b60b579762b
+    comType: UIGrid
+    memberName: TabGroup
+    path: TabGroup
+  codePath: /Scripts/MyGameScripts/Module/SkillModule/View/AssistSkillRefineWinUI.cs
+  codeLuaPath: 

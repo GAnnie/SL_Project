@@ -1,0 +1,224 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: BattleView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 4c7901be68f199400e4d3071f2b129a4
+    comType: Transform
+    memberName: MainUI
+    path: MainUI
+  - uid: acb84ad5348af95b4862026c411ee4fd
+    comType: UIButton
+    memberName: AutoButton
+    path: MainUI/Anchor_BottomRight/BottomRightAnchor/AutoButton
+  - uid: 969d00992552ec8b0ef07e026043c4a5
+    comType: UIButton
+    memberName: AttackButton
+    path: MainUI/Anchor_BottomRight/RightButtonGrid/AttackButton
+  - uid: 8ee4ad58da8065c686869698077cbb63
+    comType: UIButton
+    memberName: SkillButton
+    path: MainUI/Anchor_BottomRight/RightButtonGrid/SkillButton
+  - uid: e73afb8a063c66ff453239b8155f92e3
+    comType: UIButton
+    memberName: DefenseButton
+    path: MainUI/Anchor_BottomRight/BottomButtonGrid/DefenseButton
+  - uid: b20612b5acd04d23fa169c4680f0ed75
+    comType: UIButton
+    memberName: ManualButton
+    path: MainUI/Anchor_BottomRight/BottomRightAnchor/ManualButton
+  - uid: 5cdfa6c7485dc9dd97c0532662fa948b
+    comType: UILabel
+    memberName: RoundTimeLabel
+    path: MainUI/Anchor_Top/RoundTimeLabel
+  - uid: 97440fe022d30ed61f7879b0d1888113
+    comType: UISprite
+    memberName: RoundWatingSprite
+    path: MainUI/Anchor_Top/RoundWatingSprite
+  - uid: bb46d38c9d1d47fc9c2d36930cd6c5e3
+    comType: UILabel
+    memberName: RoundLabel
+    path: MainUI/Anchor_Top/RoundInfoGroup/RoundLabel
+  - uid: deca1dda04081f8196caadabc9608a8a
+    comType: UISprite
+    memberName: TipSprite
+    path: MainUI/Anchor_Center/TipSprite
+  - uid: c4f1227e892368c9d0d5cbc03c4c3e55
+    comType: UILabel
+    memberName: TipLabel
+    path: MainUI/Anchor_Center/TipSprite/TipLabel
+  - uid: f88adee6701b331e3bb2672ab6625da0
+    comType: UISprite
+    memberName: TargetSelectSprite
+    path: MainUI/Anchor_Center/TargetSelectSprite
+  - uid: e8b07cecbc30983d5d9a5c09a0048e10
+    comType: UILabel
+    memberName: SkillNameLabel
+    path: MainUI/Anchor_Center/TargetSelectSprite/SkillNameLabel
+  - uid: 724c7e343f421a7cf44af31b0453668f
+    comType: UIButton
+    memberName: CancelButton
+    path: MainUI/Anchor_Center/TargetSelectSprite/CancelButton
+  - uid: 62484bbe88ad438ace1b9c1e9cf2f661
+    comType: UILabel
+    memberName: CharactorLabel_UILabel
+    path: MainUI/Anchor_Center/TargetSelectSprite/CharactorLabel
+  - uid: 63500bb70720887c443030d529dcc5bd
+    comType: UIButton
+    memberName: CatchButton
+    path: MainUI/Anchor_BottomRight/BottomButtonGrid/CatchButton
+  - uid: 82358937e8c012c3cb3625779230f478
+    comType: UIButton
+    memberName: ProtectButton
+    path: MainUI/Anchor_BottomRight/BottomButtonGrid/ProtectButton
+  - uid: 33c21f88b7b3b9317dbec100a78ec3f5
+    comType: UIButton
+    memberName: RetreatButton
+    path: MainUI/Anchor_BottomRight/BottomButtonGrid/RetreatButton
+  - uid: 412426bc75bb83eddb45f13f78f4de8a
+    comType: UIButton
+    memberName: SummonButton
+    path: MainUI/Anchor_BottomRight/BottomButtonGrid/SummonButton
+  - uid: 1e23c01dfdf1ba27705086e8755ba00d
+    comType: UIButton
+    memberName: ItemButton
+    path: MainUI/Anchor_BottomRight/RightButtonGrid/ItemButton
+  - uid: 37807f6d58bbeeb9c68d1dd59fb40c8c
+    comType: UIButton
+    memberName: StuntButton
+    path: MainUI/Anchor_BottomRight/RightButtonGrid/StuntButton
+  - uid: a4a94676004b5723054435a5ab48e81a
+    comType: UIGrid
+    memberName: BottomButtonGrid_UIGrid
+    path: MainUI/Anchor_BottomRight/BottomButtonGrid
+  - uid: 1cc63a862bf853e319810a5d9eb134f8
+    comType: UIGrid
+    memberName: RightButtonGrid_UIGrid
+    path: MainUI/Anchor_BottomRight/RightButtonGrid
+  - uid: 3b7ba3b4f81fe8abef0d6a92802c239d
+    comType: UIButton
+    memberName: PlayerDefaultSkillButton
+    path: MainUI/Anchor_BottomRight/BottomRightAnchor/PlayerDefaultSkillButton
+  - uid: 26b708a3d29567ac946b6ac65e31d1e2
+    comType: UIButton
+    memberName: PetDefaultSkillButton
+    path: MainUI/Anchor_BottomRight/BottomRightAnchor/PetDefaultSkillButton
+  - uid: 79d982b62311f3b01130e0976d9fbbb3
+    comType: Transform
+    memberName: BottomRightAnchor_Transform
+    path: MainUI/Anchor_BottomRight/BottomRightAnchor
+  - uid: 272d57879d638882f56d1030d7e887d1
+    comType: Transform
+    memberName: Anchor_BottomRight_Transform
+    path: MainUI/Anchor_BottomRight
+  - uid: c8a8b67926b450890895ca1a3923e9ed
+    comType: Transform
+    memberName: RoundInfoGroup_Transform
+    path: MainUI/Anchor_Top/RoundInfoGroup
+  - uid: bcf6b8278904f739bad2a1f512c82c53
+    comType: UISprite
+    memberName: PlayerIconSprite_UISprite
+    path: MainUI/Anchor_Top/RoundInfoGroup/PlayerIconSprite
+  - uid: 5c2d39ce10d53cc0f62132b26090b634
+    comType: UISprite
+    memberName: EnemyIconSprite_UISprite
+    path: MainUI/Anchor_Top/RoundInfoGroup/EnemyIconSprite
+  - uid: 351880efc498670b9de7e5015725cf5c
+    comType: UIButton
+    memberName: DefaultSkillButton
+    path: MainUI/Anchor_BottomRight/RightButtonGrid/DefaultSkillButton
+  - uid: 3a12f6ab7f8d699e5d481a543066cc80
+    comType: UISprite
+    memberName: PlayerDefaultSkillSprite_UISprite
+    path: MainUI/Anchor_BottomRight/BottomRightAnchor/PlayerDefaultSkillButton/PlayerDefaultSkillSprite
+  - uid: e35c2552d4eaee38431a680f9ed90f76
+    comType: UISprite
+    memberName: PetDefaultSkillSprite_UISprite
+    path: MainUI/Anchor_BottomRight/BottomRightAnchor/PetDefaultSkillButton/PetDefaultSkillSprite
+  - uid: e0419bbe481c258be77e7ccad71c4261
+    comType: GameObject
+    memberName: BottomRightBg
+    path: MainUI/Anchor_BottomRight/BottomRightAnchor/BottomRightBg
+  - uid: 55a7c3c9a31c0de0e0ad70e8b692121d
+    comType: GameObject
+    memberName: AutoSkillSelectGroup
+    path: MainUI/Anchor_BottomRight/BottomRightAnchor/AutoSkillSelectGroup
+  - uid: cc336f48a853e095b33ea571f1fa4cb4
+    comType: UISprite
+    memberName: AutoSkillSelectBg_UISprite
+    path: MainUI/Anchor_BottomRight/BottomRightAnchor/AutoSkillSelectGroup/AutoSkillSelectBg
+  - uid: 507ebf8d39ea0c2b38692733d82d49a7
+    comType: UIGrid
+    memberName: AutoSkillSelectGrid_UIGrid
+    path: MainUI/Anchor_BottomRight/BottomRightAnchor/AutoSkillSelectGroup/AutoSkillSelectGrid
+  - uid: a02cacedad2e4990c08b5702a6de7d58
+    comType: UILabel
+    memberName: AutoSkillSelectTipLabel_UILabel
+    path: MainUI/Anchor_BottomRight/BottomRightAnchor/AutoSkillSelectGroup/AutoSkillSelectTipLabel
+  - uid: b2bfaf7a1fab82a07ed432a78b6828c7
+    comType: GameObject
+    memberName: PlayerDefaultSkillIconGroup
+    path: MainUI/Anchor_BottomRight/BottomRightAnchor/PlayerDefaultSkillButton/PlayerDefaultSkillIconGroup
+  - uid: 0b2378b255e0b2a5b75f2ddace7d2a5d
+    comType: UISprite
+    memberName: PlayerDefaultSkillIcon_UISprite
+    path: MainUI/Anchor_BottomRight/BottomRightAnchor/PlayerDefaultSkillButton/PlayerDefaultSkillIconGroup/PlayerDefaultSkillIcon
+  - uid: 3730c000e8226fd3e4c7d75f35321e82
+    comType: UILabel
+    memberName: PlayerDefaultSkillNameLabel_UILabel
+    path: MainUI/Anchor_BottomRight/BottomRightAnchor/PlayerDefaultSkillButton/PlayerDefaultSkillIconGroup/PlayerDefaultSkillNameLabel
+  - uid: a06a2d525de0fd01b1c9f8f7eae3abd9
+    comType: GameObject
+    memberName: PetDefaultSkillIconGroup
+    path: MainUI/Anchor_BottomRight/BottomRightAnchor/PetDefaultSkillButton/PetDefaultSkillIconGroup
+  - uid: eee2acf10fa3820d66b3a0fbf6e5ef72
+    comType: UISprite
+    memberName: PetDefaultSkillIcon_UISprite
+    path: MainUI/Anchor_BottomRight/BottomRightAnchor/PetDefaultSkillButton/PetDefaultSkillIconGroup/PetDefaultSkillIcon
+  - uid: c55f8f66eedfbfb0d98cedf9b015f39f
+    comType: UILabel
+    memberName: PetDefaultSkillNameLabel_UILabel
+    path: MainUI/Anchor_BottomRight/BottomRightAnchor/PetDefaultSkillButton/PetDefaultSkillIconGroup/PetDefaultSkillNameLabel
+  - uid: 002a0ca7e18ecac073e20bf9db158cb1
+    comType: UILabel
+    memberName: DefaultSkilllNameLabel_UILabel
+    path: MainUI/Anchor_BottomRight/RightButtonGrid/DefaultSkillButton/DefaultSkilllNameLabel
+  - uid: 5cd905a3a7c8becbca378cbc9d619fdd
+    comType: GameObject
+    memberName: StatusSprite
+    path: MainUI/Anchor_Center/StatusSprite
+  - uid: b569df0285ab7a4657eec741d5ee85f8
+    comType: UILabel
+    memberName: NameLabel_UILabel
+    path: MainUI/Anchor_Center/StatusSprite/NameLabel
+  - uid: eff34ab4393747883440eb93322092d7
+    comType: UILabel
+    memberName: MPLabel_UILabel
+    path: MainUI/Anchor_Center/StatusSprite/MPGroup/MPLabel
+  - uid: 9b7451eeb1510cc86eb92765cc2aa9fb
+    comType: UILabel
+    memberName: HPLabel_UILabel
+    path: MainUI/Anchor_Center/StatusSprite/HPGroup/HPLabel
+  - uid: 56f1e321a3c73e994778e079d8e30eac
+    comType: UILabel
+    memberName: SPLabel_UILabel
+    path: MainUI/Anchor_Center/StatusSprite/SPGroup/SPLabel
+  - uid: b0391cfbd11b3a2552f0c5c372b8427f
+    comType: GameObject
+    memberName: SPGroup
+    path: MainUI/Anchor_Center/StatusSprite/SPGroup
+  - uid: 117e6a753015c876da2c7827414f381d
+    comType: UISprite
+    memberName: StatusSprite_UISprite
+    path: MainUI/Anchor_Center/StatusSprite
+  codePath: /Scripts/MyGameScripts/Gameplay/Battle/Battle/BattleUI/BattleView.cs
+  codeLuaPath: 

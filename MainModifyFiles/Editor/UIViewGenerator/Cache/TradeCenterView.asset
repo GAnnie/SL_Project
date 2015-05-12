@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: TradeCenterView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 58bf4999145f64433de4666286e3ef33
+    comType: UILabel
+    memberName: MoneyLbl_UILabel
+    path: MoneyInfo/valueBg/valLbl
+  - uid: a93715f6d4f8171bc985580ddbb2107d
+    comType: UILabel
+    memberName: PriceLbl_UILabel
+    path: PriceInfo/valueBg/valLbl
+  - uid: 95bae888d4af1ecc972228b1f20c460e
+    comType: UIButton
+    memberName: BuyButton_UIButton
+    path: BuyButton
+  - uid: 65a753e34b9721e7ae9e794ff04b0f18
+    comType: Transform
+    memberName: BackpackPos_Transform
+    path: BackpackPos
+  - uid: 19797ab35555348a72699c13a8f44110
+    comType: UIGrid
+    memberName: TypeListGrid_UIGrid
+    path: TypeListGroup/TypeScrollView/TypeListGrid
+  - uid: 51ceb37f535cbeae8cdecd2c2744daa9
+    comType: UIGrid
+    memberName: ItemListGrid_UIGrid
+    path: ItemListGroup/ScrollView/ItemListGrid
+  - uid: cd8eb225bef2b6661cf676adc509d296
+    comType: UIScrollView
+    memberName: ScrollView_UIScrollView
+    path: ItemListGroup/ScrollView
+  - uid: 08c6458272d3272430496b52261fdb2e
+    comType: UIScrollView
+    memberName: TypeScrollView_UIScrollView
+    path: TypeListGroup/TypeScrollView
+  codePath: /Scripts/MyGameScripts/Module/TradeModule/TradeCenter/TradeCenterView.cs
+  codeLuaPath: 

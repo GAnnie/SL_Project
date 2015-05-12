@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: ChannelShieldView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 6235bc2664c341f6eccd8c89d87f5bbb
+    comType: UIButton
+    memberName: ConfirmBtn
+    path: Content/ConfirmBtn
+  - uid: 66bea8975b3f864ad6d694ab8b4c9a82
+    comType: UIButton
+    memberName: CloseBtn
+    path: Content/CloseBtn
+  - uid: e85828acff154d2d0132b7c7e3fc02c8
+    comType: UIToggle
+    memberName: WorldCheckbtnToggle
+    path: Content/WorldCheckbtn
+  - uid: 2e7f554fe68efa453c94087260dc3612
+    comType: UIToggle
+    memberName: GuildCheckbtnToggle
+    path: Content/GuildCheckbtn
+  - uid: bf3ec123e427df85b8eb4761b0a6353c
+    comType: UIToggle
+    memberName: TeamCheckbtnToggle
+    path: Content/TeamCheckbtn
+  codePath: /Scripts/MyGameScripts/Module/ChatModule/View/ChannelShieldView.cs
+  codeLuaPath: 

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: ExpressionView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 0cced83fddeab8e4ccdf4fdde3035292
+    comType: UISprite
+    memberName: ExpressionBg
+    path: 
+  - uid: b1c3e7cb02045c7930b4cc78b16a930c
+    comType: UIButton
+    memberName: ExpressionBtn
+    path: 
+  codePath: 
+  codeLuaPath: 

@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: WindowPrefab
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 4392208e9edfbc6f217d2f5594cde4ea
+    comType: UILabel
+    memberName: TitleLabel
+    path: ContentFrame/TitleLabel
+  - uid: 8f8bb7a14380058647979e417b901075
+    comType: UILabel
+    memberName: InfoLabel
+    path: ContentFrame/ContentBg/InfoLabel
+  - uid: 775815d3beee6c5ec9e6d4163f333784
+    comType: UIButton
+    memberName: CancelButton
+    path: ContentFrame/CancelButton
+  - uid: 48114f71ca0e49ae045f630835590590
+    comType: UILabel
+    memberName: CancelLabel
+    path: ContentFrame/CancelButton/CancelLabel
+  - uid: 37c9c04343dbc91210face2feecab818
+    comType: UIButton
+    memberName: OKButton
+    path: ContentFrame/OKButton
+  - uid: b1e5a0e62e81d3bf2152c880ef882c41
+    comType: UILabel
+    memberName: OKLabel
+    path: ContentFrame/OKButton/OKLabel
+  codePath: 

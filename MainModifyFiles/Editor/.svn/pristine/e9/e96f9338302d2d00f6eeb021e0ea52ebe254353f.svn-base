@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: AssistSkillLearningView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: be574d96bdf7e82ef436416e295c7692
+    comType: UIGrid
+    memberName: AssistSkillCellGrid
+    path: LeftGroup/AssistSkillScrollView/AssistSkillCellGrid
+  - uid: 8ed41862634a673822e87129f2518f8c
+    comType: UILabel
+    memberName: AssistSkillInfoTitleLabel
+    path: RightGroup/1_AssistSkillInfoGroup/AssistSkillInfoTitleLabel
+  - uid: 4c17d081b13b989eb139f8400a45fefa
+    comType: UILabel
+    memberName: AssistSkillDescriptionLabel
+    path: RightGroup/1_AssistSkillInfoGroup/AssistSkillDescriptionScrollView/AssistSkillDescriptionLabel
+  - uid: f202a17f65eb73b5b75c28fd1b44ac5c
+    comType: UILabel
+    memberName: copperCostLabel
+    path: RightGroup/3_UpgradeConditionsGroup/copperCostLabel
+  - uid: e68d751038ab01383207d0fa4a0ac105
+    comType: UILabel
+    memberName: copperHasLabel
+    path: RightGroup/3_UpgradeConditionsGroup/copperHasLabel
+  - uid: 6b96e10c5b4b8cda6b501097592c580a
+    comType: UILabel
+    memberName: contributeCostLabel
+    path: RightGroup/3_UpgradeConditionsGroup/contributeCostLabel
+  - uid: 0d38d6efeb87f0fd30f805486100792b
+    comType: UILabel
+    memberName: contributeHasLabel
+    path: RightGroup/3_UpgradeConditionsGroup/contributeHasLabel
+  - uid: a0802628276e77a818eeb668d21ca071
+    comType: GameObject
+    memberName: LearningBtnPos
+    path: RightGroup/LearningBtnPos
+  - uid: d3254a9203c13c987b126becf43d7015
+    comType: GameObject
+    memberName: FastLearningBtnPos
+    path: RightGroup/FastLearningBtnPos
+  - uid: 2af811e4cd164261a336865202ca9173
+    comType: GameObject
+    memberName: contributeIcon2
+    path: RightGroup/3_UpgradeConditionsGroup/contributeIcon2
+  - uid: 2f4b4610911e4beb1ad4050096751663
+    comType: GameObject
+    memberName: contributeIcon1
+    path: RightGroup/3_UpgradeConditionsGroup/contributeIcon1
+  codePath: 
+  codeLuaPath: 

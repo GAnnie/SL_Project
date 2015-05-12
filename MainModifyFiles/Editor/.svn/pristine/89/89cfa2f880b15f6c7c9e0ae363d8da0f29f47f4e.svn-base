@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: AuctionItemCellView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: ab65ab541cf0b4ba7c51b0f612f670c2
+    comType: UISprite
+    memberName: AuctionSprite_UISprite
+    path: AuctionSprite
+  - uid: 92bfde3bff625b682575a835392813f2
+    comType: UILabel
+    memberName: CurrentPriceLabel_UILabel
+    path: CurrentPriceLabel
+  - uid: 182661524a7ce5537c7fc9a82db60e37
+    comType: UILabel
+    memberName: ItemCountLabel_UILabel
+    path: ItemCell/ItemCountLabel
+  - uid: 8cc2e1b78675025a27aa81217cb642b6
+    comType: UISprite
+    memberName: ItemIcon_UISprite
+    path: ItemCell/ItemIcon
+  - uid: 27082ca6ee2e87da01c1b4bf6fb7015d
+    comType: UILabel
+    memberName: NameLabel_UILabel
+    path: NameLabel
+  - uid: 1b1c9fad4aebc360e7625f88f1effe0a
+    comType: UILabel
+    memberName: OnePriceLabel_UILabel
+    path: OnePriceLabel
+  - uid: 9b8d25382b38916a60545b30e27eca9d
+    comType: UISprite
+    memberName: SelectSprite_UISprite
+    path: SelectSprite
+  - uid: 44152273896e1eb5760e11b4da660597
+    comType: UILabel
+    memberName: TimeleftLabel_UILabel
+    path: TimeleftLabel
+  - uid: e11f599c9cb6ab17df9cb7b9d04501f1
+    comType: UISprite
+    memberName: BottomSprite_UISprite
+    path: StaicSprite/BottomSprite
+  - uid: d5642beb007a243ee7b2650f7621dea4
+    comType: UISprite
+    memberName: TopSprite_UISprite
+    path: StaicSprite/TopSprite
+  - uid: eba72edafd02ffa59dc1ec391aea461e
+    comType: BoxCollider
+    memberName: AuctionItemCellView_BoxCollider
+    path: 
+  - uid: f7ee0e287e99b446c69e4263ea598640
+    comType: UILabel
+    memberName: StateLabel_UILabel
+    path: StateLabel
+  - uid: 2d46783080b1ac6089283a28567aacb3
+    comType: UIButton
+    memberName: CancleAuctionBtn_UIButton
+    path: CancleAuctionBtn
+  codePath: /Scripts/MyGameScripts/Module/TradeModule/Auction/AuctionItemCellView.cs
+  codeLuaPath: 

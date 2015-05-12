@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: ItemCell
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 05dab1d11e13ce080a44aeda3b741f9d
+    comType: UISprite
+    memberName: SelectSprite
+    path: SelectSprite
+  - uid: 8fff6bddec817b40542c1e8adbcab09e
+    comType: UILabel
+    memberName: CountLabel
+    path: DragDropItem/CountLabel
+  - uid: 80259cc47937b0900dda5103bb61ac17
+    comType: UISprite
+    memberName: IconSprite
+    path: DragDropItem/IconSprite
+  - uid: 85f628054a7bbb649e2b13ca4bfdd787
+    comType: UISprite
+    memberName: ItemCellBg
+    path: 
+  - uid: 77a987ba00e86cf37fa5fbd42c18e602
+    comType: GameObject
+    memberName: DragDropItem
+    path: DragDropItem
+  - uid: ab3190adf4d40bc952216aa12d3b0e48
+    comType: UIButton
+    memberName: ItemCellBtn
+    path: 
+  - uid: 8da400b77c2950c79d180a1fa7fb78da
+    comType: UIButton
+    memberName: DragDropItemBtn
+    path: DragDropItem
+  codePath: 

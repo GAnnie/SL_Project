@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: SkillTipsView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: d0ffcf82115fabca8819a9e3c21efa28
+    comType: UISprite
+    memberName: IconSprite
+    path: ContentBg/TopGroup/IconSprite
+  - uid: 2642d0e573f4205f3b38d64585170f31
+    comType: UILabel
+    memberName: NameLabel
+    path: ContentBg/TopGroup/NameLabel
+  - uid: b8bc2d727dc65bb36fbab19aa1089bea
+    comType: UILabel
+    memberName: SkillDescriptionLbl
+    path: ContentBg/SkillDescriptionLbl
+  - uid: d0f2986c133f1d08f3bc129cd35de197
+    comType: UISprite
+    memberName: ContentBg
+    path: ContentBg
+  - uid: 3c15552a398912a2200752851f8a17b9
+    comType: UIAnchor
+    memberName: posAnchor
+    path: ContentBg
+  codePath: 
+  codeLuaPath: 

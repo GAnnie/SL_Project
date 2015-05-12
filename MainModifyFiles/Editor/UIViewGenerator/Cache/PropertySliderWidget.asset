@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: PropertySliderWidget
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 17d6c64fb0b1084de678cf07751c4bd1
+    comType: UISlider
+    memberName: slider
+    path: slider
+  - uid: 0d0f6483cebb84153e366f9b88c888ac
+    comType: UILabel
+    memberName: titleLbl
+    path: titleBg/titleLbl
+  - uid: f71cf3ae389beb28475f804ae142a489
+    comType: UILabel
+    memberName: valueLbl
+    path: slider/valueLbl
+  - uid: d2e2824ffc582c1e42ffd0524604ed63
+    comType: UIButton
+    memberName: titleBtn
+    path: titleBg
+  - uid: 0bcbfe1239ae1f02864e9840d4945a53
+    comType: UISprite
+    memberName: sliderBg
+    path: slider
+  - uid: a10c6a86d8b96317dcb8c60fd5b974d6
+    comType: UIButton
+    memberName: valueBtn
+    path: slider/valueBtn
+  - uid: 4a207ce325a31c5c8f7092c5d37132f1
+    comType: UISprite
+    memberName: foreground
+    path: slider/foreground
+  codePath: /Scripts/MyGameScripts/Module/PetPropertyModule/View/PropertySliderWidget.cs
+  codeLuaPath: 

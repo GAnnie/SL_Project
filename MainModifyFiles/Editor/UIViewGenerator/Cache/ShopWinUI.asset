@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: ShopWinUI
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: a07d6d4080c01cd2210db3f17b689879
+    comType: UISprite
+    memberName: TitleSprite
+    path: bgGroup/Sprite/TitleSprite
+  - uid: b0e7db30510baa917b09ca65b8bc0086
+    comType: UIButton
+    memberName: CloseBtn
+    path: bgGroup/CloseBtn
+  - uid: ecca5d3466ddbb482bba699bfcc4edea
+    comType: UIGrid
+    memberName: ItemsGrid
+    path: LeftGroup/ItemPanel/ItemsGrid
+  - uid: 01cabbf47e08d848a606aa6427549ec1
+    comType: UILabel
+    memberName: ItemTIpsLabel
+    path: RightGroup/ItemTipsBg/ItemTIpsLabel
+  - uid: 4b6adfabad8f857468bf891a68aa9d95
+    comType: UIGrid
+    memberName: ItemTabsGrid
+    path: LeftGroup/ItemTabsGrid
+  - uid: 834d714f133c99fb17f444c9b2219089
+    comType: UIButton
+    memberName: BuyWealthButton
+    path: RightGroup/PriceGrid/HaveInfo/bgSprite/valueBg/BuyWealthButton
+  - uid: 7d91a59d83ee19d5fe40e6d5e025b743
+    comType: UILabel
+    memberName: RefreshTipsLabel
+    path: bgGroup/RefreshTipsLabel
+  - uid: 85d3a749f4496a96d111191298798b9e
+    comType: GameObject
+    memberName: PayBtnPos
+    path: RightGroup/BtnGrid/PayBtnPos
+  - uid: 12671daf447fd9bec9385b2b0fc9399d
+    comType: GameObject
+    memberName: BuyBtnPos
+    path: RightGroup/BtnGrid/BuyBtnPos
+  - uid: 12faefab6802d41358c4e78ac913b9ac
+    comType: UILabel
+    memberName: HaveLbl
+    path: RightGroup/PriceGrid/HaveInfo/bgSprite/valueBg/valLbl
+  - uid: 4ffe1d1893784ebebb1c58adea9541ba
+    comType: UIEventListener
+    memberName: AddBtnEventListener
+    path: RightGroup/PriceGrid/CountInfo/bgSprite/valueBg/AddButton
+  - uid: cf7db4bf2bc2586d19aa91b995dd089b
+    comType: UIEventListener
+    memberName: SubBtnEventListener
+    path: RightGroup/PriceGrid/CountInfo/bgSprite/valueBg/SubButton
+  - uid: 5ad830af15f3893b87b5a9dd0be011d7
+    comType: UIEventTrigger
+    memberName: countBtn
+    path: RightGroup/PriceGrid/CountInfo/bgSprite/valueBg/valLbl
+  - uid: 27a37a4bd947f242b3c20555f296f174
+    comType: UILabel
+    memberName: CountLbl
+    path: RightGroup/PriceGrid/CountInfo/bgSprite/valueBg/valLbl
+  - uid: 192752a12c94d1940a10a2b92f0369e0
+    comType: UILabel
+    memberName: PriceLbl
+    path: RightGroup/PriceGrid/PriceInfo/bgSprite/valueBg/valLbl
+  - uid: 2df80cd8a126def2f3177f0acc9abdbb
+    comType: UIGrid
+    memberName: TabsGrid
+    path: bgGroup/TabsGrid
+  - uid: 5c450a83016834937c6a7a793a4396b5
+    comType: UIScrollView
+    memberName: ItemScrollView
+    path: LeftGroup/ItemPanel
+  - uid: a7b151f09c99bf299ad8384fd0dbb78b
+    comType: UISprite
+    memberName: PriceIconSprite
+    path: RightGroup/PriceGrid/PriceInfo/bgSprite/valueBg/Sprite
+  - uid: cff3f8800ba05126efcbd0ba276b78f9
+    comType: UISprite
+    memberName: HaveIconSprite
+    path: RightGroup/PriceGrid/HaveInfo/bgSprite/valueBg/Sprite
+  codePath: /Scripts/MyGameScripts/Module/ShopModule/view/ShopWinUI.cs

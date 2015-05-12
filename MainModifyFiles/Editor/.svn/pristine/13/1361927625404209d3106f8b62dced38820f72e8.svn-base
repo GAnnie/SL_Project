@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: PlayerDyeView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: bb72e16d2c71e8da1c0d8c2b8df4a801
+    comType: UIButton
+    memberName: closeBtn
+    path: ContentFrame/CloseBtn
+  - uid: eecc192f9ecce2fe65344bbbe2677439
+    comType: Transform
+    memberName: modelAnchor
+    path: ContentFrame/LeftGroup/ModelAnchor
+  - uid: 67b3f65ce88a23c82e160e9c21b5ec69
+    comType: UIButton
+    memberName: randomBtn
+    path: ContentFrame/LeftGroup/ModelAnchor/ButtonPanel/randomBtn
+  - uid: b959046ec64f92ae20f73fc8135157a4
+    comType: GameObject
+    memberName: propsItemAnchor
+    path: ContentFrame/LeftGroup/propsItemAnchor
+  - uid: 9c52b97437b35c922a51d52e5bea889e
+    comType: UIButton
+    memberName: resetBtn
+    path: ContentFrame/RightGroup/buttonGroup/resetBtn
+  - uid: 9d1404ba7fdf67e55f8963ac7baa499b
+    comType: UIButton
+    memberName: confirmBtn
+    path: ContentFrame/RightGroup/buttonGroup/confirmBtn
+  - uid: 588f88eb54dcc514fdbc8a64ae019ba0
+    comType: UIGrid
+    memberName: headOptionGrid
+    path: ContentFrame/RightGroup/headPartOptionGroup/optionItemGrid
+  - uid: 7d8e902e4fd4edfabf520d69638b1000
+    comType: UIGrid
+    memberName: clothOptionGrid
+    path: ContentFrame/RightGroup/clothPartOptionGroup/optionItemGrid
+  - uid: ab90667343ae796171d872d544e05a9e
+    comType: UIGrid
+    memberName: decorationOptionGrid
+    path: ContentFrame/RightGroup/decorationPartOptionGroup/optionItemGrid
+  - uid: 0322f0fd4c25a715275f64fbf560ed37
+    comType: GameObject
+    memberName: dyeOptionItemPrefab
+    path: ContentFrame/RightGroup/headPartOptionGroup/optionItemGrid/dyeOptionItem
+  codePath: 
+  codeLuaPath: 

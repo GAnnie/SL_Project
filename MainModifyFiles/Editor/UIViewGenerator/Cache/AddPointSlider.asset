@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: AddPointSlider
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: a644ae84d5f84a083da141b903062a58
+    comType: UILabel
+    memberName: titleLbl
+    path: titleLbl
+  - uid: 9bed12c4b10dbb03f2814caca2c3c70c
+    comType: UISlider
+    memberName: addPointSlider
+    path: sliderBg/addPointSlider
+  - uid: 96f0dbe435f0b0491cb2fc3e9f7ec9cf
+    comType: UISlider
+    memberName: originSlider
+    path: sliderBg/originSlider
+  - uid: ca925932e9b9be9c9997f350a3cc23fd
+    comType: UILabel
+    memberName: originLbl
+    path: originLbl
+  - uid: 1dd31f33e9c2b7c9ffb1a5c3f4d30ca8
+    comType: UILabel
+    memberName: addPointLbl
+    path: addPointLbl
+  - uid: 8411547d8d2d694be8c314d06f3b1c52
+    comType: UIEventTrigger
+    memberName: minusEventTrigger
+    path: minusBtn
+  - uid: df266bc319b43a2243e129b1912f58e8
+    comType: UIEventTrigger
+    memberName: addEventTrigger
+    path: addBtn
+  - uid: 213fd0754f07194fd524d0c3167fceea
+    comType: UISlider
+    memberName: realSlider
+    path: sliderBg/realSlider
+  - uid: 33310357466eb64916fb8f3c1158d8f2
+    comType: UISprite
+    memberName: minusBtnSprite
+    path: minusBtn
+  - uid: 9552bd8d1f6e620a6388ce6eb33f2cbc
+    comType: UISprite
+    memberName: addBtnSprite
+    path: addBtn
+  - uid: 59c5b75b4f5b27878282332155fed422
+    comType: BoxCollider
+    memberName: thumbCollider
+    path: sliderBg/thumb
+  codePath: 
+  codeLuaPath: 

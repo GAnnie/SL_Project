@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: AutoFramMapCell
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 1e304c7a8cf8b83f5854404e4f48f58b
+    comType: UIButton
+    memberName: SpriteBgBtn
+    path: SpriteBg
+  - uid: 3f654988902abd00914d8a8c00801b0d
+    comType: UILabel
+    memberName: MapNameLabel
+    path: MapNameLabel
+  - uid: 6a58259a1a75582ef7882ad96286ffc3
+    comType: UILabel
+    memberName: MapLvLabel
+    path: MapLvLabel
+  - uid: d0e5b4650172d0d55d178b7705da9739
+    comType: GameObject
+    memberName: ModelAnchor
+    path: ModelAnchor
+  - uid: ae496ae399b728214c96e3bc98bc0e59
+    comType: UIButton
+    memberName: TipsButton
+    path: TipsButton
+  - uid: 70ba5cdd48bd9696b06ad39db29ff6cf
+    comType: UISprite
+    memberName: SpriteBg
+    path: SpriteBg
+  codePath: 

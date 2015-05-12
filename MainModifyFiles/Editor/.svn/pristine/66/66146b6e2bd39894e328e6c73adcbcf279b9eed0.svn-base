@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: PetEquipmentCombineView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 6d35125442195bfb8cede13e73bff6f4
+    comType: UIButton
+    memberName: closeBtn
+    path: ContentBg/CloseBtn
+  - uid: d27a4e551c86107db3205c5126093d97
+    comType: UIGrid
+    memberName: combineItemGrid
+    path: ContentBg/CombineItemGroup/combineItemGrid
+  - uid: f8167476fc94d558dec9960e902fc080
+    comType: GameObject
+    memberName: resultItemAnchor
+    path: ContentBg/CombineItemGroup/resultItemAnchor
+  - uid: a744a81c8176ef889e6bcb87427ad1cb
+    comType: PageScrollView
+    memberName: eqItemPageGrid
+    path: ContentBg/PetEquipmentItemGroup/petItemScrollView/itemGrid
+  - uid: c0076f09aaa49b81d3c5f04d24cb839d
+    comType: UIButton
+    memberName: combineBtn
+    path: ContentBg/combineBtn
+  - uid: 667b9a760102f1f8f55ba7975e83d359
+    comType: UIButton
+    memberName: combineHintBtn
+    path: ContentBg/combineBtn/hintBtn
+  codePath: 

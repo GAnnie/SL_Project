@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: BackpackWinUI
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 2428e215837c78a10b8d64fe6ac17b31
+    comType: UIGrid
+    memberName: LEquipGrid
+    path: LeftGroup/CharactorGroup/LEquip
+  - uid: 94d0c99d926fc2de4e624b4720f78cee
+    comType: UIGrid
+    memberName: REquipGrid
+    path: LeftGroup/CharactorGroup/REquip
+  - uid: a21fa033ef8b20969ce1ec7dc7593fa2
+    comType: GameObject
+    memberName: ModelAnchor
+    path: LeftGroup/ModelAnchor
+  - uid: e514562e6aeef64aeba40bab20bdc6b7
+    comType: GameObject
+    memberName: DefInfoPos
+    path: LeftGroup/PropertyGroup/5_DefInfo
+  - uid: 04906b6f043c37f852dc687f537cffe9
+    comType: GameObject
+    memberName: SpeedInfoPos
+    path: LeftGroup/PropertyGroup/6_SpeedInfo
+  - uid: 3ad22b6a532ec2f6ba488f6395d28a51
+    comType: GameObject
+    memberName: MagicInfoPos
+    path: LeftGroup/PropertyGroup/4_MagicInfo
+  - uid: 432264650c53061a2b8dec11fc5431bc
+    comType: GameObject
+    memberName: AttackInfoPos
+    path: LeftGroup/PropertyGroup/3_AttackInfo
+  - uid: 2896ec76a665134a43809508188433f3
+    comType: GameObject
+    memberName: MpInfoPos
+    path: LeftGroup/PropertyGroup/2_MpInfo
+  - uid: 8532800b3f2cca2fc4cc3da1556d6655
+    comType: GameObject
+    memberName: HpInfoPos
+    path: LeftGroup/PropertyGroup/1_HpInfo
+  - uid: f5a47341e18596ec8fd0f2dafb4fdf69
+    comType: GameObject
+    memberName: ArrangeBtnPos
+    path: RightGroup/WealthGroup/ArrangeBtnPos
+  - uid: 3b9c1d5f2ef6fb367422c93ce127f0f5
+    comType: UIButton
+    memberName: AddSilverBtn
+    path: RightGroup/WealthGroup/2_silver/bgSprite/valueBg/AddSilverBtn
+  - uid: cb5d611b48f3c4ad3242888aa7af27b4
+    comType: UILabel
+    memberName: SilverValLbl
+    path: RightGroup/WealthGroup/2_silver/bgSprite/valueBg/valLbl
+  - uid: 035d5cc3ad876c02004b2e305028d0b8
+    comType: UILabel
+    memberName: SilverLbl
+    path: RightGroup/WealthGroup/2_silver/bgSprite/titleBg/titleLbl
+  - uid: 863752a32ea7e8f35125ef22e35b926d
+    comType: UIButton
+    memberName: AddCopperBtn
+    path: RightGroup/WealthGroup/1_copper/bgSprite/valueBg/AddCopperBtn
+  - uid: 7b4135bff635055aa088967cb3248b37
+    comType: UILabel
+    memberName: CopperValLbl
+    path: RightGroup/WealthGroup/1_copper/bgSprite/valueBg/valLbl
+  - uid: 1602de12625821a49f09342bb88e2e2e
+    comType: UILabel
+    memberName: CopperLbl
+    path: RightGroup/WealthGroup/1_copper/bgSprite/titleBg/titleLbl
+  - uid: a96377fe5a3ec5f75ad4ff4055abd66c
+    comType: GameObject
+    memberName: ItemsPos
+    path: RightGroup/ItemsPos
+  - uid: 5106bbd06a6041d9f1693f0c72372c32
+    comType: UIButton
+    memberName: CloseBtn
+    path: bgGroup/CloseBtn
+  codePath: /Scripts/MyGameScripts/Module/BackpackModule/view/BackpackWinUI.cs

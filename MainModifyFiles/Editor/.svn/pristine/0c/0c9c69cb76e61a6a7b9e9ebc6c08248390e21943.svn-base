@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: ChatInfoView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 1fbacb5fc559fecf2b999efad0ece9af
+    comType: UIGrid
+    memberName: LeftBtnGroupGrid
+    path: Conten/LeftBtnGroup
+  - uid: a1b6caa6eff815c954777c4b7af690d3
+    comType: GameObject
+    memberName: ChatInputGroupObj
+    path: Conten/Top/ChatInputGroup
+  - uid: 16b2606cdd9c98b34ec2b92d9a4de821
+    comType: UIButton
+    memberName: SpeedOrInputBtn
+    path: Conten/Top/ChatInputGroup/SpeedOrInputBtn
+  - uid: 1ebe9794cfd9e3e630d6b1a0df695d2e
+    comType: UIButton
+    memberName: ExpressionBtn
+    path: Conten/Top/ChatInputGroup/Expression
+  - uid: c524d7a5051f9d2ac29e4621572ecbd2
+    comType: UIInput
+    memberName: InputTxt
+    path: Conten/Top/ChatInputGroup/Input
+  - uid: 7a1f557f8a4cb9858951d10fe450ff22
+    comType: GameObject
+    memberName: WarningObj
+    path: Conten/Top/Warning
+  - uid: feeb76d633994a1f42889f55236120c7
+    comType: UIButton
+    memberName: HideBtn
+    path: Conten/HideBtn
+  - uid: 970cea4155658529e7e8e6d7c781c12b
+    comType: UIButton
+    memberName: SockBtn
+    path: Conten/Sock/Bg
+  - uid: b30c319f5fbc6fa8ae0423245e7bcdec
+    comType: UISprite
+    memberName: LockIconWidget
+    path: Conten/Sock/LockIcon
+  - uid: 0ff9b3ea40ca60b71ede3cf0b2f27708
+    comType: UIScrollView
+    memberName: ItemScrollView
+    path: Conten/RightPanel/ItemScrollView
+  - uid: d6ec529abda32fdb64d4532e8f35a033
+    comType: UITable
+    memberName: ItemTable
+    path: Conten/RightPanel/ItemScrollView/ItemTable
+  - uid: 3cb3956d65adf82e15fda440e80018fc
+    comType: UISprite
+    memberName: SpeedOrInputBg
+    path: Conten/Top/ChatInputGroup/SpeedOrInputBtn/Sprite
+  - uid: e98efe31fa3d9415ccd16f2229afc1eb
+    comType: UISprite
+    memberName: Foreground
+    path: Conten/Sock/Foreground
+  - uid: aac3efaf0e8a8d7907e44c328016783b
+    comType: UIButton
+    memberName: UnReadBtn
+    path: Conten/UnReadBtn
+  - uid: d97c831fd2ee0f84e01d0db9eafac142
+    comType: UILabel
+    memberName: UnReadCountLbl
+    path: Conten/UnReadBtn/UnReadCountLbl
+  - uid: 1f957aca9510de23ee91fecd00979a37
+    comType: UILabel
+    memberName: inputLbl
+    path: Conten/Top/ChatInputGroup/Input/Label
+  - uid: 93e3f370b9d6bcf08fbc791e32c5ea9c
+    comType: UIButton
+    memberName: SendBtn
+    path: Conten/Top/ChatInputGroup/SendBtn
+  - uid: 1a0aec8a5421a00333f0b01791e45e77
+    comType: UIEventListener
+    memberName: SpeedBtnEventListener
+    path: Conten/Top/ChatInputGroup/SpeedBtn
+  - uid: 58352e5cc2177fea43d6a6e13e4c6bea
+    comType: GameObject
+    memberName: SpeechAnchorObj
+    path: Conten/SpeechAnchor
+  - uid: 4520f3da5d3ee9689e4d367a031b4801
+    comType: GameObject
+    memberName: SpeechObj
+    path: Conten/SpeechAnchor/Speech
+  - uid: 204705017be311765798b6e66a957dab
+    comType: UISprite
+    memberName: EnergyBarSprite
+    path: Conten/SpeechAnchor/Speech/EnergyBar
+  - uid: 3e7e1a4ad101c725f5fc557698f43344
+    comType: UISprite
+    memberName: GiveUpSprite
+    path: Conten/SpeechAnchor/GiveUp
+  - uid: 636b142a165a08623d57dd4fcfea15a0
+    comType: UISprite
+    memberName: ShortSprite
+    path: Conten/SpeechAnchor/Short
+  - uid: 56387b16a1411e9e242862d9fcc38eda
+    comType: UILabel
+    memberName: TipLbl
+    path: Conten/SpeechAnchor/Tip
+  codePath: 
+  codeLuaPath: 

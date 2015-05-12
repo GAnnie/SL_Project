@@ -1,0 +1,100 @@
+{
+    "gservice": "http://s[targetServiceId].kdts.com/ssoc",
+    "host": "192.168.1.97",
+    "loginUrl": "http://s[targetServiceId].kdts.com/ssoc/account/coopLogin.json",
+    "payUrl": "http://s[targetServiceId].kdts.com/payc",
+    "list": [
+    	{
+            "targetServiceId": 0,
+            "port": 443,
+            "serviceId": 0,
+            "needPayUrl": false,
+            "accessId": 65637,
+            "name": "内开发",
+            "runState": 0,
+            "dboState": 1,
+            "recommend": 1,
+            "limitVer": 5,
+            "limitMaxVer": 6
+        },
+        {
+            "targetServiceId": 0,
+            "port": 443,
+            "serviceId": 10,
+            "needPayUrl": false,
+            "accessId": 65647,
+            "name": "满洪",
+            "runState": 0,
+            "dboState": 1,
+            "recommend": 0,
+            "limitVer": 1231,
+            "limitMaxVer": 23123
+        },
+        {
+            "targetServiceId": 0,
+            "port": 443,
+            "serviceId": 11,
+            "needPayUrl": false,
+            "accessId": 65648,
+            "name": "许湛华",
+            "runState": 0,
+            "dboState": 1,
+            "recommend": 0,
+            "limitVer": 3,
+            "limitMaxVer": 4
+        },
+        {
+            "targetServiceId": 0,
+            "port": 443,
+            "serviceId": 12,
+            "needPayUrl": false,
+            "accessId": 65649,
+            "name": "巫国裕",
+            "runState": 0,
+            "dboState": 1,
+            "recommend": 0,
+            "limitVer": 3,
+            "limitMaxVer": 4
+        },      
+        {
+            "targetServiceId": 0,
+            "port": 443,
+            "serviceId": 13,
+            "needPayUrl": false,
+            "accessId": 65650,
+            "name": "张智峰",
+            "runState": 0,
+            "dboState": 1,
+            "recommend": 0,
+            "limitVer": 3,
+            "limitMaxVer": 4
+        },   
+        {
+            "targetServiceId": 0,
+            "port": 443,
+            "serviceId": 14,
+            "needPayUrl": false,
+            "accessId": 65651,
+            "name": "龙思卿",
+            "runState": 0,
+            "dboState": 1,
+            "recommend": 0,
+            "limitVer": 3,
+            "limitMaxVer": 4
+        }, 
+        {
+            "targetServiceId": 0,
+            "host": "t1.baoyugame.com",
+            "port": 443,
+            "serviceId": 0,
+            "needPayUrl": false,
+            "accessId": 65638,
+            "name": "外商务",
+            "runState": 0,
+            "dboState": 1,
+            "recommend": 1,
+            "limitVer": 5,
+            "limitMaxVer": 6
+        }
+    ]
+}

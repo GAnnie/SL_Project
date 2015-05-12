@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: ScreenPresure
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 976937433d588ecb39e5686feb36de15
+    comType: UISprite
+    memberName: Top
+    path: Top
+  - uid: 3fb7880380e596494436f8f1a828da18
+    comType: UISprite
+    memberName: Bottom
+    path: Bottom
+  - uid: ccc776047f6efd0b3fb80051d0bdcb01
+    comType: GameObject
+    memberName: Content
+    path: Top/Content
+  - uid: 1c43da210626c5c6fe3125be0d543f67
+    comType: UIButton
+    memberName: EndBtn
+    path: Top/Content/EndBtn
+  codePath: 
+  codeLuaPath: 

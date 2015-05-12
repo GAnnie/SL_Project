@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: AssistSkillView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: f3ff75893d08f037a4f5732336d400b2
+    comType: UIButton
+    memberName: AssistSkillStudyBtn
+    path: TopGroup/AssistSkillStudyBtn
+  - uid: 826865b3231a6f51697e365fba32ba2f
+    comType: UIGrid
+    memberName: AssistSkillGrid
+    path: TopGroup/AssistSkillGrid
+  - uid: 6d82fedd674fe5e35b9c1403ef6c24aa
+    comType: GameObject
+    memberName: WorkBtnPos
+    path: TopGroup/WorkBtnPos
+  - uid: 6d43cda732985c4ac721dcab78253d27
+    comType: UIButton
+    memberName: WorkNotesBtn
+    path: TopGroup/WorkNotesBtn
+  - uid: b838449dacaac56d194f0555e330fb34
+    comType: UILabel
+    memberName: VigourValLbl
+    path: TopGroup/vigour/bgSprite/valueBg/VigourValLbl
+  - uid: 8633426f98f8ef1568fc3939e8eb75ee
+    comType: UIButton
+    memberName: VigourNotesBtn
+    path: TopGroup/vigour/bgSprite/valueBg/VigourNotesBtn
+  - uid: e53a2910b0a8b3f7c32e2a00fc0a89d0
+    comType: UIButton
+    memberName: StorySkillStudyBtn
+    path: BottomGroup/StorySkillStudyBtn
+  - uid: a3d8c279b8b5f666a9928c77f153672f
+    comType: UIGrid
+    memberName: StorySkillGrid
+    path: BottomGroup/StorySkillGrid
+  codePath: 
+  codeLuaPath: 

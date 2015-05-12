@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: MultipleSelectionView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 78b112577787fd50ef90e25ee23c0923
+    comType: UIAnchor
+    memberName: viewAnchor
+    path: 
+  - uid: 9bc447718b0fcfcc92f36629872af567
+    comType: UISprite
+    memberName: bgSprite
+    path: ContentBg
+  - uid: aa6c7990f9cf9cf91fb28a8cb33c2bbf
+    comType: UIGrid
+    memberName: btnGrid
+    path: ContentBg/ButtonGrid
+  - uid: a37ec060df85ec60df04b6b4e515027c
+    comType: Transform
+    memberName: btnGridTrans
+    path: ContentBg/ButtonGrid
+  - uid: 396b42e743934cbfc2fd7ef514e83ff4
+    comType: GameObject
+    memberName: selectBtnPrefab
+    path: ContentBg/ButtonGrid/selectBtn
+  - uid: 5b62c17e7ad3e92fcb6ff4b28d4ea19d
+    comType: UIPanel
+    memberName: uiPanel
+    path: 
+  - uid: 59813476ea1aca58d69fe1ded912c862
+    comType: UISprite
+    memberName: arrowSprite
+    path: Arrow
+  codePath: 

@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: MiniMapView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: ca12988ea4f49fbb84d9aeb5c6148cdd
+    comType: UIButton
+    memberName: CloseBtn
+    path: CloseBtn
+  - uid: e65fa9b129651f261f65a0addcdc968d
+    comType: UISprite
+    memberName: BgSprite
+    path: BgSprite
+  - uid: 75d89db8c340f9fc6051dfaa3e82e0a6
+    comType: UITexture
+    memberName: Texture
+    path: Texture
+  - uid: 29b9f5fd5bb879b83470b946907e1f97
+    comType: GameObject
+    memberName: HeroSprite
+    path: Texture/SignPanel/HeroSprite
+  - uid: 0fbc73332586b1e032753a7d371d24da
+    comType: GameObject
+    memberName: WalkSprite
+    path: Texture/SignPanel/WalkSprite
+  - uid: 38f0b375113ee8c20781e959ca20ea0d
+    comType: BoxCollider
+    memberName: Texture_BoxCollider
+    path: Texture
+  - uid: a8d0522573d012550dc3af9365492b53
+    comType: GameObject
+    memberName: SignPanel
+    path: Texture/SignPanel
+  codePath: /Scripts/MyGameScripts/Module/WorldMapModule/MiniMapView.cs
+  codeLuaPath: 

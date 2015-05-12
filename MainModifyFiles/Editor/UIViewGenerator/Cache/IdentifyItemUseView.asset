@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: IdentifyItemUseView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: b63c8e3f292764f7cfe60c17bb6eb3cd
+    comType: GameObject
+    memberName: EmptyInfo
+    path: EmptyInfo
+  - uid: 4b4f84208e27f00202007e12ed498036
+    comType: UILabel
+    memberName: CountLabel
+    path: CountLabel
+  - uid: caaef008e89361575b8e9ac93bba078c
+    comType: UILabel
+    memberName: DecLabel
+    path: EmptyInfo/DecLabel
+  - uid: b82cf3cd8796d0e41f5b20dbd15532e8
+    comType: UILabel
+    memberName: EquipmentTipLabel
+    path: ProductsScrollView/EquipmentTipLabel
+  codePath: 

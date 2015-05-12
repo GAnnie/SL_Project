@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: WealthCell
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 7873b5bb3405e6ebeca7fb70a13d6c78
+    comType: UIButton
+    memberName: WealthCellBtn
+    path: 
+  - uid: 839f95ba762e579d06383326320c8aae
+    comType: UISprite
+    memberName: WealthIcon
+    path: WealthIcon
+  - uid: 8159c01b079df806f5913eecbbd16d00
+    comType: UILabel
+    memberName: ValueLabel
+    path: ValueLabel
+  - uid: e69ab00b86a282e90154f52797a8e33c
+    comType: UILabel
+    memberName: CostLabel
+    path: CostLabel
+  - uid: b4edec0b90f403ded960720d77b3a870
+    comType: UISprite
+    memberName: WealthSprite
+    path: WealthSprite
+  - uid: 51984d68622c1af566a59300f08f37f0
+    comType: UISprite
+    memberName: CostSprite
+    path: CostSprite
+  codePath: /Scripts/MyGameScripts/Module/PayModule/view/WealthCell.cs
+  codeLuaPath: 

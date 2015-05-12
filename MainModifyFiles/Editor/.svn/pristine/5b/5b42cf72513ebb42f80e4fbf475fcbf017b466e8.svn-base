@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: WorldMapView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 04f58e15f65076fd0d10541de3d2f869
+    comType: UIButton
+    memberName: CloseButton
+    path: CloseButton
+  - uid: ef69f3a12c85ae534cd25fc1f4f2133a
+    comType: UITable
+    memberName: WorldTable
+    path: WorldTable
+  codePath: 

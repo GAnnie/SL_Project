@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: NpcHUDView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 1e6f75accf8cafc06db6e42090bda28f
+    comType: UIFollowTarget
+    memberName: BottomFollow_UIFollowTarget
+    path: BottomFollow
+  - uid: 7c35f9f2a2771e570b8df46130ab11f4
+    comType: UIFollowTarget
+    memberName: TopFollow_UIFollowTarget
+    path: TopFollow
+  - uid: 2366483a2210671762cb6e837653a3d2
+    comType: UILabel
+    memberName: nameLbl_UILabel
+    path: BottomFollow/nameLbl
+  - uid: b98267e78f6ee55fee8a6724d063921a
+    comType: UISprite
+    memberName: missionType_UISprite
+    path: TopFollow/missionType
+  - uid: ff81cc8e7f75195ae0b0f1024498f14d
+    comType: UISprite
+    memberName: fightFlag_UISprite
+    path: TopFollow/fightFlag
+  - uid: ced45668f064c77802c13148af9f66d2
+    comType: UISpriteAnimation
+    memberName: fightFlag_UISpriteAnimation
+    path: TopFollow/fightFlag
+  codePath: 
+  codeLuaPath: 

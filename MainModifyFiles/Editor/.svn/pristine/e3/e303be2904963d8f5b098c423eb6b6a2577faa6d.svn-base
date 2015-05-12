@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: BattleSummonPetCell
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 295fbf2fbc269e1d64d4fa1afff1d260
+    comType: UISprite
+    memberName: ItemIcon_UISprite
+    path: ItemCell/ItemIcon
+  - uid: 2ac6e146e19299da9c92bfc8611ff96a
+    comType: UISprite
+    memberName: StatusSprite_UISprite
+    path: ItemCell/StatusSprite
+  - uid: a28ee9f54c404731a7472a8250c7b52a
+    comType: UILabel
+    memberName: NameLabel_UILabel
+    path: NameLabel
+  - uid: 1e453a7ef321ca2a085ef4be6e2895ce
+    comType: UILabel
+    memberName: InfoLabel_UILabel
+    path: InfoLabel
+  - uid: cbda9b20005bca584c35462da86e71d7
+    comType: UIButton
+    memberName: BattleSummonPetCell_UIButton
+    path: 
+  - uid: a4a094d3e7f005df3993f9b952c87086
+    comType: UISprite
+    memberName: CellSelectSprite_UISprite
+    path: CellSelectSprite
+  codePath: 
+  codeLuaPath: 

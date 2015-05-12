@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: GiftPropsView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: d7dc7da7b628f24213eccd7034356d4a
+    comType: UIButton
+    memberName: Tips
+    path: ItemInfo/Tips
+  - uid: fe9ca2809b6de0be98a62ee2266f05cb
+    comType: UILabel
+    memberName: ValuesLbl
+    path: ItemInfo/Worth/Values
+  - uid: 3988804f1ed2adc87651f4ff1ce04d63
+    comType: UILabel
+    memberName: CountLbl
+    path: ItemInfo/Number/Count
+  - uid: 4e4d2754a7bc3012379b2c3d86ec7832
+    comType: UILabel
+    memberName: DescriptionLbl
+    path: ItemInfo/Description
+  - uid: b04398751f1c8bdf4c8009bde825cc4d
+    comType: UIButton
+    memberName: CloseBtn
+    path: Content/CloseBtn
+  - uid: fcacbf5e9f4bba6a41d940c876a412b8
+    comType: UIButton
+    memberName: GiftBtn
+    path: Content/GiftBtn
+  - uid: 4eb23c05750c49e4759d0fbb711c9148
+    comType: UILabel
+    memberName: GiveBtnLbl
+    path: Content/GiftBtn/Label
+  - uid: 0dba342b0d1b425468cf1940f920fd33
+    comType: UILabel
+    memberName: NameLbl
+    path: ItemInfo/NameLbl
+  - uid: 5149a7acadb85542e3cee3b011a66da0
+    comType: UIPageGrid
+    memberName: itemGrid
+    path: Content/PropPanel/itemGrid
+  codePath: 

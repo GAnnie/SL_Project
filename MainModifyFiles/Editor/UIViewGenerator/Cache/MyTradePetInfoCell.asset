@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: MyTradePetInfoCell
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 28caa9c1a4ffac06c815dc3a18ee1726
+    comType: UISprite
+    memberName: SelectSprite
+    path: SelectSprite
+  - uid: 3d4970f0bae4d7a1047fabe54f84f301
+    comType: UILabel
+    memberName: NameLabel
+    path: NameLabel
+  - uid: 519ccbf84d3666616418082d2a64e18b
+    comType: UILabel
+    memberName: LvLabel
+    path: LvLabel
+  - uid: 215b226dd716873f942486646d7ecb37
+    comType: UILabel
+    memberName: PriceLabel
+    path: PriceLabel
+  - uid: e68c4ff673dc821564e72ba333d41422
+    comType: GameObject
+    memberName: OptBtnPos
+    path: OptBtnPos
+  codePath: 
+  codeLuaPath: 

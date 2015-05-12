@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: PPDetailView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: e017a0198ac9a4c64bbff956f2be334e
+    comType: UIButton
+    memberName: closeBtn
+    path: CloseBtn
+  - uid: 831f3662ee2ad5fcaca2cc4f0854c65b
+    comType: UIButton
+    memberName: saveBtn
+    path: ContentBg/SaveBtn
+  - uid: 3c1dc7d56b48a554f0e82eaec4bba144
+    comType: UIButton
+    memberName: cancelBtn
+    path: ContentBg/CancelBtn
+  - uid: 83b3d6b506729c83e5ec312b882ed253
+    comType: UIGrid
+    memberName: infoItemGrid
+    path: ContentBg/PPItemGrid
+  - uid: da983f597c9e70e8a6a726be9133d09f
+    comType: UIEventTrigger
+    memberName: bgMaskEventTrigger
+    path: BgMask
+  codePath: 

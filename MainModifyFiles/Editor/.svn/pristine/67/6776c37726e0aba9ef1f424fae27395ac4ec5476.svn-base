@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: EquipmentManufacturingView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: ad53bb009c14d4ee6b37fea2dddb6c05
+    comType: UIButton
+    memberName: LBtn
+    path: LeftGroup/pageGroup/LButton
+  - uid: 1d482adeb5dedfe6a384bc162a214ef0
+    comType: UIButton
+    memberName: RBtn
+    path: LeftGroup/pageGroup/RButton
+  - uid: d0dafe04ea1075144206753cf241a47e
+    comType: UIGrid
+    memberName: EquipmentGroupGrid
+    path: LeftGroup/EquipmentGroup
+  - uid: 8226277ea65058c3b37a2154e09c4b44
+    comType: GameObject
+    memberName: ProductsPos
+    path: TopRightGroup/ProductsPos
+  - uid: cea5b53ea30ef395e0d2d15918697698
+    comType: GameObject
+    memberName: IdentificationPos
+    path: TopRightGroup/IdentifyGroup/IdentificationPos
+  - uid: c6563096dbddd7240871dbd3f848203d
+    comType: GameObject
+    memberName: CurrEquipPos
+    path: TopRightGroup/CurrEquipPos
+  - uid: af63f737d81e6c82d12e8b41df09c161
+    comType: GameObject
+    memberName: IdentificationBtnPos
+    path: TopRightGroup/IdentifyGroup/IdentificationBtnPos
+  - uid: a22f9c620b3fdf43eaf0474a563060db
+    comType: UILabel
+    memberName: EquipmentPropertyLabel
+    path: TopRightGroup/EquipmentPropertyScrollView/EquipmentPropertyLabel
+  - uid: db3184e49e422b564896a663918d24ce
+    comType: UIGrid
+    memberName: MaterialGrid
+    path: BottomRightGroup/MaterialGrid
+  - uid: 2ff80150f9c59e532579faa2bee953a3
+    comType: UIToggle
+    memberName: QuickToggle
+    path: BottomRightGroup/Toggle
+  - uid: c94d5e7c1a6bac30d73ef8c036d450ce
+    comType: UIButton
+    memberName: OptButton
+    path: BottomRightGroup/OptButton
+  - uid: 3fd78e1d48b6fe3af9639d8904a0f43d
+    comType: UILabel
+    memberName: CostLabel
+    path: BottomRightGroup/OptButton/CostLabel
+  - uid: a4333b1b6025f3d864c30251a6862336
+    comType: UIButton
+    memberName: QuickToggleBtn
+    path: BottomRightGroup/Toggle
+  - uid: 33932d3a5bbc9c012e39f48a48dddecd
+    comType: GameObject
+    memberName: IdentifyGroup
+    path: TopRightGroup/IdentifyGroup
+  - uid: c475dbfb5b04160354448bc9abd16ee9
+    comType: UILabel
+    memberName: ProductsPropertyLabel
+    path: TopRightGroup/ProductsScrollView/ProductsPropertyLabel
+  - uid: 543095053c212fc0e1182b6a2516a196
+    comType: UILabel
+    memberName: OptNameLabel
+    path: BottomRightGroup/OptButton/OptNameLabel
+  - uid: 930bda4ccfa67df850f02ca988db0693
+    comType: UISprite
+    memberName: newSprite
+    path: TopRightGroup/newSprite
+  codePath: /Scripts/MyGameScripts/Module/EquipmentOptModule/view/EquipmentManufacturingView.cs

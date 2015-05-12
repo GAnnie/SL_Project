@@ -1,0 +1,396 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: MainUIView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 250240f3c561d4ab9609952f0c11e7bb
+    comType: GameObject
+    memberName: topGroup
+    path: TopLeftAnchor/TopGroup
+  - uid: 83e553301d6e8cb8360e0283f076ec59
+    comType: UILabel
+    memberName: sceneNameLbl
+    path: TopLeftAnchor/TopGroup/SceneInfo/SceneName
+  - uid: 2b0e1a85589f371a3b961058084e8b48
+    comType: UILabel
+    memberName: ordinateLbl
+    path: TopLeftAnchor/TopGroup/SceneInfo/OrdinateGroup/OrdinateLabel
+  - uid: 035f2215d9acf15fb67bc8857d9a7e91
+    comType: UIButton
+    memberName: upgradeBtn
+    path: TopLeftAnchor/TopGroup/ButtonGrid/Button_Upgrade
+  - uid: ba771ef263cff469e0d11e674782a5c2
+    comType: UIButton
+    memberName: autoRunBtn
+    path: TopLeftAnchor/TopGroup/ButtonGrid/Button_AutoRun
+  - uid: 84b6f25ffe5c282dd22bbd86bfb9ab90
+    comType: UIButton
+    memberName: tradeBtn
+    path: TopLeftAnchor/LeftGroup/ButtonGrid/Button_Trade
+  - uid: afcb0ce7c2dfd9efcdb7fe8d4a8863b0
+    comType: UIButton
+    memberName: dailyBtn
+    path: TopLeftAnchor/TopGroup/ButtonGrid/Button_Daily
+  - uid: 60f0851110077d84471f45b6e836413e
+    comType: UIGrid
+    memberName: topGrid
+    path: TopLeftAnchor/LeftGroup/ButtonGrid
+  - uid: 53228f5215901df717b0cf48444fcbd9
+    comType: UIButton
+    memberName: rankingBtn
+    path: BottomRightAnchor/BottomGroup/ButtonGrid/Button_Ranking
+  - uid: 960eef2cfe2f8142866c2734090ea502
+    comType: UIButton
+    memberName: storeBtn
+    path: TopLeftAnchor/LeftGroup/ButtonGrid/Button_Store
+  - uid: eaab7b11bcd7af1bc563f90c230661b3
+    comType: GameObject
+    memberName: topRightAnchor
+    path: TopRightAnchor
+  - uid: f47fce2d7c029980fc366cc8087b84b5
+    comType: UIButton
+    memberName: rewardBtn
+    path: TopLeftAnchor/TopGroup/ButtonGrid/Button_Reward
+  - uid: 35e0554e851c9b14583f3a3ec1508af8
+    comType: UIButton
+    memberName: packBtn
+    path: BottomRightAnchor/RightGrid/Button_Pack
+  - uid: 8163b808216b2b71f451c9c96c2cc11a
+    comType: UIButton
+    memberName: bottomShrinkBtn
+    path: BottomRightAnchor/BottomShrinkBtn
+  - uid: 3b9b25e92171d4b9879d7a38421217fd
+    comType: UIGrid
+    memberName: bottomGrid
+    path: BottomRightAnchor/BottomGroup/ButtonGrid
+  - uid: e38ab3e08e6164011a54fa1300cbb7d0
+    comType: UIButton
+    memberName: forgeBtn
+    path: BottomRightAnchor/BottomGroup/ButtonGrid/Button_Forge
+  - uid: ce7fd35162f3f602548a4f7c7bf56c3f
+    comType: UIButton
+    memberName: guideBtn
+    path: TopLeftAnchor/TopGroup/ButtonGrid/Button_Guide
+  - uid: f75cdc8a8d719006c4f434662c51031f
+    comType: UIButton
+    memberName: skillBtn
+    path: BottomRightAnchor/BottomGroup/ButtonGrid/Button_Skill
+  - uid: ece64a72bd4ad8121c7e80f205600989
+    comType: UIButton
+    memberName: friendBtn
+    path: BottomLeftAnchor/Button_Friend
+  - uid: 90ef4e15b36dd0eae2dbd9ad95a3c45d
+    comType: UIButton
+    memberName: guildBtn
+    path: BottomRightAnchor/BottomGroup/ButtonGrid/Button_Guild
+  - uid: 5282078bc86d98280484d69032935c8a
+    comType: UIButton
+    memberName: systemBtn
+    path: BottomRightAnchor/BottomGroup/ButtonGrid/Button_System
+  - uid: f9cc0af826bf1f5215562ed9bb10df79
+    comType: UISlider
+    memberName: expSlider
+    path: ExpInfo/expSliderBg
+  - uid: 61e4f477458508bde26bf86a63cb869c
+    comType: UIButton
+    memberName: gmTestBtn
+    path: BottomLeftAnchor/Button_GmTest
+  - uid: c277d53d2bae7bc28969b7ed64d5ff7d
+    comType: GameObject
+    memberName: expandPanelAnchor
+    path: TopRightAnchor/ExpandPanelAnchor
+  - uid: 743bb90e50c77ba4984c9659fac3fc54
+    comType: UIToggle
+    memberName: expandPanelToggle
+    path: TopRightAnchor/ExpandPanelAnchor/Button_ExpandPanel
+  - uid: c864a34bc29a4a91259a2ebf9a4a42f0
+    comType: UIButton
+    memberName: playerInfoBtn
+    path: TopRightAnchor/ButtonGroup/Button_PlayerInfo
+  - uid: 52c79976ec94da46110b08a38ca482d7
+    comType: UISprite
+    memberName: playerInfoIcon
+    path: TopRightAnchor/ButtonGroup/Button_PlayerInfo/buttonBg/icon
+  - uid: cda090dda48f60a7cb83d58e2c83fc1e
+    comType: UILabel
+    memberName: playerInfoLvLbl
+    path: TopRightAnchor/ButtonGroup/Button_PlayerInfo/buttonBg/icon/lvLbl
+  - uid: 68a524b133695cda75bd8337104fd5c3
+    comType: UILabel
+    memberName: playerInfoNameLbl
+    path: TopRightAnchor/ButtonGroup/Button_PlayerInfo/buttonBg/icon/nameLbl
+  - uid: 3d4f1cdb73b99885216a27d11695e4b4
+    comType: GameObject
+    memberName: playerInfoViewAnchor
+    path: TopRightAnchor/PlayerInfoViewAnchor
+  - uid: ce6be9cb1cceb81ca6eba891d87dcbbf
+    comType: UISprite
+    memberName: expandToggleRedFlag
+    path: TopRightAnchor/ExpandPanelAnchor/Button_ExpandPanel/buttonBg/redFlag
+  - uid: 1d4a7796f20e5b1f8d31d99bb81e9985
+    comType: UISprite
+    memberName: WorldMapIcon_UISprite
+    path: TopLeftAnchor/TopGroup/WorldMapGroup/WorldMapIcon
+  - uid: 88b06d4eee9d7171fe1a651467a7e6fd
+    comType: UIButton
+    memberName: MiniMapBtn
+    path: TopLeftAnchor/TopGroup/SceneInfo/MiniMapBtn
+  - uid: 1b54e4e2c9d43700cc6df07bed01a81e
+    comType: UIEventTrigger
+    memberName: autoRunBtnTrigger
+    path: TopLeftAnchor/TopGroup/ButtonGrid/Button_AutoRun
+  - uid: de30e5631d0b7e0aebb0bdc0872fd3f8
+    comType: UIButton
+    memberName: partnerBtn
+    path: BottomRightAnchor/BottomGroup/ButtonGrid/Button_Partner
+  - uid: 66fe57696c0d5bee673e23f65b5cf2c1
+    comType: UIEventTrigger
+    memberName: ChatBoxTrigger
+    path: BottomLeftAnchor/ChatInfoPanel/ChatBox
+  - uid: 4bf25b0d82c9fa7689f1da134171297c
+    comType: GameObject
+    memberName: WorldMapGroup
+    path: TopLeftAnchor/TopGroup/WorldMapGroup
+  - uid: c4bdbfd38b4e32084622765f994ed9b9
+    comType: UIButton
+    memberName: WorldMapBtn_UIButton
+    path: TopLeftAnchor/TopGroup/WorldMapGroup/WorldMapBtn
+  - uid: 06c54f340cb62d5151965137050db3e9
+    comType: GameObject
+    memberName: SceneInfo
+    path: TopLeftAnchor/TopGroup/SceneInfo
+  - uid: b974ff5cc5c5bdaa0e1087089384c497
+    comType: UILabel
+    memberName: DeviceTimeLabel_UILabel
+    path: TopLeftAnchor/TopGroup/SceneInfo/DeviceGroup/DeviceTimeLabel
+  - uid: a388143e9844293c1cbe68cd81a3943d
+    comType: UISprite
+    memberName: WeatherSprite_UISprite
+    path: TopLeftAnchor/TopGroup/WeatherBtn/WeatherSprite
+  - uid: 19cb52b4e539ab005c9a93e80a446577
+    comType: UIButton
+    memberName: WeatherBtn_UIButton
+    path: TopLeftAnchor/TopGroup/WeatherBtn
+  - uid: 2dce764b3ce799cb9e305b82aae6b2de
+    comType: GameObject
+    memberName: TopButtonGrid
+    path: TopLeftAnchor/TopGroup/ButtonGrid
+  - uid: 6a8d19c86c5892d2a901abc1dece2d4c
+    comType: UILabel
+    memberName: AutoRunDoublePointLbl
+    path: TopLeftAnchor/TopGroup/ButtonGrid/Button_AutoRun/AutoRunDoublePointLbl
+  - uid: e4b30891f1d842847fdecee6eee32a42
+    comType: UIEventListener
+    memberName: TeamBtnEventListener
+    path: BottomLeftAnchor/TeamBtn
+  - uid: e2d1140a60f9fbc81f500c2f80774084
+    comType: UIEventListener
+    memberName: GuideBtnEventListener
+    path: BottomLeftAnchor/GuideBtn
+  - uid: 9aaa3cd2ade2e5c6b823b8a592de8ac4
+    comType: UIButton
+    memberName: MessageBtn
+    path: BottomLeftAnchor/MessageBtn
+  - uid: c06191bba8401f32df27d3d8c5c1f899
+    comType: UIButton
+    memberName: UpBtn
+    path: BottomLeftAnchor/ChatInfoPanel/ChatBox/UpBtn
+  - uid: 0341822bae613038f59802c4d06a8945
+    comType: UIButton
+    memberName: SetUpBtn
+    path: BottomLeftAnchor/ChatInfoPanel/ChatBox/SetUpBtn
+  - uid: fa16031da81d5d511d632e273ad8e313
+    comType: UISprite
+    memberName: UpBtnSprite
+    path: BottomLeftAnchor/ChatInfoPanel/ChatBox/UpBtn
+  - uid: 032fb1d6694ef109895b049aa380f97e
+    comType: UITable
+    memberName: ChatTable
+    path: BottomLeftAnchor/ChatInfoPanel/ChatBox/ChatContent/ChatTable
+  - uid: af276f996d7f00dd68056a109f61af0d
+    comType: TweenHeight
+    memberName: ChatBoxTween
+    path: BottomLeftAnchor/ChatInfoPanel/ChatBox
+  - uid: 6898a0197399fdf3d536f15364971a16
+    comType: UISprite
+    memberName: SpeechSprite
+    path: CenterAnchor/Speech/Sprite
+  - uid: b4c3696422ff9b30f9da646f718ccf93
+    comType: GameObject
+    memberName: SpeechObj
+    path: CenterAnchor/Speech
+  - uid: 2cb921602f5a1d4eeb7c0ef1bb254475
+    comType: UIEventListener
+    memberName: WorldBtnEventListener
+    path: BottomLeftAnchor/WorldBtn
+  - uid: 64aa93a5fd895b7e7910988202c34518
+    comType: UIGrid
+    memberName: expSpaceGroup_UIGrid
+    path: ExpInfo/expSliderBg/expSpaceGroup
+  - uid: d0f65cb9c8a19ecb517460d588d4a890
+    comType: UISprite
+    memberName: EnergyBar
+    path: CenterAnchor/Speech/EnergyBar
+  - uid: 19cb577231f7946a5e97a14c50caa0f2
+    comType: UISprite
+    memberName: GiveUpSprite
+    path: CenterAnchor/GiveUp
+  - uid: 87ecd7262dcc92b1e75b746bc2d4e11d
+    comType: UISprite
+    memberName: ShortSprite
+    path: CenterAnchor/Short
+  - uid: bc3c3cea4864e8e1c885eea517a44977
+    comType: UILabel
+    memberName: TipLabel
+    path: CenterAnchor/Tip
+  - uid: 001007fdf7f9cf0daa8c402384f27031
+    comType: GameObject
+    memberName: CenterAnchorObj
+    path: CenterAnchor
+  - uid: 874b7d2f701416b21732187d57fdf97a
+    comType: UISprite
+    memberName: expandPanelToggleSprite
+    path: TopRightAnchor/ExpandPanelAnchor/Button_ExpandPanel/buttonBg
+  - uid: 75e0e0c08f830eb9238e9ff21ae7ab20
+    comType: UIPanel
+    memberName: MarqueePanel
+    path: MarqueeAnchor/ContentPanel/MarqueePanel
+  - uid: 093c1a1626d035eb845acfdb99dde0e2
+    comType: GameObject
+    memberName: MarqueeAnchorObj
+    path: MarqueeAnchor
+  - uid: 3f919d4e1f442158241bfc6706397663
+    comType: UISprite
+    memberName: wifi_1
+    path: TopLeftAnchor/TopGroup/SceneInfo/DeviceGroup/WifiGroup/wifi_1
+  - uid: 0ea36257e7a0c69e45a7a60ebbd11e1a
+    comType: UISprite
+    memberName: wifi_2
+    path: TopLeftAnchor/TopGroup/SceneInfo/DeviceGroup/WifiGroup/wifi_2
+  - uid: 92d579c46da7885b22c8166e51cad0f3
+    comType: UISprite
+    memberName: wifi_3
+    path: TopLeftAnchor/TopGroup/SceneInfo/DeviceGroup/WifiGroup/wifi_3
+  - uid: af7edc1fcba62a7e73bf514fcea2724e
+    comType: UISprite
+    memberName: PowerBarSprite
+    path: TopLeftAnchor/TopGroup/SceneInfo/DeviceGroup/PowerGroup/PowerBarSprite
+  - uid: 35188ee7d2f2203a8d04b33393b6e1f7
+    comType: UILabel
+    memberName: MarqueeLbl
+    path: MarqueeAnchor/ContentPanel/MarqueePanel/MarqueeLbl
+  - uid: 73290af74627ac7188caf5c3f2abd6b1
+    comType: UISprite
+    memberName: MarqueeBgSprite
+    path: MarqueeAnchor/ContentPanel/Bg
+  - uid: 86869131a853ee1634c390d4957dbc2d
+    comType: UISprite
+    memberName: IconSprite_UISprite
+    path: BottomRightAnchor/ExpandPanel/MissionUseProps/IconSpriteBg/IconSprite
+  - uid: 9357c7100801a6894d147acd705cdefb
+    comType: UIButton
+    memberName: UsePropsBtn_UIButton
+    path: BottomRightAnchor/ExpandPanel/MissionUseProps/UsePropsBtn
+  - uid: c4c2f17aad05c62ad7f9383a6f4336b5
+    comType: UISprite
+    memberName: ViaCarrierDataNetworkSprite
+    path: TopLeftAnchor/TopGroup/SceneInfo/DeviceGroup/WifiGroup/ViaCarrierDataNetworkSprite
+  - uid: 2e184dfc8a80cd1f4afbc7b04de64fbc
+    comType: UISprite
+    memberName: AddPowerSprite
+    path: TopLeftAnchor/TopGroup/SceneInfo/DeviceGroup/PowerGroup/AddPowerSprite
+  - uid: cc14ada97fdcab64a140ae6a63ab30c4
+    comType: GameObject
+    memberName: BattleButtonGroup
+    path: TopLeftAnchor/LeftGroup/BattleButtonGroup
+  - uid: 5ab945041795472860681e76858f4fbf
+    comType: UIButton
+    memberName: BattleButton_Pack_UIButton
+    path: TopLeftAnchor/LeftGroup/BattleButtonGroup/BattleButtonGrid/BattleButton_Pack
+  - uid: 01c446709dc4bbf85bf847e6321c9629
+    comType: UIButton
+    memberName: BattleButton_Partner_UIButton
+    path: TopLeftAnchor/LeftGroup/BattleButtonGroup/BattleButtonGrid/BattleButton_Partner
+  - uid: 301287eb1fce1cb4cb1cde3ff61341d5
+    comType: UIButton
+    memberName: BattleButton_Skill_UIButton
+    path: TopLeftAnchor/LeftGroup/BattleButtonGroup/BattleButtonGrid/BattleButton_Skill
+  - uid: b223587be4c42441091e30a33d57300e
+    comType: UIButton
+    memberName: BattleButton_Daily_UIButton
+    path: TopLeftAnchor/LeftGroup/BattleButtonGroup/BattleButtonGrid/BattleButton_Daily
+  - uid: f5d6de1646d8fdc80e8b10e819dcd5e3
+    comType: UIButton
+    memberName: BattleButton_Trade_UIButton
+    path: TopLeftAnchor/LeftGroup/BattleButtonGroup/BattleButtonGrid/BattleButton_Trade
+  - uid: af29eac2f60c7e4b0a0802c7c85bf8f0
+    comType: UIButton
+    memberName: BattleButton_Store_UIButton
+    path: TopLeftAnchor/LeftGroup/BattleButtonGroup/BattleButtonGrid/BattleButton_Store
+  - uid: a36db61c0985ccd35f08aa9ee163aa1a
+    comType: UIButton
+    memberName: BattleButton_Guild_UIButton
+    path: TopLeftAnchor/LeftGroup/BattleButtonGroup/BattleButtonGrid/BattleButton_Guild
+  - uid: 82e2211427ecd47124c92d7db33504c1
+    comType: UIButton
+    memberName: BattleButton_Ranking_UIButton
+    path: TopLeftAnchor/LeftGroup/BattleButtonGroup/BattleButtonGrid/BattleButton_Ranking
+  - uid: 6e4c30e33e79ab72df14f78d80e66e2d
+    comType: UIButton
+    memberName: BattleButton_Forge_UIButton
+    path: TopLeftAnchor/LeftGroup/BattleButtonGroup/BattleButtonGrid/BattleButton_Forge
+  - uid: 32500ec6cd931c366da2fc8ef0bce165
+    comType: UIButton
+    memberName: BattleButton_Guide_UIButton
+    path: TopLeftAnchor/LeftGroup/BattleButtonGroup/BattleButtonGrid/BattleButton_Guide
+  - uid: ebbb75f3be081e5b8e4817740a7ea3bc
+    comType: UIButton
+    memberName: BattleButton_System_UIButton
+    path: TopLeftAnchor/LeftGroup/BattleButtonGroup/BattleButtonGrid/BattleButton_System
+  - uid: fd01eb1c9e618543a0276dc45b115ffd
+    comType: UIButton
+    memberName: BattleButton_Arena_UIButton
+    path: TopLeftAnchor/LeftGroup/BattleButtonGroup/BattleButtonGrid/BattleButton_Arena
+  - uid: d9e47e72857bb01c1238c2d5acdb0e50
+    comType: UIToggle
+    memberName: LeftShrinkBtnToggle_UIToggle
+    path: TopLeftAnchor/LeftGroup/LeftShrinkBtnToggle
+  - uid: f90029ffd37bdc612464e1dfe5059fc4
+    comType: UISprite
+    memberName: LeftShrinkBtnArrow_UISprite
+    path: TopLeftAnchor/LeftGroup/LeftShrinkBtnToggle/LeftShrinkBtnArrow
+  - uid: 0b0545d6fe9e809cb32f79f73d4892c4
+    comType: TweenPosition
+    memberName: MissionUseProps_TweenPosition
+    path: BottomRightAnchor/ExpandPanel/MissionUseProps
+  - uid: 2b0a9a3c50bd2b32b4003121270cd5b4
+    comType: UISlider
+    memberName: MissionUsePropsProgress_UISlider
+    path: CenterAnchorExpand/MissionUsePropsProgress
+  - uid: 74532b799bed16f05891170fb4af48bf
+    comType: UIButton
+    memberName: MissionUseClose_UIButton
+    path: BottomRightAnchor/ExpandPanel/MissionUseProps/MissionUseClose
+  - uid: 6c849dfa619e0f8e25836957c243df1a
+    comType: UISprite
+    memberName: FriendRedPoint
+    path: BottomLeftAnchor/Button_Friend/RedPoint
+  - uid: 9fb43bac473a76286a1a547c77fc658a
+    comType: UILabel
+    memberName: UsePropsLabel_UILabel
+    path: BottomRightAnchor/ExpandPanel/MissionUseProps/UsePropsBtn/UsePropsLabel
+  - uid: 21516bf7bea58adc687d4746c63ef665
+    comType: UILabel
+    memberName: MissionUseItemName_UILabel
+    path: BottomRightAnchor/ExpandPanel/MissionUseProps/MissionUseItemName
+  codePath: /Scripts/MyGameScripts/Module/MainUIModule/View/MainUIView.cs
+  codeLuaPath: 

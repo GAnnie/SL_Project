@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: PetChangeNameView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: cb8317dec4a9d6f5af18d11b7295fec6
+    comType: UIInput
+    memberName: nameInput
+    path: ContentBg/nameInput
+  - uid: 5f59471191cd5266fb01ee1fb231e170
+    comType: UIButton
+    memberName: defualtBtn
+    path: ContentBg/ButtonGroup/defualtBtn
+  - uid: 2af0292a6f9e352c6964ca785220559a
+    comType: UIButton
+    memberName: confirmBtn
+    path: ContentBg/ButtonGroup/confirmBtn
+  - uid: d1ef8cce1b02a40f03a46fb1244b7ff9
+    comType: UIButton
+    memberName: cancelBtn
+    path: ContentBg/ButtonGroup/cancelBtn
+  codePath: 

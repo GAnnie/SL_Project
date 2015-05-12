@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: EquipmentOptCell
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 558496969090aeede003345d3dd4f120
+    comType: UIButton
+    memberName: EquipmenOptCellBtn
+    path: 
+  - uid: c6b877919a30deb8e08224c7ac3c87f6
+    comType: UISprite
+    memberName: EquipIcon
+    path: EquipCell/EquipIcon
+  - uid: a22d8f98618da9f327e4c11a1d0e3208
+    comType: GameObject
+    memberName: GemTopCell
+    path: GemTopCell
+  - uid: e679a3750be2c7668eb430fe8fe643aa
+    comType: UISprite
+    memberName: GemTopIcon
+    path: GemTopCell/GemTopIcon
+  - uid: 46bde544da526d18c831a0465d8610e7
+    comType: GameObject
+    memberName: GemBottomCell
+    path: GemBottomCell
+  - uid: 895da0eb0036b1cf8169687302974748
+    comType: UISprite
+    memberName: GemBottomIcon
+    path: GemBottomCell/GemBottomIcon
+  - uid: 415bb327509943e64d3795f454969a8d
+    comType: UILabel
+    memberName: EquipNameLabel
+    path: EquipNameLabel
+  - uid: 11ca2d6f8c809c6a73479f7e4b0667e8
+    comType: UILabel
+    memberName: EquipPartLabel
+    path: EquipPartLabel
+  - uid: 0a3fb4d6c7c4c64e96c302351956b153
+    comType: UISprite
+    memberName: SelectSprite
+    path: 
+  - uid: 65eee0baa581bc004bf7dbf64dee0d1a
+    comType: UISprite
+    memberName: GemTransferSprite
+    path: GemTransferSprite
+  codePath: 

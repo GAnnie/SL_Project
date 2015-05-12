@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: BaseItemCellWidget
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 61c3eee32939dbe356a2d761b349a3a6
+    comType: UIButton
+    memberName: itemBtn
+    path: 
+  - uid: aaa0705c42bdda01e295c8f669a88080
+    comType: UISprite
+    memberName: icon
+    path: icon
+  - uid: 4d920f8c7d9f82609c7e6672647cccd8
+    comType: UILabel
+    memberName: iconLbl
+    path: iconLbl
+  - uid: ca0f0f098e75cb32e887aaf6c6f8cd61
+    comType: GameObject
+    memberName: selectEffect
+    path: selectEffect
+  - uid: a9f8301b843bfbd9fd4feb244c8c3581
+    comType: UILabel
+    memberName: itemLbl
+    path: itemLbl
+  - uid: 3b5124c66d0ae7c147b80486b6c115ae
+    comType: GameObject
+    memberName: redDot
+    path: redDot
+  codePath: /Scripts/MyGameScripts/Module/CommonUIModule/View/BaseItemCellWidget.cs

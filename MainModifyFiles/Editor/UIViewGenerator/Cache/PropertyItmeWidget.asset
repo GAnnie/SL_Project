@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: PropertyItmeWidget
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 5b3be879c592fa1ed8d3855a7d45302e
+    comType: UILabel
+    memberName: valLbl
+    path: bgSprite/valueBg/valLbl
+  - uid: a06a0b5e327b1af5fc2f4239ba1cbd84
+    comType: UIEventListener
+    memberName: rightBtn
+    path: bgSprite/valueBg/rightBtn
+  - uid: b03dbae96b6558b175c5bdec5b3da1d6
+    comType: UISprite
+    memberName: contentBg
+    path: bgSprite
+  - uid: f6ddb0027b12a7de926a5997834ee734
+    comType: UIButton
+    memberName: titleBtn
+    path: bgSprite/titleBg
+  - uid: 92f8a965c664fb0842d0f146fbf6d677
+    comType: UILabel
+    memberName: titleLbl
+    path: bgSprite/titleBg/titleLbl
+  - uid: bad2781c6e2f442a456d42313fb357f4
+    comType: UIEventListener
+    memberName: leftBtn
+    path: bgSprite/valueBg/leftBtn
+  codePath: /Scripts/MyGameScripts/Module/PlayerPropertyModule/View/PropertyItmeWidget.cs

@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: ConsumerTipsView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 8b3b015d8eb758cca6334ae490981aa6
+    comType: UIButton
+    memberName: CloseButton
+    path: CloseButton
+  - uid: 613558d21b66d17277641807addbf09e
+    comType: UIGrid
+    memberName: ItemCellGrid
+    path: ContentBg/ItemCellGrid
+  - uid: e9eed3118f3b9ab58a6a6785d019a149
+    comType: GameObject
+    memberName: OptButtonPos
+    path: ContentBg/OptButtonPos
+  - uid: 90968905aa05ec66fba81f9101617d7d
+    comType: UILabel
+    memberName: TipsLabel
+    path: ContentBg/TipsLabel
+  - uid: 5139330fff74d74e101e4d29f5e38f88
+    comType: UISprite
+    memberName: ContentBg
+    path: ContentBg
+  codePath: 

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: AssistSkillLearningWinUI
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 12b192d80b743075af6a01e9e7b4ec16
+    comType: UIButton
+    memberName: CloseBtn
+    path: CloseBtn
+  - uid: 4ac0fe484d71ff253b02a5e500a7c510
+    comType: UIGrid
+    memberName: TabGroup
+    path: TabGroup
+  codePath: 
+  codeLuaPath: 

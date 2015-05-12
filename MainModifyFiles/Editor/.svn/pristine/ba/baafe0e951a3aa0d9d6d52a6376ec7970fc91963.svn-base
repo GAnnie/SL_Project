@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: MarketView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 97ace24971321ae768617ec36f672a91
+    comType: UILabel
+    memberName: PageLabel_UILabel
+    path: BuyGroup/PageLabel
+  - uid: 153d21999b1f4a8fe172d937dbf1d137
+    comType: UIButton
+    memberName: RefreshButton_UIButton
+    path: BuyGroup/RefreshButton
+  - uid: aebc107100c5200fb31bf27d93f8f72a
+    comType: UIButton
+    memberName: BuyButton_UIButton
+    path: BuyGroup/BuyButton
+  - uid: aa31c7c3ee323a42ab33bb02f2f49ae7
+    comType: UIButton
+    memberName: NextPageButton_UIButton
+    path: BuyGroup/NextPageButton
+  - uid: c5278cdf08e83d9f69ddfdb34ec0058a
+    comType: UIButton
+    memberName: PrePageButton_UIButton
+    path: BuyGroup/PrePageButton
+  - uid: 7d424b0775f7ae405e4b4d94afe91063
+    comType: Transform
+    memberName: BuyGroup_Transform
+    path: BuyGroup
+  - uid: 7340026e0c6e487080e45b4e0afc019a
+    comType: UILabel
+    memberName: MoneyLbl_UILabel
+    path: MoneyInfo/valueBg/valLbl
+  - uid: 51722f8d9a951f99bf43a42fa84bb6b5
+    comType: UILabel
+    memberName: TimeLabel_UILabel
+    path: BuyGroup/TimeLabel
+  - uid: 779578081af8997d3c44c51499b03b7e
+    comType: UIGrid
+    memberName: TypeGrid_UIGrid
+    path: BuyGroup/ListGroup/ScrollView/TypeGrid
+  - uid: 8499d9fdf32c3cd0ed6d49c438ebf57f
+    comType: PageScrollView
+    memberName: ItemCellGrid_PageScrollView
+    path: BuyGroup/ItemGroup/ScrollView/ItemCellGrid
+  - uid: 427b026d12e90b2172e6272e74a1b460
+    comType: Transform
+    memberName: SellGroup_Transform
+    path: SellGroup
+  - uid: e86a0715e474c404e6a61f0180594391
+    comType: UIGrid
+    memberName: SellGrid_UIGrid
+    path: SellGroup/ScrollView/SellGrid
+  - uid: 929b1c533ad0fdc63c7aa45f020bfddf
+    comType: UIButton
+    memberName: QuickAddButton_UIButton
+    path: SellGroup/QuickAddButton
+  - uid: 757a7835f3f030b14f569fc127aee35f
+    comType: UIButton
+    memberName: QuickGainButton_UIButton
+    path: SellGroup/QuickGainButton
+  - uid: 76334d65db1d95c018c64c3d990c30cb
+    comType: UIGrid
+    memberName: TabGrid_UIGrid
+    path: TabGrid
+  - uid: c35b5221be5b4547747fc6cc32df2854
+    comType: UIScrollView
+    memberName: ScrollView_UIScrollView
+    path: BuyGroup/ListGroup/ScrollView
+  - uid: b90ab06c826d764c196d414a5b890064
+    comType: UILabel
+    memberName: RefLabel_UILabel
+    path: BuyGroup/RefreshButton/RefLabel
+  - uid: f4b914505812d3e9570ccef272286740
+    comType: Transform
+    memberName: ReGo_Transform
+    path: BuyGroup/RefreshButton/ReGo
+  codePath: /Scripts/MyGameScripts/Module/TradeModule/Market/MarketView.cs
+  codeLuaPath: 

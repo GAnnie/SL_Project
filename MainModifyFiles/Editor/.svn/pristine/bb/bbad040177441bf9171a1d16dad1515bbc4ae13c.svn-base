@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: CharacterPropertyView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 8d85e9fa44dcbd19795b35cb6dbbd2b4
+    comType: UISprite
+    memberName: icon
+    path: PlayerIconBg/PlayerIcon
+  - uid: 9c8240a092712e59a16e7591926b6171
+    comType: UILabel
+    memberName: lvLbl
+    path: PlayerIconBg/Label
+  - uid: 7cb1d888de7ce1e44dd7d15cf07392a5
+    comType: UISlider
+    memberName: hpSlider
+    path: PlayerPropertyInfo/HpSlider
+  - uid: 0e2754407e3eaef9bd06849d55cce363
+    comType: UISlider
+    memberName: mpSlider
+    path: PlayerPropertyInfo/MpSlider
+  - uid: 9c9e7736a339bf823d171bae1f665ff0
+    comType: UISlider
+    memberName: spSlider
+    path: PlayerPropertyInfo/SpSlider
+  - uid: e12103065b6391558e90bae3f3ea547a
+    comType: UIGrid
+    memberName: buffGrid
+    path: PlayerPropertyInfo/BuffGroup
+  - uid: c706066b0ef31e4026da2071bea65add
+    comType: UIButton
+    memberName: iconBtn
+    path: PlayerIconBg
+  - uid: a5163db0db84ef409e6ad214c46dacda
+    comType: UISprite
+    memberName: sp_foreground_UISprite
+    path: PlayerPropertyInfo/SpSlider/foreground
+  - uid: 972c0c389b062d31b123bcefa5cf3e50
+    comType: UIButton
+    memberName: PlayerPropertyInfo_UIButton
+    path: PlayerPropertyInfo
+  - uid: 1e1bf00c996dde2cca9094243732840a
+    comType: GameObject
+    memberName: mainUIBuffIcon
+    path: PlayerPropertyInfo/BuffGroup/mainUIBuffIcon
+  codePath: /Scripts/MyGameScripts/Module/MainUIModule/View/CharacterPropertyView.cs
+  codeLuaPath: 

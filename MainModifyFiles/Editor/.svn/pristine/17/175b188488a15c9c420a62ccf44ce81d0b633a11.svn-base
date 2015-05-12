@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: FlowerPropsView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 66afe031f65b3e37676b9b109d88f043
+    comType: UIGrid
+    memberName: FriendItemGrid
+    path: Left/Content/ItemCellView/ItemGrid
+  - uid: 963139797cb60ea3bf993c5c8bf32364
+    comType: UIPageGrid
+    memberName: itemGrid
+    path: Right/Content/PropPanel/itemGrid
+  - uid: b8c67b443123a949e5a9c5d9fc57936a
+    comType: UIButton
+    memberName: GiftBtn
+    path: Right/Content/GiftBtn
+  - uid: faddadff861197e0f289d71ad957dd81
+    comType: UIButton
+    memberName: CloseBtn
+    path: Right/Content/CloseBtn
+  codePath: 
+  codeLuaPath: 

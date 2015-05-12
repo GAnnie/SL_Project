@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: SkillLearningWinUI
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: f8a8f980fbbb731f9c4b761e49c0928f
+    comType: UIButton
+    memberName: CloseBtn
+    path: CloseBtn
+  - uid: 41756df3901ea7446e3622a8f298ada0
+    comType: UIGrid
+    memberName: TabGroup
+    path: TabGroup
+  - uid: 8d81e8ac8d0a26904a54d40ffc359022
+    comType: GameObject
+    memberName: Pos
+    path: Pos
+  codePath: /Scripts/MyGameScripts/Module/SkillModule/View/SkillLearningWinUI.cs

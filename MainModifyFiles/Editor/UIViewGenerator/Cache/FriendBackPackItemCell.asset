@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: FriendBackPackItemCell
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: d7ff9fb6ebaaa88af57f82ddd64c532b
+    comType: UILabel
+    memberName: CountLabel
+    path: CountLabel
+  - uid: 7caac7be04d667333c1b20888fc0e334
+    comType: UISprite
+    memberName: IconSprite
+    path: IconSprite
+  - uid: 3ef4a5b7f5f2713485023c525109b6f4
+    comType: UISprite
+    memberName: EquipmentSprite
+    path: Sprite
+  - uid: 256e73942f8cfe926e519ea8f4c471c5
+    comType: UIButton
+    memberName: FriendBackPackItemCellBtn
+    path: 
+  - uid: 52d79f36d9184702477de8c125ed945f
+    comType: UISprite
+    memberName: SelectEff
+    path: SelectEff
+  codePath: 
+  codeLuaPath: 

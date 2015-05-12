@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: BiddingWindowView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 9d1f8f45b79efa413534f8ae2c57ca52
+    comType: UIButton
+    memberName: CloseButton_UIButton
+    path: CloseButton
+  - uid: 1a769c9e1452a2d2172c00034113e9f1
+    comType: UIButton
+    memberName: BiddingButton_UIButton
+    path: Content/BiddingButton
+  - uid: a0fd9007a4a5678b33d0ddd5927186d5
+    comType: UILabel
+    memberName: CountLabel_UILabel
+    path: Content/ItemCell/CountLabel
+  - uid: 6725eee02a76bf3682f743dd6cca797e
+    comType: UISprite
+    memberName: IconSprite_UISprite
+    path: Content/ItemCell/IconSprite
+  - uid: 7fac61d47e8cb344666595fc7508b0aa
+    comType: UILabel
+    memberName: NameLabel_UILabel
+    path: Content/ItemCell/NameLabel
+  - uid: 8844199e0a93a748070c0ca57868cfef
+    comType: UILabel
+    memberName: IncrementLabel_UILabel
+    path: Content/IncrementLabel
+  - uid: 693cbd1cea6f8a7150a0988f2a8c1f2a
+    comType: UIButton
+    memberName: CutbackButton_UIButton
+    path: Content/PriceCellWidget/ModifiedBtn/CutbackButton
+  - uid: 69f70f86184dd81670b54b2e27e5bae0
+    comType: UIButton
+    memberName: IncreaseButton_UIButton
+    path: Content/PriceCellWidget/ModifiedBtn/IncreaseButton
+  - uid: c3e4c9870118eef4e9d9c93efa6f9b17
+    comType: UILabel
+    memberName: TotalPriceValLbl_UILabel
+    path: Content/TotalPriceCellWidget/valueBg/TotalPriceValLbl
+  - uid: 09b5399a7647f6f9c7bc0d8f5f4ebe73
+    comType: UILabel
+    memberName: PriceValLbl_UILabel
+    path: Content/PriceCellWidget/valueBg/PriceValLbl
+  codePath: /Scripts/MyGameScripts/Module/TradeModule/Auction/Purchase/BiddingWindowView.cs
+  codeLuaPath: 

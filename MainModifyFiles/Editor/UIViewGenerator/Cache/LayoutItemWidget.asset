@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: LayoutItemWidget
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: db9ec1d9d329b919caa83362ac126dcd
+    comType: UILabel
+    memberName: nameLbl
+    path: nameLbl
+  - uid: 8f6c07e8c0a87249986f4e289892d00d
+    comType: GameObject
+    memberName: selectedEffect
+    path: selected
+  - uid: 6b5ee93ed54516eeac017e07ae497d69
+    comType: UIButton
+    memberName: itemBtn
+    path: 
+  codePath: 

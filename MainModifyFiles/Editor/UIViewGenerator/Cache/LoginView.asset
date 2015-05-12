@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: LoginView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 269a855803255c149264d83fb363fd24
+    comType: UILabel
+    memberName: VersionLabel_UILabel
+    path: TopRightAnchor/VersionLabel
+  - uid: 2101bfacfc04ddc861c8c9eb26f8fbc7
+    comType: Transform
+    memberName: StartPanel_Transform
+    path: Content/StartPanel
+  - uid: e3bc67a54ed32f69b546b52b82ba33f3
+    comType: Transform
+    memberName: LoadingPanel_Transform
+    path: Content/LoadingPanel
+  - uid: 5715d215c919db7ee2ba20032f94a603
+    comType: UITexture
+    memberName: LoadingTexture_UITexture
+    path: Content/LoadingTexture
+  - uid: ed0edbfd9de305ac3a356773d225da92
+    comType: UIButton
+    memberName: StartGameButton_UIButton
+    path: Content/StartPanel/StartGameButton
+  - uid: 8b9e501216bd37c5b29a63642598ae96
+    comType: UIButton
+    memberName: LastLoginInfo_UIButton
+    path: Content/StartPanel/LastLoginInfo
+  - uid: 79adbe8c07eded727514553284a46b95
+    comType: UILabel
+    memberName: LastLoginInfo_label_UILabel
+    path: Content/StartPanel/LastLoginInfo/LastLoginInfo_label
+  - uid: 89d3dba756c5d99b3dc08de73ed4c3a5
+    comType: UISprite
+    memberName: LastLoginInfo_state_UISprite
+    path: Content/StartPanel/LastLoginInfo/LastLoginInfo_state
+  - uid: 94f84a0f7dc0ec2a433488332d7ff955
+    comType: UILabel
+    memberName: ErrorMsgLbl_UILabel
+    path: Content/StartPanel/GmAccountInputGroup/ErrorMsgLbl
+  - uid: b910b8c7f36a34e31dc0d91a6a69d55b
+    comType: UIInput
+    memberName: NameInput_UIInput
+    path: Content/StartPanel/GmAccountInputGroup/NameInput
+  - uid: 2e2f521dacb503508897f1c0cb101474
+    comType: UILabel
+    memberName: LoadingLabel_UILabel
+    path: Content/LoadingPanel/LoadingLabel
+  - uid: 9b39c143177695e20e16f5244f564d99
+    comType: UILabel
+    memberName: LoadingTips_UILabel
+    path: Content/LoadingPanel/LoadingTips
+  - uid: 48d06c316f989ec7ddd3a0450ddbac3c
+    comType: UISlider
+    memberName: LoadingProgressBar_UISlider
+    path: Content/LoadingPanel/LoadingProgressBar
+  codePath: 

@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: TradeCenterItemCellPrefab
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: ca8eb87b30a1730caae47212c0be9b5d
+    comType: UILabel
+    memberName: NameLabel_UILabel
+    path: NameLabel
+  - uid: 1d00f0fe6d2565831d0adece13f34736
+    comType: UILabel
+    memberName: PriceLabel_UILabel
+    path: PriceLabel
+  - uid: 8eb294030ceaabd4c1cd04de9444ca80
+    comType: UILabel
+    memberName: TrendLabel_UILabel
+    path: TrendLabel
+  - uid: 5cd5c44316ad8d2d98a693404388654a
+    comType: UIButton
+    memberName: TradeCenterItemCellPrefab_UIButton
+    path: 
+  - uid: adda5250bcc971d1e0b1a96904ddfdac
+    comType: UISprite
+    memberName: SelectSprite_UISprite
+    path: SelectSprite
+  codePath: 
+  codeLuaPath: 

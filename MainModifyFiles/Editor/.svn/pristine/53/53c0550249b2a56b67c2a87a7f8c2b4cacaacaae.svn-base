@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: EquipmentGemTransferView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 5b0e2da33301d178203b6120cfe231e2
+    comType: UILabel
+    memberName: LTipsLabel
+    path: LeftGroup/pageGroup/Sprite/LTipsLabel
+  - uid: 950422d01dc67764bd3addf08bdd9206
+    comType: UIButton
+    memberName: LButton
+    path: LeftGroup/pageGroup/LButton
+  - uid: a0166b3fcdccad9ff991bc2974a317a1
+    comType: UIButton
+    memberName: RButton
+    path: LeftGroup/pageGroup/RButton
+  - uid: 852bd60264f197e7f38e8db58a396b71
+    comType: UIGrid
+    memberName: EquipmentGroup
+    path: LeftGroup/EquipmentGroup
+  - uid: ff7813b0dd2916e3ac2b507ff9f4359c
+    comType: UILabel
+    memberName: RuleTipsLabel
+    path: TopRightGroup/Sprite/RuleTipsLabel
+  - uid: b60deb9c1d06fd3af2fd408bbec7db39
+    comType: UILabel
+    memberName: RuleLabel
+    path: TopRightGroup/RuleLabel
+  - uid: 1278dd7901c7bc7280cd9b03188442f9
+    comType: GameObject
+    memberName: CurrEquipInfoGroup
+    path: TopRightGroup/CurrEquipInfoGroup
+  - uid: 584f1b76c87252cc00f6d4877cf2d9de
+    comType: GameObject
+    memberName: CurrEquipPos
+    path: TopRightGroup/CurrEquipInfoGroup/CurrEquipPos
+  - uid: 2df4c491697766d23ba1e427305f7ce6
+    comType: UILabel
+    memberName: EquipmentPropertyLabel
+    path: TopRightGroup/CurrEquipInfoGroup/EquipmentPropertyScrollView/EquipmentPropertyLabel
+  - uid: 9d723dca9a0b08cd470f4b113a64e150
+    comType: UIGrid
+    memberName: MaterialGrid
+    path: BottomRightGroup/MaterialGrid
+  - uid: d5f9adb5449e87026805a9ff2fcadbf3
+    comType: UIButton
+    memberName: OptButton
+    path: BottomRightGroup/OptButton
+  - uid: d3e08d8f4a930fb50d2569b5b56c785c
+    comType: GameObject
+    memberName: TargetEquipPos
+    path: TopRightGroup/TargetEquipInfoGroup/TargetEquipPos
+  - uid: 430f79907ae40b770be0b18c138681d6
+    comType: UILabel
+    memberName: TargetEquipmentPropertyLabel
+    path: TopRightGroup/TargetEquipInfoGroup/EquipmentPropertyScrollView/TargetEquipmentPropertyLabel
+  - uid: 32c5ca75fab21b3904b539fdb2ec47da
+    comType: UILabel
+    memberName: CostLabel
+    path: BottomRightGroup/OptButton/CostLabel
+  - uid: 4e719a6fa66b6ca94b837da2c37e58be
+    comType: UILabel
+    memberName: OptNameLabel
+    path: BottomRightGroup/OptButton/OptNameLabel
+  codePath: /Scripts/MyGameScripts/Module/EquipmentOptModule/view/EquipmentGemTransferView.cs

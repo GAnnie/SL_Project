@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: AutoFramWinUI
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: e3da9267ca078572a14de13cc98d5c69
+    comType: UIGrid
+    memberName: MapGrid
+    path: MapPanel/Grid
+  - uid: 4c9adbbfb8c6162d20485ac20613585c
+    comType: UIButton
+    memberName: CloseBtn
+    path: CloseBtn
+  - uid: 6b8d471283e07e5d588a4a29cb1629ff
+    comType: GameObject
+    memberName: FrozenPos
+    path: BtuGroup/FrozenPos
+  - uid: 509cd614f1f3e221e73c41c2cfdfe105
+    comType: GameObject
+    memberName: AutoFramBtnPos
+    path: BtuGroup/AutoFramBtnPos
+  - uid: 14e154c82e4eb5c97f203c7ce2c4ee2a
+    comType: GameObject
+    memberName: ReceivePos
+    path: BtuGroup/ReceivePos
+  - uid: e118446851737ccedcb554d42922370f
+    comType: UILabel
+    memberName: GetPointLabel
+    path: BtuGroup/GetPointLabel
+  - uid: 696e1cffabfd11b5db5aa00688755a92
+    comType: UILabel
+    memberName: PointLabel
+    path: BtuGroup/PointLabel
+  - uid: 808d0bc995dc02efc5e1a72c0210e651
+    comType: UIButton
+    memberName: AutoFramTipsButton
+    path: BtuGroup/AutoFramTipsButton
+  - uid: a1b13a3b07e73de3ce4085c17d36631f
+    comType: UIButton
+    memberName: ReceiveTipsButton
+    path: BtuGroup/ReceiveTipsButton
+  - uid: 439232cd9ec2bfcad53f2ee0838b97a7
+    comType: UIScrollView
+    memberName: MapPanelScrollView
+    path: MapPanel
+  - uid: b8d2747527819f1cf23e61639b24bdec
+    comType: GameObject
+    memberName: TipsPanel
+    path: TipsPanel
+  - uid: 4a415c7d2d370e94ff533cfbe39acc9b
+    comType: UILabel
+    memberName: TipsTitlelbl
+    path: TipsPanel/TipsTitlelbl
+  - uid: 8e69e89a3a84f6f94a604d99785eab1f
+    comType: UILabel
+    memberName: TipsInfolbl
+    path: TipsPanel/TipsInfolbl
+  - uid: 3f5e36e07b0393bdc7c071e63402d507
+    comType: UIEventTrigger
+    memberName: TipsBoxCollider
+    path: TipsPanel/TipsBoxCollider
+  - uid: f473ec1f2992ce4e9dfb92c2b37ec49f
+    comType: GameObject
+    memberName: MonsterPanel
+    path: MonsterPanel
+  - uid: 82777ddd6fff0ccd356bedf26270ebcb
+    comType: UILabel
+    memberName: SceneMaplbl
+    path: MonsterPanel/SceneMaplbl
+  - uid: 87f6d9de51a8550053785a3016557ed1
+    comType: UIEventTrigger
+    memberName: MonsterBoxCollider
+    path: MonsterPanel/MonsterBoxCollider
+  - uid: 8a45d691361f937633404d9f94d8241f
+    comType: UIGrid
+    memberName: MonsterGrid
+    path: MonsterPanel/MonsterGrid
+  codePath: /Scripts/MyGameScripts/Module/AutoFramModule/view/AutoFramWinUI.cs

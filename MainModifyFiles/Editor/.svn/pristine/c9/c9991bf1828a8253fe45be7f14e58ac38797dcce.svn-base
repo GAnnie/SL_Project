@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: PetInfoCell
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 71664bc4d696fc18397c946cf916d45f
+    comType: UISprite
+    memberName: iconFlagSprite
+    path: iconBg/iconFlag
+  - uid: 8e5779fa2adfab358a512e984215650f
+    comType: UISprite
+    memberName: iconSprite
+    path: iconBg/iconSprite
+  - uid: bd45b27ab0ab444a6c28930693070766
+    comType: UILabel
+    memberName: NameLbl
+    path: NameLbl
+  - uid: 6facda64e8c3e4e5bc6bf802fe3fa7b5
+    comType: UILabel
+    memberName: LvLbl
+    path: LvLbl
+  - uid: 07e2cef785577f74b407a4dcc5cac98f
+    comType: UISprite
+    memberName: SelectSprite
+    path: 
+  - uid: 954cb8188345c2b174c931c2f5fba724
+    comType: UIButton
+    memberName: PetInfoCellBtn
+    path: 
+  - uid: 5b10275803433b2f46ee45cc6c0291f7
+    comType: UIEventTrigger
+    memberName: iconSpriteEventTrigger
+    path: iconBg/iconSprite
+  codePath: 

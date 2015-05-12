@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: MissionView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: bf2eee48963b97d7aeacfb65c50a3ed4
+    comType: Transform
+    memberName: AceGroup_Transform
+    path: AceGroup
+  - uid: 1b792b28059297d3d67e3e3ea66e28cb
+    comType: UIButton
+    memberName: Button_UIButton
+    path: BgGroup/Button
+  - uid: c1014f6389e8d4a17a2c43078fe361b1
+    comType: Transform
+    memberName: CurGroup_Transform
+    path: CurGroup
+  - uid: 6cbb5ecd0d019b600de656721d8fb7b6
+    comType: UIGrid
+    memberName: TabGrid_UIGrid
+    path: TabGrid
+  - uid: 7999437ba22dcc2f7d81931e9b3dbfc1
+    comType: UIScrollView
+    memberName: ScrollView_UIScrollView
+    path: TypeView/ScrollView
+  - uid: 6ea50f95003974fc876c018e149683f5
+    comType: UIGrid
+    memberName: TypeGrid_UIGrid
+    path: TypeView/ScrollView/TypeGrid
+  - uid: ca6ce1030cd8af635f750fa4918d4dee
+    comType: UILabel
+    memberName: AceAcceptNPCLabel_UILabel
+    path: AceGroup/AceAcceptNPCLabel
+  - uid: e8e4a7742b15188001ce93752e765457
+    comType: UILabel
+    memberName: AceDescriptionLabel_UILabel
+    path: AceGroup/AceDescriptionLabel
+  - uid: 330d2732d10043cdc8d60acbf40b50ce
+    comType: UILabel
+    memberName: AceGradeLabel_UILabel
+    path: AceGroup/AceGradeLabel
+  - uid: f23008906e43526178703e38775328b6
+    comType: UILabel
+    memberName: AceTypeLabel_UILabel
+    path: AceGroup/AceTypeLabel
+  - uid: d926fd00aa2a76390ff93b7258025275
+    comType: UILabel
+    memberName: CurDescriptionLabel_UILabel
+    path: CurGroup/CurDescriptionLabel
+  - uid: 37f702f0cf5b7ff151baedf25c60f988
+    comType: UIButton
+    memberName: CurItemBgSprite_UIButton
+    path: CurGroup/CurItemBgSprite
+  - uid: dd83a5e38b8be53cb0ad69b68358b80a
+    comType: UISprite
+    memberName: CurIconSprite_UISprite
+    path: CurGroup/CurItemBgSprite/CurIconSprite
+  - uid: 8dd6fb90d8ae484cc56413ae2a695044
+    comType: UILabel
+    memberName: CurSubmitNPCLabel_UILabel
+    path: CurGroup/CurSubmitNPCLabel
+  - uid: 6eed9073dbb7e331e1a98d8468e7a914
+    comType: UILabel
+    memberName: CurTargetLabel_UILabel
+    path: CurGroup/CurTargetLabel
+  - uid: c8bb55f12ffed79680ea472c267bce84
+    comType: UILabel
+    memberName: CurTypeLabel_UILabel
+    path: CurGroup/CurTypeLabel
+  - uid: c962b7746180954f2155dfad0a7c3f1f
+    comType: UIButton
+    memberName: AceBtn_UIButton
+    path: AceGroup/AceBtn
+  - uid: 42b50fa13d5208229125150fb01c28f6
+    comType: UIButton
+    memberName: CurDropBtn_UIButton
+    path: CurGroup/CurDropBtn
+  - uid: 26b535cb55b72154795aeef65e79f201
+    comType: UIButton
+    memberName: CurConveyBtn_UIButton
+    path: CurGroup/CurConveyBtn
+  codePath: /Scripts/MyGameScripts/Module/MissinoModule/MissionView.cs
+  codeLuaPath: 

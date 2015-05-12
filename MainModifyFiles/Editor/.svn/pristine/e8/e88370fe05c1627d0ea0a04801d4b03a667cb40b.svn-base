@@ -1,0 +1,168 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: PetPropertyMainView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 2977ba6cf9bc9eec5e6eab1afdc9a456
+    comType: UIButton
+    memberName: closeBtn
+    path: ContentFrame/CloseBtn
+  - uid: 6ec03998cff77479f27c658c92d6633b
+    comType: UIGrid
+    memberName: petItemGrid
+    path: ContentFrame/ContentBg/BaseInfoGroup/PetItemGroup/PetItemScrollView/PetItemGrid
+  - uid: efc03730d28af50b17babce2357aedf8
+    comType: Transform
+    memberName: modelAnchor
+    path: ContentFrame/ContentBg/BaseInfoGroup/PetPropertyInfoGroup/TopInfoGroup/ModelAnchor
+  - uid: c6fe9fef0c4dc6b0185c61d13172b99d
+    comType: UISlider
+    memberName: expSlider
+    path: ContentFrame/ContentBg/BaseInfoGroup/PetPropertyInfoGroup/TopInfoGroup/ExpInfo/slider
+  - uid: f97e223fcdbe7b4f9e603653cd77d9ab
+    comType: UILabel
+    memberName: expLbl
+    path: ContentFrame/ContentBg/BaseInfoGroup/PetPropertyInfoGroup/TopInfoGroup/ExpInfo/slider/valueLbl
+  - uid: f4c00a8374a46d37624087611d02d1ed
+    comType: UILabel
+    memberName: petRankingLbl
+    path: ContentFrame/ContentBg/BaseInfoGroup/PetPropertyInfoGroup/TopInfoGroup/PetRankingInfo/valueBg/valLbl
+  - uid: c97eb2c02367992b78f3765515d5df24
+    comType: UIButton
+    memberName: petRankingBtn
+    path: ContentFrame/ContentBg/BaseInfoGroup/PetPropertyInfoGroup/TopInfoGroup/PetRankingInfo/titleBg
+  - uid: b85c29755efd53952fc43ff8a789ea93
+    comType: UIGrid
+    memberName: petInfoTabBtnGrid
+    path: ContentFrame/ContentBg/BaseInfoGroup/PetPropertyInfoGroup/BottomInfoGroup/TabBtnGrid
+  - uid: 4961807aa38ce8f61dcf0dca7d11e083
+    comType: UIButton
+    memberName: freeCaptiveBtn
+    path: ContentFrame/ContentBg/BaseInfoGroup/PetPropertyInfoGroup/BottomBtnGroup/freeCaptiveBtn
+  - uid: 5df465b4687b7dd5a6ca00c710cdd0fb
+    comType: UIButton
+    memberName: changeNameBtn
+    path: ContentFrame/ContentBg/BaseInfoGroup/PetPropertyInfoGroup/BottomBtnGroup/changeNameBtn
+  - uid: b2a352ded2abdb4b3a9b139cbefd3a72
+    comType: UIButton
+    memberName: apItemOpBtn
+    path: ContentFrame/ContentBg/BaseInfoGroup/PetPropertyInfoGroup/BottomBtnGroup/apItemOpBtn
+  - uid: 7ce8dc68aa3c81e63f6cf452c1a34d01
+    comType: UIButton
+    memberName: restOrBattleBtn
+    path: ContentFrame/ContentBg/BaseInfoGroup/PetPropertyInfoGroup/BottomBtnGroup/restOrBattleBtn
+  - uid: ebede4d8d5407fee767296eba5383348
+    comType: UIGrid
+    memberName: rightTabBtnGrid
+    path: ContentFrame/ContentBg/RightTabBtnGrid
+  - uid: 8ac86a31c097b16aff511a7c4d5271b1
+    comType: UILabel
+    memberName: rightTabContentTitle
+    path: ContentFrame/ContentBg/BaseInfoGroup/RightTabContentRoot/TabContentTitleBg/titleLbl
+  - uid: 770b428addf4340839e37701cef2f353
+    comType: UISprite
+    memberName: titleSprite
+    path: ContentFrame/_titleBg/_titleSprite
+  - uid: 73e31ee1fe7d429406a9fcf73a01dfd5
+    comType: GameObject
+    memberName: TabContent_PetProps
+    path: ContentFrame/ContentBg/BaseInfoGroup/RightTabContentRoot/TabContent_PetProps
+  - uid: 56b70d03b4398b1287c4e889d42c908e
+    comType: PageScrollView
+    memberName: petPropsItemGrid
+    path: ContentFrame/ContentBg/BaseInfoGroup/RightTabContentRoot/TabContent_PetProps/PetPropsItemGrid
+  - uid: 09d46e43ebcc0ea35eb04db737b871a7
+    comType: GameObject
+    memberName: TabContent_ResetPetAp
+    path: ContentFrame/ContentBg/BaseInfoGroup/RightTabContentRoot/TabContent_ResetPetAp
+  - uid: 6e26859c5299e2b023cbcad204fc65a2
+    comType: GameObject
+    memberName: TabContent_BaseProperty
+    path: ContentFrame/ContentBg/BaseInfoGroup/PetPropertyInfoGroup/BottomInfoGroup/TabContentRoot/TabContent_BaseProperty
+  - uid: a9b72f13a6a398f910e173a307adfee5
+    comType: GameObject
+    memberName: TabContent_PetAptitude
+    path: ContentFrame/ContentBg/BaseInfoGroup/PetPropertyInfoGroup/BottomInfoGroup/TabContentRoot/TabContent_PetAptitude
+  - uid: 09a50c3829a922eb6830da42bf235c50
+    comType: GameObject
+    memberName: TabContent_PetSkill
+    path: ContentFrame/ContentBg/BaseInfoGroup/PetPropertyInfoGroup/BottomInfoGroup/TabContentRoot/TabContent_PetSkill
+  - uid: 71200a18bcb29aac38b13fac707107b8
+    comType: GameObject
+    memberName: BaseInfoGroup
+    path: ContentFrame/ContentBg/BaseInfoGroup
+  - uid: 2feddbf63e867f813eec90e7f853d7a4
+    comType: UIButton
+    memberName: ppInfoBtn
+    path: ContentFrame/ContentBg/BaseInfoGroup/PetPropertyInfoGroup/BottomInfoGroup/TabContentRoot/TabContent_BaseProperty/ppInfoBtn
+  - uid: d9def0a007d55dc7b32435777f5c8722
+    comType: UIButton
+    memberName: petGrowthInfoBtn
+    path: ContentFrame/ContentBg/BaseInfoGroup/PetPropertyInfoGroup/TopInfoGroup/PetGrowthInfoBtn
+  - uid: 7b2b05f98c593cb4beafee6464eb65fa
+    comType: GameObject
+    memberName: PetHandbookGroup
+    path: ContentFrame/ContentBg/PetHandbookGroup
+  - uid: ac2a00bb8fb128b29ef1ae8f53915636
+    comType: UILabel
+    memberName: restOrBattleBtnLbl
+    path: ContentFrame/ContentBg/BaseInfoGroup/PetPropertyInfoGroup/BottomBtnGroup/restOrBattleBtn/Label
+  - uid: 6880e64bcad733c97e28d2c2ccf81d3a
+    comType: UIButton
+    memberName: petTypeBtn
+    path: ContentFrame/ContentBg/BaseInfoGroup/PetPropertyInfoGroup/TopInfoGroup/ModelAnchor/ButtonPanel/petTypeBtn
+  - uid: 4e2b831581e6195e0b2350b58d7198c7
+    comType: UIButton
+    memberName: decorationBtn
+    path: ContentFrame/ContentBg/BaseInfoGroup/PetPropertyInfoGroup/TopInfoGroup/ModelAnchor/ButtonPanel/decorationBtn
+  - uid: 3ce684a0edaf2d7307c24170bbea163c
+    comType: GameObject
+    memberName: modelBtnGroup
+    path: ContentFrame/ContentBg/BaseInfoGroup/PetPropertyInfoGroup/TopInfoGroup/ModelAnchor/ButtonPanel
+  - uid: 44943741a28be9b342ff5da688c5a870
+    comType: GameObject
+    memberName: resetPropItemAnchor
+    path: ContentFrame/ContentBg/BaseInfoGroup/RightTabContentRoot/TabContent_ResetPetAp/resetPropItemAnchor
+  - uid: 77bd0badca5e9c946b1b2befa853703c
+    comType: UIButton
+    memberName: resetPetBtn
+    path: ContentFrame/ContentBg/BaseInfoGroup/RightTabContentRoot/TabContent_ResetPetAp/resetPetBtn
+  - uid: a5cac5619291e084e238d0efafc14ef1
+    comType: UILabel
+    memberName: resetPetBtnLbl
+    path: ContentFrame/ContentBg/BaseInfoGroup/RightTabContentRoot/TabContent_ResetPetAp/resetPetBtn/Label
+  - uid: 9c5395a72052252fcfdf3ef164cb8fe6
+    comType: UIGrid
+    memberName: convenientHintItemGrid
+    path: ContentFrame/ContentBg/BaseInfoGroup/RightTabContentRoot/TabContent_ResetPetAp/convenientScrollView/itemGrid
+  - uid: 7a9c7e269a8dfbcd66e490f078fa1b90
+    comType: UIScrollView
+    memberName: convenientHintScrollView
+    path: ContentFrame/ContentBg/BaseInfoGroup/RightTabContentRoot/TabContent_ResetPetAp/convenientScrollView
+  - uid: 1d39093cb04d7c7ee65c67fbc43c0f79
+    comType: UIButton
+    memberName: resetPetApBtn
+    path: ContentFrame/ContentBg/BaseInfoGroup/PetPropertyInfoGroup/BottomBtnGroup/resetPetApBtn
+  - uid: d8ad644ede632eaaecb249537296bff9
+    comType: UIGrid
+    memberName: petEqItemGrid
+    path: ContentFrame/ContentBg/BaseInfoGroup/PetPropertyInfoGroup/TopInfoGroup/EquipmentGroup
+  - uid: 4dbe4bf19a6fd36a8d18c391543e0c5d
+    comType: GameObject
+    memberName: pageFlagGrid
+    path: ContentFrame/ContentBg/BaseInfoGroup/RightTabContentRoot/pageFlagGrid
+  - uid: aab4764044a87783d0f498ee10ab2e27
+    comType: UIButton
+    memberName: petChangeBtn
+    path: ContentFrame/ContentBg/BaseInfoGroup/PetPropertyInfoGroup/TopInfoGroup/ModelAnchor/ButtonPanel/petChangeBtn
+  codePath: /Scripts/MyGameScripts/Module/PetPropertyModule/View/PetPropertyMainView.cs
+  codeLuaPath: 

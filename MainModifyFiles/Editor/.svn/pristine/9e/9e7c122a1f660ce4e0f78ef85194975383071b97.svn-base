@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: MainUIExpandContentView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 876a882feaae50b8a2d9fe3f808c0e76
+    comType: TweenPosition
+    memberName: posTweener
+    path: 
+  - uid: 39095c93a8ae0f5a73193e71a7baa2a3
+    comType: TweenAlpha
+    memberName: alphaTweener
+    path: 
+  - uid: 7fe8e4de7077ad5abeb50fb60e7e6b1d
+    comType: UIButton
+    memberName: taskBtn
+    path: TabButtonRoot/TabBtn_Task
+  - uid: 1fe3fa63a2c810fac841f32612d497da
+    comType: UIButton
+    memberName: teamBtn
+    path: TabButtonRoot/TabBtn_Team
+  - uid: 885c060d6800da0dc2990616aaf0825f
+    comType: GameObject
+    memberName: taskTabContent
+    path: TabCotentRoot/ScrollView/TabContent_Task
+  - uid: 1bd97fc8c9ede16f9980065a479d6fc5
+    comType: GameObject
+    memberName: teamTabContent
+    path: TabCotentRoot/ScrollView/TabContent_Team
+  - uid: 18790e24f0d1e842d20285e59dbbb000
+    comType: UIGrid
+    memberName: teamItemGrid
+    path: TabCotentRoot/ScrollView/TabContent_Team/teamItemGrid
+  - uid: 034097c20cef3bb696c321bc97ecff23
+    comType: GameObject
+    memberName: teamMatrixInfoRoot
+    path: TabButtonRoot/TabBtn_Team/infoBg
+  - uid: 91b07d8b72674fafd54bd1be68dac72e
+    comType: UILabel
+    memberName: teamMatrixInfoLbl
+    path: TabButtonRoot/TabBtn_Team/infoBg/infoLbl
+  - uid: fbcf731c79721ee10c41ad0330d609f1
+    comType: UISprite
+    memberName: taskBtnSelectEffect
+    path: TabButtonRoot/TabBtn_Task/selectEffect
+  - uid: da03430ec68235acaacbb31c02f890de
+    comType: UISprite
+    memberName: teamBtnSelectEffect
+    path: TabButtonRoot/TabBtn_Team/selectEffect
+  - uid: 1ada7fb9c2a43d13944876b787dd8708
+    comType: UIButton
+    memberName: callOrAwayBtn
+    path: TabCotentRoot/teamBtnGroup/callOrAwayBtn
+  - uid: 13e22b6700bf0d23be5c068658d7fe1b
+    comType: UILabel
+    memberName: callOrAwayBtnLbl
+    path: TabCotentRoot/teamBtnGroup/callOrAwayBtn/Label
+  - uid: 8c9c85e449bae619fb129323268a0ce9
+    comType: UIButton
+    memberName: joinOrLeaveBtn
+    path: TabCotentRoot/teamBtnGroup/joinOrLeaveBtn
+  - uid: 2f6961b60b1bf3fa39bb62b6c6511df1
+    comType: UILabel
+    memberName: joinOrLeaveBtnLbl
+    path: TabCotentRoot/teamBtnGroup/joinOrLeaveBtn/Label
+  - uid: 35ea84d2ac09aa6bbb4d3cd8a9ad875c
+    comType: UIWidget
+    memberName: teamBtnGroupWidget
+    path: TabCotentRoot/teamBtnGroup
+  - uid: d9d3c5d8bdbc744546808bcd44517468
+    comType: UIScrollView
+    memberName: itemScrollView
+    path: TabCotentRoot/ScrollView
+  - uid: 7c4cab83ce2069624f436311de57525a
+    comType: UISprite
+    memberName: TabCotentRoot_UISprite
+    path: TabCotentRoot
+  - uid: 5b3713128f34aa70340491389d860271
+    comType: UITable
+    memberName: taskItemTable_UITable
+    path: TabCotentRoot/ScrollView/TabContent_Task/taskItemTable
+  codePath: /Scripts/MyGameScripts/Module/MainUIModule/View/MainUIExpandContentView.cs
+  codeLuaPath: 

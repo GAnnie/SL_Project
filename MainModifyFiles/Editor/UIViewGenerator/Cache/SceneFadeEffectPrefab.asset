@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: SceneFadeEffectPrefab
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: df12fb675ea7209857b6918996a322f8
+    comType: UITexture
+    memberName: bgTexture
+    path: bgTexture
+  - uid: b3efbc84bc7ee4a45cb95812a6b94c5a
+    comType: UISlider
+    memberName: loadingSlider
+    path: loadingSlider
+  - uid: e7033aaf53cde163cd87c7d5146d13ba
+    comType: UILabel
+    memberName: tipLbl
+    path: tipBg/tipLbl
+  - uid: 06476d2aca449a4ee299e4e3284393fd
+    comType: TweenAlpha
+    memberName: alphaTween
+    path: fadeBg
+  - uid: b07b918a903eca5fb9d688e92ba7c9d5
+    comType: UILabel
+    memberName: loadingLbl
+    path: loadingSlider/LoadingLabel
+  codePath: 
+  codeLuaPath: 

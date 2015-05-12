@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: ItemsContainerView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 0b369e925a849af5c89b4a3c8477bf7d
+    comType: UIGrid
+    memberName: TabsGroup
+    path: TabsGroup
+  - uid: db03f84c3e19dafadb9a750e0296fa53
+    comType: UIScrollView
+    memberName: ContainerScrollView
+    path: Container
+  - uid: 041a401529dc8d262f1e25290b63184c
+    comType: UICenterOnChild
+    memberName: ItemContainerCenterOnChild
+    path: Container/ItemContainerGrid
+  - uid: ef033e3872bed81eef5be3ad89ad5749
+    comType: UIPageGroup
+    memberName: PageGroup
+    path: PageGroup
+  - uid: 9eb87032e293bbfd6867b93a5135e73a
+    comType: UIGrid
+    memberName: ItemContainerGrid
+    path: Container/ItemContainerGrid
+  codePath: /Scripts/MyGameScripts/Module/BackpackModule/view/ItemsContainerView.cs

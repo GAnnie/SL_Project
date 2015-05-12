@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: ServerListView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 5407a978d4f89338d710fb49a808a610
+    comType: UIButton
+    memberName: CloseButton
+    path: CloseButton
+  - uid: 70ea0eca8d8ca1dac6fe3725363d99a3
+    comType: UITable
+    memberName: LastLoginTable
+    path: ContentGroup/LastLoginTable
+  - uid: e3f224f4a06f24b1bb4eb13a56413050
+    comType: UITable
+    memberName: ServerListTable
+    path: ContentGroup/ServerDraggablePanel/ServerListTable
+  - uid: 989844a5e8f52817400500e291045ced
+    comType: ServerListItem
+    memberName: CurServerListItem
+    path: CurServerListItem
+  codePath: 

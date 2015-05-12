@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: MiniWorldMapView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 5868f3697f8ea2c0615548238f5ab1f7
+    comType: UIButton
+    memberName: CloseBtn
+    path: CloseBtn
+  - uid: 23442b9e6571985817dbed9a75b11ae4
+    comType: Transform
+    memberName: PlaceGroup
+    path: PlaceGroup
+  - uid: b2ada7030a7f60fa066ca1f58d565631
+    comType: UIButton
+    memberName: BackMyFactionBtn
+    path: BackMyFactionBtn
+  - uid: ac2b674515ce9e84a935ddd0c8a88cc1
+    comType: UIButton
+    memberName: CurrMapBtn
+    path: CurrMapBtn
+  - uid: 50c42dc6e0400ff66b3e8461fbb7ab9c
+    comType: UILabel
+    memberName: CurrMapBtnLbl
+    path: CurrMapBtn/CurrMapBtnLbl
+  - uid: 95772a7c47078d8011510895126698f9
+    comType: UIButton
+    memberName: GoHomeBtn
+    path: GoHomeBtn
+  - uid: 259effd3e6ef1e8467f0356e74d2438c
+    comType: GameObject
+    memberName: HeroSprite
+    path: HeroSprite
+  codePath: 
+  codeLuaPath: 

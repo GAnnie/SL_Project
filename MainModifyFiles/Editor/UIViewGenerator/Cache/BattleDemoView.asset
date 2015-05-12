@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: BattleDemoView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 7a69203ae4837855686e96b761464b46
+    comType: UIButton
+    memberName: BattleButton
+    path: BattleButton
+  - uid: ba8ffe05a9cb745c0f025639106b0439
+    comType: UIInput
+    memberName: EnemyNumInput
+    path: EnemyNumLabel/NumInput
+  - uid: 1f5ea371b6c1938460f06d8b6b91b4bf
+    comType: UIButton
+    memberName: PositionButton
+    path: PositionButton
+  - uid: 16d41c433eb17059e2ce6936c20637e7
+    comType: UIButton
+    memberName: CloseButton
+    path: CloseButton
+  - uid: f976d696dcd2346b143f80c255192f17
+    comType: UIInput
+    memberName: SceneIdInput
+    path: SceneIdLabel/SceneIdInput
+  - uid: a591e1f649885acdb58db3a75e3f0d21
+    comType: UIInput
+    memberName: SceneCameraInput
+    path: SceneCameraLabel/SceneCameraInput
+  - uid: aed26a04c7e9bdbfe2eb119748eaba2f
+    comType: UIInput
+    memberName: AttackInput
+    path: EnemyDummySettingPanel/attackLabel/AttackInput
+  - uid: 434817136cf18e8d898160fd6486315f
+    comType: UIInput
+    memberName: DefenseInput
+    path: EnemyDummySettingPanel/defenseLabel/DefenseInput
+  - uid: f0c73ba7fe594b79a23af3928eb6c303
+    comType: UIInput
+    memberName: HpInput
+    path: EnemyDummySettingPanel/hpLabel/HpInput
+  - uid: 20e3cd054a9affdc7de356bd147040a7
+    comType: UIInput
+    memberName: SpeedInput
+    path: EnemyDummySettingPanel/speedLabel/SpeedInput
+  - uid: 52b6a606252b165d4b816551885081f3
+    comType: UIInput
+    memberName: StyleInput
+    path: EnemyDummySettingPanel/styleLabel/StyleInput
+  - uid: 0b8339b0aeb8452c8cb100f80f2bccbe
+    comType: UIInput
+    memberName: activeSkillInput_UIInput
+    path: EnemyDummySettingPanel/activeSkillLabel/activeSkillInput
+  - uid: 289e7a8434a669e47f50aa6a71c4e176
+    comType: UIInput
+    memberName: passiveSkillInput_UIInput
+    path: EnemyDummySettingPanel/passiveSkillLabel/passiveSkillInput
+  - uid: 32bb3d4d7431db2e49ce41de02c23bcd
+    comType: UIButton
+    memberName: ResumeButton_UIButton
+    path: ResumeButton
+  - uid: fc09f2304716b29449ba24613066a3fa
+    comType: UILabel
+    memberName: NameLabel_UILabel
+    path: EnemyDummySettingPanel/NameLabel
+  - uid: c3ee282d82971672b5185217e3bc02fa
+    comType: UIInput
+    memberName: MagicInput_UIInput
+    path: EnemyDummySettingPanel/magicLabel/MagicInput
+  codePath: /Scripts/MyGameScripts/Gameplay/Battle/Demo/BattleDemoView.cs
+  codeLuaPath: 

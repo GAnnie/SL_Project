@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: TradeCenterTypeCellPrefab
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 015713df744c8a02069a18fa552fde2e
+    comType: UILabel
+    memberName: Label_UILabel
+    path: Label
+  - uid: ffda1e5671fc0ad8fc19f97e34cbdc9b
+    comType: UIButton
+    memberName: TradeCenterTypeCellPrefab_UIButton
+    path: 
+  - uid: ef8c148bfb9ecb4dd99faa9c54a3dd1a
+    comType: UISprite
+    memberName: SelectSprite_UISprite
+    path: SelectSprite
+  - uid: 342c2a8e25da1b94395b86681c3200e5
+    comType: UISprite
+    memberName: BgSprite_UISprite
+    path: BgSprite
+  - uid: 47dfa6f947ffa51678699c48a142f2e2
+    comType: Transform
+    memberName: SubSprite_Transform
+    path: SubSprite
+  codePath: 

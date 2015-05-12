@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: FlowerPlayerItemCell
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 0ab1769ce67f8ca863385cdab86a9900
+    comType: UISprite
+    memberName: Bg
+    path: Content
+  - uid: 1cf8b623e97a921dde262d7ad0adc59b
+    comType: UISprite
+    memberName: icon
+    path: Content/iconBg/icon
+  - uid: d626fe00ad11c4db7a0c53a128dfa7bb
+    comType: UILabel
+    memberName: LVLbl
+    path: Content/iconBg/LVLbl
+  - uid: c8142889b3f7b52981416196541a347a
+    comType: UILabel
+    memberName: NameLbl
+    path: Content/NameLbl
+  - uid: 42cee7f95852172b80c7b5672326a8c2
+    comType: UILabel
+    memberName: RelationShipLbl
+    path: Content/RelationShip
+  - uid: a45c90dab98a1a8f12dc59a130db8c41
+    comType: UISprite
+    memberName: FactionIcon
+    path: Content/FactionIcon
+  - uid: fea581ecf1b6f8b9cbe15e33dadab4ed
+    comType: UIButton
+    memberName: ClickBtn
+    path: 
+  codePath: /Scripts/MyGameScripts/Module/GiftPropsModule/View/FlowerPlayerItemCell.cs
+  codeLuaPath: 

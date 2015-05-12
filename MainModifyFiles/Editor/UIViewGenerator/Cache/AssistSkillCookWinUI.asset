@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: AssistSkillCookWinUI
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 9d4a2714e069328417ebbcdd6fb8d04a
+    comType: UIButton
+    memberName: CloseBtn
+    path: CloseBtn
+  - uid: 8f9586ec2e489fcbf4b373451c2dd079
+    comType: UIGrid
+    memberName: ItemGrid
+    path: ItemGrid
+  - uid: bfce605d2876cb86bb33af0177e275d1
+    comType: UILabel
+    memberName: VigourValLbl
+    path: vigour/bgSprite/valueBg/VigourValLbl
+  - uid: 936072cb86ce534e972be11f8e22191f
+    comType: UILabel
+    memberName: UsageDescLabel
+    path: UsageDescLabel
+  - uid: a06154f9ebe061962a20e661cb87f880
+    comType: GameObject
+    memberName: OptBtnPos
+    path: OptBtnPos
+  codePath: /Scripts/MyGameScripts/Module/SkillModule/View/AssistSkillCookWinUI.cs
+  codeLuaPath: 

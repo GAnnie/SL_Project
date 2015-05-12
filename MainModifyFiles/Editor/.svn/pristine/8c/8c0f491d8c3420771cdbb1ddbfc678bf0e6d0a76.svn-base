@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: AssistSkillLCell
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: ce4973ef34c402861cc6fd3e733e7748
+    comType: UILabel
+    memberName: NameLabel
+    path: NameLabel
+  - uid: 8a95b784a5b386e8e725fc0eae17eb33
+    comType: UISprite
+    memberName: IconSprite
+    path: IconSprite
+  - uid: 5929331f5d5aceaa94a6fa09dcd0dca5
+    comType: UILabel
+    memberName: TypeLabel
+    path: TypeLabel
+  - uid: bb3e3ca8d39c6c2dd433fece25c76130
+    comType: UILabel
+    memberName: LvLabel
+    path: LvLabel
+  - uid: 081db5b1f00585a26f5ff084c07c4544
+    comType: UIButton
+    memberName: SelectBtn
+    path: 
+  - uid: f7b1ff8a07c967c0a256e3677cea99b9
+    comType: UISprite
+    memberName: SelectSprite
+    path: 
+  codePath: 
+  codeLuaPath: 

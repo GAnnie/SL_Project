@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: FactionSkillLearningView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 817159671a1e025f009cd7e64d9fba11
+    comType: UIGrid
+    memberName: FactionSKillCellGrid
+    path: LeftGroup/FactionSKillScrollView/FactionSKillCellGrid
+  - uid: c4af3d27aa04c1fd3c0616570676310b
+    comType: UILabel
+    memberName: FactionSkillDescriptionLabel
+    path: RightGroup/1_FactionSkillInfoGroup/FactionSkillDescriptionScrollView/FactionSkillDescriptionLabel
+  - uid: 07927ca3d5b07d7cfd5f7e901336783a
+    comType: UILabel
+    memberName: FactionSkillInfoTitleLabel
+    path: RightGroup/1_FactionSkillInfoGroup/FactionSkillInfoTitleLabel
+  - uid: cd6fde2fc90e10e80c712e22b4ac66d0
+    comType: UILabel
+    memberName: RelationTitleLabel
+    path: RightGroup/2_RelationGroup/RelationTitleLabel
+  - uid: 60a2d28b6e97e3f979eda3841964d784
+    comType: UILabel
+    memberName: UpgradeTitleLabel
+    path: RightGroup/3_UpgradeConditionsGroup/UpgradeTitleLabel
+  - uid: 265b7a7edc142af774bc6ec10eec237f
+    comType: UILabel
+    memberName: ConsumptionLabel
+    path: RightGroup/3_UpgradeConditionsGroup/ConsumptionLabel
+  - uid: 25929b7225fc9a79a92178f3dc7a87ee
+    comType: UILabel
+    memberName: HaveLabel
+    path: RightGroup/3_UpgradeConditionsGroup/HaveLabel
+  - uid: 0df97b34bb1c0ee888c7a419ccbc60ea
+    comType: GameObject
+    memberName: AllBtnPos
+    path: RightGroup/AllBtnPos
+  - uid: b72a3815bef1f883870d8c0cc404b395
+    comType: GameObject
+    memberName: LearningBtnPos
+    path: RightGroup/LearningBtnPos
+  - uid: f9e464ceb8563fbfa0c5a8b91e36f8f2
+    comType: GameObject
+    memberName: SubSkillGroup
+    path: RightGroup/2_RelationGroup/SubSkillGroup
+  - uid: ea26fa453ce43a2a0339f6b718a4cdd8
+    comType: UILabel
+    memberName: subSkillTipsLbl
+    path: RightGroup/2_RelationGroup/subSkillTipsLbl
+  codePath: /Scripts/MyGameScripts/Module/SkillModule/View/FactionSkillLearningView.cs

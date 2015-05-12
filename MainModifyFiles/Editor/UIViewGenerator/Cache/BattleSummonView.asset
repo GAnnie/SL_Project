@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: BattleSummonView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 9224bf7549ade8bdb8c73faf091ddce6
+    comType: UIGrid
+    memberName: PetListGrid_UIGrid
+    path: RightSprite/ScrollView/PetListGrid
+  - uid: da548ea26e41379a7be574f1b4d3de29
+    comType: UIButton
+    memberName: SummonButton_UIButton
+    path: RightSprite/SummonButton
+  - uid: f085c8abe34d7540bf8056afe8fc4c1a
+    comType: UIButton
+    memberName: CloseBtn_UIButton
+    path: CloseBtn
+  - uid: cf492bec761fa0495a65fb5543b23acd
+    comType: UILabel
+    memberName: MagicValLbl_UILabel
+    path: LeftSprite/InfoGrid/MagicTitleInfoCell/valueBg/MagicValLbl
+  - uid: 16560f5386f0d49b3b4efb7af30ff645
+    comType: UILabel
+    memberName: AttackValLbl_UILabel
+    path: LeftSprite/InfoGrid/AttackTitleInfoCell/valueBg/AttackValLbl
+  - uid: f903de2deef154c745fae7d726d1027b
+    comType: UILabel
+    memberName: SpeedValLbl_UILabel
+    path: LeftSprite/InfoGrid/SpeedTitleInfoCell/valueBg/SpeedValLbl
+  - uid: 51f1ef2d4cf1e549737dfd4ec823c4eb
+    comType: UILabel
+    memberName: MpValLbl_UILabel
+    path: LeftSprite/InfoGrid/MpTitleInfoCell/valueBg/MpValLbl
+  - uid: c0100ad2476a45fc728aa068dd97109b
+    comType: UILabel
+    memberName: DefenseValLbl_UILabel
+    path: LeftSprite/InfoGrid/DefenseTitleInfoCell/valueBg/DefenseValLbl
+  - uid: efcd2051ea3f8c8e7897be5bb711eeec
+    comType: UIGrid
+    memberName: SkillGrid_UIGrid
+    path: LeftSprite/SkillGrid
+  - uid: 1934acb96fbcbf593516ecb645b60a11
+    comType: UILabel
+    memberName: BattleInfoLabel_UILabel
+    path: LeftSprite/BattleInfoLabel
+  - uid: fdff025c71a62ffa2e1b4c43eb48a60d
+    comType: UILabel
+    memberName: HpValLbl_UILabel
+    path: LeftSprite/InfoGrid/HpTitleInfoCell/valueBg/HpValLbl
+  - uid: 7e008987dc94ed2d566d4145b75cb388
+    comType: UILabel
+    memberName: SummonLabel_UILabel
+    path: RightSprite/SummonButton/Label
+  codePath: 
+  codeLuaPath: 

@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: GiftItemCell
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 2d42b916be46626420a240583c232d32
+    comType: UIButton
+    memberName: GiftItemCellBtn
+    path: 
+  - uid: 0be01cbc8cec8a8ed1d545fad92fe322
+    comType: UIButton
+    memberName: ReduceBtn
+    path: ReduceBtn
+  - uid: d25e8e6f896e930867dbab46ae2b0c65
+    comType: UISprite
+    memberName: IconSprite
+    path: DragDropItem/IconSprite
+  - uid: 7339aae5298525aac5627561a99f1bb8
+    comType: UILabel
+    memberName: CountLabel
+    path: DragDropItem/CountLabel
+  - uid: 217cd41563c5e47000352c8ecfafda32
+    comType: GameObject
+    memberName: SelectSpriteObj
+    path: SelectSprite
+  - uid: 04d6d5f7018f973480780b001a72956c
+    comType: GameObject
+    memberName: DragDropItemObj
+    path: DragDropItem
+  codePath: 

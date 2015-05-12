@@ -1,0 +1,128 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: CrewMainView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 1520570ba7b5220877d7b45747abbd00
+    comType: UISprite
+    memberName: contentTitleSprite
+    path: ContentFrame/_titleBg/_titleSprite
+  - uid: 3c95610c223623c527779c12a5be48a2
+    comType: GameObject
+    memberName: BaseInfoGroup
+    path: ContentFrame/ContentBg/BaseInfoGroup
+  - uid: 0b13fe5e2905dda6b603496a08736896
+    comType: UISprite
+    memberName: crewMemberGroupBg
+    path: ContentFrame/ContentBg/BaseInfoGroup/CrewMemberGroup
+  - uid: 6391e2cd1b7f747d7055691b3ca88061
+    comType: UIGrid
+    memberName: crewItemGrid
+    path: ContentFrame/ContentBg/BaseInfoGroup/CrewMemberGroup/CrewItemScrollView/CrewItemGrid
+  - uid: 7e74e075a6b5df533a20c9863e81a6f9
+    comType: UIGrid
+    memberName: rightTabBtnGrid
+    path: ContentFrame/ContentBg/TabBtnGrid
+  - uid: 6b1e9b7d9242aad15a92698e95e07370
+    comType: GameObject
+    memberName: TabContent_CrewMatrix
+    path: ContentFrame/ContentBg/BaseInfoGroup/TabContentGroup/TabContent_CrewMatrix
+  - uid: e775c68ffd418942b839fb432658a9b5
+    comType: GameObject
+    memberName: TabContent_CrewProperty
+    path: ContentFrame/ContentBg/BaseInfoGroup/TabContentGroup/TabContent_CrewProperty
+  - uid: 1dfd3992738549da5c61ebca28ab5bb5
+    comType: Transform
+    memberName: modelAnchor
+    path: ContentFrame/ContentBg/BaseInfoGroup/TabContentGroup/TabContent_CrewProperty/CrewPropertyInfoGroup/TopInfoGroup/ModelAnchor
+  - uid: bd3e98d942e43f74fe5aa95d9510e581
+    comType: UIButton
+    memberName: closeBtn
+    path: ContentFrame/CloseBtn
+  - uid: 8126143a6c3c25cf34c0d0580ca8121c
+    comType: UIGrid
+    memberName: atkConfigToggleGrid
+    path: ContentFrame/ContentBg/BaseInfoGroup/TabContentGroup/TabContent_CrewMatrix/TopGroup/atkConfigGroup/atkConfigToggles
+  - uid: b28184a34ec3463c3487a966da04a5ca
+    comType: UIGrid
+    memberName: defConfigToggleGrid
+    path: ContentFrame/ContentBg/BaseInfoGroup/TabContentGroup/TabContent_CrewMatrix/TopGroup/defConfigGroup/defConfigToggles
+  - uid: 6f5d031590b54edfe169d13ef0b6a94b
+    comType: GameObject
+    memberName: matrixSelectedEffect
+    path: ContentFrame/ContentBg/BaseInfoGroup/TabContentGroup/TabContent_CrewMatrix/MatrixLayoutGroup/matrixBg/matrixSelectedEffect
+  - uid: 297e05ceb8e0f649966793ed537a08bc
+    comType: GameObject
+    memberName: matrixItemPanel
+    path: ContentFrame/ContentBg/BaseInfoGroup/TabContentGroup/TabContent_CrewMatrix/MatrixLayoutGroup/matrixBg/matrixItemPanel
+  - uid: 0ed4678c9c01457c29e46311807a9f87
+    comType: UILabel
+    memberName: matrixDescLbl
+    path: ContentFrame/ContentBg/BaseInfoGroup/TabContentGroup/TabContent_CrewMatrix/MatrixLayoutGroup/descInfo/descLbl
+  - uid: 2642a30239d9be900c67fda545f25090
+    comType: UIGrid
+    memberName: acquiredLayoutItemGrid
+    path: ContentFrame/ContentBg/BaseInfoGroup/TabContentGroup/TabContent_CrewMatrix/RightGroup/AcquiredMatrixList/scrollView/itemListGrid
+  - uid: f74f5683af8dc471dade2ca6989c9c94
+    comType: UIGrid
+    memberName: moreLayoutItemGrid
+    path: ContentFrame/ContentBg/BaseInfoGroup/TabContentGroup/TabContent_CrewMatrix/RightGroup/MoreMatrixList/scrollView/itemListGrid
+  - uid: 22714e41108d69117150cf8aa3d5a37c
+    comType: UIButton
+    memberName: restOrBattleBtn
+    path: ContentFrame/ContentBg/BaseInfoGroup/TabContentGroup/TabContent_CrewMatrix/RightGroup/restOrBattleBtn
+  - uid: 8db9ebdc3e00332224b0d073c816f4a9
+    comType: UILabel
+    memberName: restOrBattleBtnLbl
+    path: ContentFrame/ContentBg/BaseInfoGroup/TabContentGroup/TabContent_CrewMatrix/RightGroup/restOrBattleBtn/Label
+  - uid: 007437bc653552496375d10d28feeaa4
+    comType: UIGrid
+    memberName: eqItemGrid
+    path: ContentFrame/ContentBg/BaseInfoGroup/TabContentGroup/TabContent_CrewProperty/CrewPropertyInfoGroup/TopInfoGroup/EquipmentGroup
+  - uid: 26f4a921caa310ac08f4330eef1b4441
+    comType: UIGrid
+    memberName: crewInfoTabBtnGrid
+    path: ContentFrame/ContentBg/BaseInfoGroup/TabContentGroup/TabContent_CrewProperty/CrewPropertyInfoGroup/BottomInfoGroup/TabBtnGrid
+  - uid: 75144c1fb1735f94a885ec3e89c5c49e
+    comType: GameObject
+    memberName: TabContent_BaseProperty
+    path: ContentFrame/ContentBg/BaseInfoGroup/TabContentGroup/TabContent_CrewProperty/CrewPropertyInfoGroup/BottomInfoGroup/TabContentRoot/TabContent_BaseProperty
+  - uid: 7d2417406a251cb2dcb418036b7a1e33
+    comType: GameObject
+    memberName: TabContent_Aptitude
+    path: ContentFrame/ContentBg/BaseInfoGroup/TabContentGroup/TabContent_CrewProperty/CrewPropertyInfoGroup/BottomInfoGroup/TabContentRoot/TabContent_Aptitude
+  - uid: c428239030eb2c9e86df186adb5c450f
+    comType: GameObject
+    memberName: TabContent_Skill
+    path: ContentFrame/ContentBg/BaseInfoGroup/TabContentGroup/TabContent_CrewProperty/CrewPropertyInfoGroup/BottomInfoGroup/TabContentRoot/TabContent_Skill
+  - uid: 523735d8c243dbeddf59c149b5635b41
+    comType: PageScrollView
+    memberName: propsItemGrid
+    path: ContentFrame/ContentBg/BaseInfoGroup/TabContentGroup/TabContent_CrewProperty/RightTabContentRoot/PropsItemScrollView/propsItemGrid
+  - uid: f32b5659b39d49fd994d5f0f7a563870
+    comType: GameObject
+    memberName: CrewTavernGroup
+    path: ContentFrame/ContentBg/CrewTavernGroup
+  - uid: 5a973fb142a8aabcd9c020ea608244d8
+    comType: UIWidget
+    memberName: acquiredMatrixListWidget
+    path: ContentFrame/ContentBg/BaseInfoGroup/TabContentGroup/TabContent_CrewMatrix/RightGroup/AcquiredMatrixList
+  - uid: ebff9ed1502165e9043e96d7b8f1167b
+    comType: UIButton
+    memberName: moreMatrixInfoBtn
+    path: ContentFrame/ContentBg/BaseInfoGroup/TabContentGroup/TabContent_CrewMatrix/RightGroup/MoreMatrixList/titleBg
+  - uid: 60d88411c513151331c606e4950f2d3c
+    comType: UISprite
+    memberName: arrowSprite
+    path: ContentFrame/ContentBg/BaseInfoGroup/TabContentGroup/TabContent_CrewMatrix/TopGroup/arrowSprite
+  codePath: 
+  codeLuaPath: 

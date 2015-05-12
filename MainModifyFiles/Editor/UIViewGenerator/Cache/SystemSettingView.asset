@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: SystemSettingView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 3a495e256f3f3b4586f13a9cc0a9e997
+    comType: UIToggle
+    memberName: MusicCheckbox_UIToggle
+    path: MusicVolume/MusicCheckbox
+  - uid: 4d19da1eb6d9fd31661e6a6561c78783
+    comType: UISlider
+    memberName: MusicSlider_UISlider
+    path: MusicVolume/MusicSlider
+  - uid: 9b93ec2a6347c36e12d59826c68beb6c
+    comType: UILabel
+    memberName: MusicValue_UILabel
+    path: MusicVolume/MusicRight/MusicValue
+  - uid: 6777e987bdc33d7f33c9bd881c44696d
+    comType: UIToggle
+    memberName: SoundCheckbox_UIToggle
+    path: SoundVolume/SoundCheckbox
+  - uid: 046672f648968eaa7b8e1b8b0e6bc4c0
+    comType: UISlider
+    memberName: SoundSlider_UISlider
+    path: SoundVolume/SoundSlider
+  - uid: c5775bdbe8273e90f2747ce9c14b623b
+    comType: UILabel
+    memberName: SoundValue_UILabel
+    path: SoundVolume/SoundRight/SoundValue
+  - uid: 4c77a9eea1ad8bf8c3fb768b8aab5bfe
+    comType: UISlider
+    memberName: VoiceSlider_UISlider
+    path: VoiceSetting/VoiceSlider
+  - uid: 3debdadffb3a60ede6064ab383aa1436
+    comType: UILabel
+    memberName: VoiceValue_UILabel
+    path: VoiceSetting/VoiceRight/VoiceValue
+  - uid: ece05e0c1d46073a8b3d8e56d67ed313
+    comType: UIToggle
+    memberName: LensCheckbox_UIToggle
+    path: GroupSub/LensCheckbox
+  - uid: 7a03bfd4ef3533396aa6dfd547744cc3
+    comType: UIToggle
+    memberName: LocationCheckbox_UIToggle
+    path: GroupSub/LocationCheckbox
+  - uid: da1d110f481200013970844f82886bfd
+    comType: UIToggle
+    memberName: TrafficCheckbox_UIToggle
+    path: GroupSub/TrafficCheckbox
+  - uid: 535e7dcad602f37acaa766bc71a2aee1
+    comType: UIToggle
+    memberName: ContingentCheckbox_UIToggle
+    path: GroupThr/ContingentCheckbox
+  - uid: c4ef64c2112cd1accebfbc1aadbbc9d1
+    comType: UIToggle
+    memberName: FactionCheckbox_UIToggle
+    path: GroupThr/FactionCheckbox
+  - uid: beac99563e3fb1f7554faf753c771577
+    comType: UIToggle
+    memberName: FriendsCheckbox_UIToggle
+    path: GroupThr/FriendsCheckbox
+  - uid: 5ee61bdb1a9679ad0623e4ac2803f930
+    comType: UIToggle
+    memberName: StrangerCheckbox_UIToggle
+    path: GroupThr/StrangerCheckbox
+  - uid: 158e1bbf864a8d33532d7ee952bd800a
+    comType: UIToggle
+    memberName: WorldCheckbox_UIToggle
+    path: GroupThr/WorldCheckbox
+  - uid: 0252064163e27c673826886676a8e80b
+    comType: UIToggle
+    memberName: EnergyConservingCheckbox_UIToggle
+    path: GroupSub/EnergyConservingCheckbox
+  codePath: /Scripts/MyGameScripts/Module/SystemSettingModule/SystemSettingView.cs
+  codeLuaPath: 

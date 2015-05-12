@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: PlayerHUDView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 49887842e1ca01dcd1eafb6ab0df0b22
+    comType: UILabel
+    memberName: nameLbl
+    path: nameLbl
+  - uid: 8251d05089f3271c6e28b85e02ec48ae
+    comType: UISprite
+    memberName: fightFlagSprite
+    path: fightFlag
+  - uid: 622ef24e28adf52e39332e31fe4b0be6
+    comType: UISpriteAnimation
+    memberName: fightFlagSpriteAnimation
+    path: fightFlag
+  - uid: 14858389bbd1e2e0dd7682f7025d9b24
+    comType: UISprite
+    memberName: teamFlagSprite
+    path: teamFlag
+  - uid: e03fc89ec4948755c0a1e558dd86c44a
+    comType: UISpriteAnimation
+    memberName: teamFlagSpriteAnimation
+    path: teamFlag
+  - uid: 67bde665ee7d7004a243bb34a3ed56cf
+    comType: UISpriteAnimation
+    memberName: runFlagSpriteAnimation
+    path: runFlag
+  - uid: 28ca678d1426560e85c30425e3813f36
+    comType: UISprite
+    memberName: runFlagSprite
+    path: runFlag
+  codePath: 

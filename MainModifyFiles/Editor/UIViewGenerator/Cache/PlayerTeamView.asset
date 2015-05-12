@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: PlayerTeamView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 7825d5487302eb4f0f6d00eab1363f01
+    comType: UIButton
+    memberName: joinOrLeaveBtn
+    path: ContentFrame/ContentBg/LeftGroup/JoinOrLeaveBtn
+  - uid: 3a47367bfc68497620bd06df1606e606
+    comType: UIGrid
+    memberName: teamMemberGrid
+    path: ContentFrame/ContentBg/LeftGroup/TeamMemberGrid
+  - uid: 47eaf30d76dec3ed3593d2ba454217c8
+    comType: UIButton
+    memberName: closeBtn
+    path: ContentFrame/CloseBtn
+  - uid: 9beedc59b6d72b1ce5aa038e786eef10
+    comType: GameObject
+    memberName: autoGroupContentRoot
+    path: ContentFrame/ContentBg/RightGroup/TabContentRoot/TabContent_AutoGroup
+  - uid: a65ebe9eb0ab3aec7d46ba36ea96fdbe
+    comType: GameObject
+    memberName: matrixContentRoot
+    path: ContentFrame/ContentBg/RightGroup/TabContentRoot/TabContent_Matrix
+  - uid: 4062d92786ce09c456cfba04278d123e
+    comType: UIGrid
+    memberName: applicationItemGrid
+    path: ContentFrame/ContentBg/RightGroup/TabContentRoot/TabContent_AutoGroup/ApplicationItemList/scrollView/itemListGrid
+  - uid: fb992334b267e380fcbd3f7f2008f102
+    comType: UILabel
+    memberName: matchInfoLbl
+    path: ContentFrame/ContentBg/RightGroup/TabContentRoot/TabContent_AutoGroup/ApplicationItemList/MatchInfoBg/MatchingInfoLbl
+  - uid: d56b1c05d64e645aeee17916e9ddb62b
+    comType: UIGrid
+    memberName: rankFilterItemGrid
+    path: ContentFrame/ContentBg/RightGroup/TabContentRoot/TabContent_AutoGroup/RightGroup/RankFilterItemList/scrollView/itemListGrid
+  - uid: 8855216d9c2c8f3bf4074efde9e0ba0c
+    comType: UIGrid
+    memberName: channelFilterItemGrid
+    path: ContentFrame/ContentBg/RightGroup/TabContentRoot/TabContent_AutoGroup/RightGroup/ChannelFilterItemList/scrollView/itemListGrid
+  - uid: ec5341189518a8eacf6cc389145031e9
+    comType: UIButton
+    memberName: matchBtn
+    path: ContentFrame/ContentBg/RightGroup/TabContentRoot/TabContent_AutoGroup/RightGroup/MatchBtn
+  - uid: 0043e8d98060ceeb3b783f4413b67ed1
+    comType: UILabel
+    memberName: applicationListTitle
+    path: ContentFrame/ContentBg/RightGroup/TabContentRoot/TabContent_AutoGroup/ApplicationItemList/titleBg/titleLbl
+  - uid: e3c83d59cba5271be2f02bcfab915508
+    comType: UIButton
+    memberName: callOrAwayBtn
+    path: ContentFrame/ContentBg/RightGroup/TabContentRoot/TabContent_Matrix/RightGroup/CallOrAwayBtn
+  - uid: ba8ed76bcd9f04f430dbba3dd2fcc20d
+    comType: UIGrid
+    memberName: tabBtnGrid
+    path: ContentFrame/ContentBg/RightGroup/TabBtnGrid
+  - uid: 144d8a8d589d071e1d962bfee4f7f837
+    comType: UILabel
+    memberName: matchBtnLbl
+    path: ContentFrame/ContentBg/RightGroup/TabContentRoot/TabContent_AutoGroup/RightGroup/MatchBtn/Label
+  - uid: c5c58613f2e4a6fcfc33120406394199
+    comType: UILabel
+    memberName: callOrAwayBtnLbl
+    path: ContentFrame/ContentBg/RightGroup/TabContentRoot/TabContent_Matrix/RightGroup/CallOrAwayBtn/Label
+  - uid: 913766b1c91ad3b25bcfc0954573c8d3
+    comType: UILabel
+    memberName: joinOrLeaveBtnLbl
+    path: ContentFrame/ContentBg/LeftGroup/JoinOrLeaveBtn/Label
+  - uid: ec428ccadb36b1a76a8045beda51839c
+    comType: UIGrid
+    memberName: acquiredLayoutItemGrid
+    path: ContentFrame/ContentBg/RightGroup/TabContentRoot/TabContent_Matrix/RightGroup/AcquiredMatrixList/scrollView/itemListGrid
+  - uid: 65caa0dd51ecd9c6daf0ea6caa6052a9
+    comType: UIGrid
+    memberName: moreLayoutItemGrid
+    path: ContentFrame/ContentBg/RightGroup/TabContentRoot/TabContent_Matrix/RightGroup/MoreMatrixList/scrollView/itemListGrid
+  - uid: e5897d820d4618fb1dad861ec7740215
+    comType: UILabel
+    memberName: layoutDescLbl
+    path: ContentFrame/ContentBg/RightGroup/TabContentRoot/TabContent_Matrix/MatrixLayoutGroup/descInfo/descLbl
+  - uid: 427aa9d4a894cffe98db61115ce71022
+    comType: GameObject
+    memberName: matrixItemPanel
+    path: ContentFrame/ContentBg/RightGroup/TabContentRoot/TabContent_Matrix/MatrixLayoutGroup/matrixBg/matrixItemPanel
+  - uid: 0b1b643e0d3f161341734b39b3fdba7e
+    comType: UIWidget
+    memberName: acquiredMatrixListWidget
+    path: ContentFrame/ContentBg/RightGroup/TabContentRoot/TabContent_Matrix/RightGroup/AcquiredMatrixList
+  - uid: c8021e9b588c5848a24d058f6b857bd1
+    comType: UIButton
+    memberName: moreMatrixInfoBtn
+    path: ContentFrame/ContentBg/RightGroup/TabContentRoot/TabContent_Matrix/RightGroup/MoreMatrixList/titleBg
+  - uid: 2ff481205a1d804ceff37cb8bc54e1cc
+    comType: GameObject
+    memberName: matrixSelectedEffect
+    path: ContentFrame/ContentBg/RightGroup/TabContentRoot/TabContent_Matrix/MatrixLayoutGroup/matrixBg/matrixSelectedEffect
+  codePath: /Scripts/MyGameScripts/Module/PlayerTeamModule/View/PlayerTeamView.cs

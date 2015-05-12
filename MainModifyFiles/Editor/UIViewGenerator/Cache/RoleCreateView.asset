@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: RoleCreateView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: c1dd1b1c98759e7d4cea9be8fd5a5a23
+    comType: UIButton
+    memberName: StartGameButton
+    path: StartGameButton
+  - uid: d98314388a9479c55bc13b5b3d9ac1b2
+    comType: UIButton
+    memberName: ServerNameButton
+    path: ServerNameLabel
+  - uid: 5d256399f8d4f7e30fefde199c3f4e8e
+    comType: UILabel
+    memberName: ServerNameLabel
+    path: ServerNameLabel
+  - uid: a532643a678030b9f3a75c16072ddc3b
+    comType: UILabel
+    memberName: PlayerNameLabel
+    path: PlayerNameLabel
+  - uid: 0be83b8b87badab0fa15cfc62638cfff
+    comType: UITable
+    memberName: CharactorTable
+    path: CharactorTable
+  - uid: 616bd2f0d9fe20684093e312d8adab8c
+    comType: UITable
+    memberName: FactionTable
+    path: FactionTable
+  codePath: /Scripts/MyGameScripts/Module/RoleCreateModule/RoleCreateView.cs

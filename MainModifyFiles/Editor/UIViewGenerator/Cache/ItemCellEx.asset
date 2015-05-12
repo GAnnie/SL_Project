@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: ItemCellEx
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: cd5e447eb53f09968331fb2e28852bf1
+    comType: UILabel
+    memberName: NameLabel
+    path: NameLabel
+  - uid: 753f46f5d3ad26b477385c5e92ca5d63
+    comType: UILabel
+    memberName: CountLabel
+    path: CountLabel
+  - uid: a3a2f1e08b2b4fd835b2c0a34918b255
+    comType: UIButton
+    memberName: TakeOffBtn
+    path: TakeOffBtn
+  codePath: 

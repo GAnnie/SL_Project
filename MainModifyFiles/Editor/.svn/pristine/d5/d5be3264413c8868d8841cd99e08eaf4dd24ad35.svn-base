@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: CrewTavernItemWidget
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: b0a5021746496bc436bc8d4d6eb14d6a
+    comType: Transform
+    memberName: modelAnchor
+    path: ModelAnchor
+  - uid: caca90a248aab3545edc44d0bbfe2000
+    comType: UILabel
+    memberName: nameLbl
+    path: ModelAnchor/nameLbl
+  - uid: 0b14ca6164b12428253cfb7525ebefad
+    comType: UILabel
+    memberName: factionLbl
+    path: ModelAnchor/factionLbl
+  - uid: 28927acf04e55abace78e27062482919
+    comType: UIButton
+    memberName: hintBtn
+    path: ModelAnchor/factionLbl/hintBtn
+  - uid: 71ea0ed6475df78b7bb870763e68396a
+    comType: UILabel
+    memberName: detailLbl
+    path: detailLbl
+  - uid: 7afafb03870ecfd3f289b93152f0ff0b
+    comType: UIButton
+    memberName: buyBtn
+    path: Button
+  - uid: 09c711258f6fe4250972e38f7e3d60a9
+    comType: UISprite
+    memberName: btnSprite
+    path: Button
+  codePath: 

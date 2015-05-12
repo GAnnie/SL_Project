@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: NumericInputWinUI
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 730485fc8488280d56418e3a63cef148
+    comType: UIButton
+    memberName: CloseBtn
+    path: bgGroup/CloseBtn
+  - uid: e31d07437b53b31754a9d0bd32c72a2b
+    comType: UIButton
+    memberName: Btn_0
+    path: BtnGrid/11_Button
+  - uid: 39b2e152956538c8e166696eed60fdd3
+    comType: UIButton
+    memberName: Btn_1
+    path: BtnGrid/1_Button
+  - uid: a96eb3ea5a267c100f5993d2757ad8c0
+    comType: UIButton
+    memberName: Btn_2
+    path: BtnGrid/2_Button
+  - uid: 9b55b09a2de6bc270b06be4b8a291cb8
+    comType: UIButton
+    memberName: Btn_3
+    path: BtnGrid/3_Button
+  - uid: 79d76c2e6825cf1db4cee1d949e7ca73
+    comType: UIButton
+    memberName: Btn_4
+    path: BtnGrid/4_Button
+  - uid: 744b85ee560074ab20eb4dc00154ad63
+    comType: UIButton
+    memberName: Btn_5
+    path: BtnGrid/5_Button
+  - uid: 2c8be4322c0beadf3afe8e76981559a3
+    comType: UIButton
+    memberName: Btn_6
+    path: BtnGrid/6_Button
+  - uid: d1d76518667a242429596d9287a87a8d
+    comType: UIButton
+    memberName: Btn_7
+    path: BtnGrid/7_Button
+  - uid: 1f5500faa8793923cb33096ce79551d6
+    comType: UIButton
+    memberName: Btn_8
+    path: BtnGrid/8_Button
+  - uid: 445b4e3270e9b6c6b9efd5966f132709
+    comType: UIButton
+    memberName: Btn_9
+    path: BtnGrid/9_Button
+  - uid: 0dec7446df3abed96dd41210403b4a40
+    comType: UIButton
+    memberName: Btn_backspace
+    path: BtnGrid/10_Button
+  - uid: a4964a4ff00e6569ca56559994c7237b
+    comType: UIButton
+    memberName: Btn_enter
+    path: BtnGrid/12_Button
+  - uid: b63dd873cc1177772dba8b0125827c05
+    comType: UIAnchor
+    memberName: ViewAnchor
+    path: 
+  - uid: bdaf31d6c5945b703469fe0cb9f7c26a
+    comType: UIButton
+    memberName: BgBoxCollider
+    path: bgGroup/BgBoxCollider
+  codePath: 

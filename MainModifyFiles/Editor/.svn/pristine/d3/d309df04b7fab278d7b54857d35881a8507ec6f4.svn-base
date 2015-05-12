@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: NPCPetWarehouseView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 063cd62c0783fd12d943868b60307b79
+    comType: UIGrid
+    memberName: BodyGrid
+    path: LGroup/BodyScrollView/BodyGrid
+  - uid: 48bb62de7b27d4fae3a3d5be6abea66d
+    comType: UIGrid
+    memberName: WarehouseGrid
+    path: RGroup/WarehouseScrollView/WarehouseGrid
+  - uid: 46e1dea7a11779178cc6b3583349224f
+    comType: GameObject
+    memberName: OptBtnPos
+    path: OptBtnPos
+  codePath: 

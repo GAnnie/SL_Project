@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: ShelvesView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: bd79a87a7815bd37405c9c7a96a5eca2
+    comType: UIButton
+    memberName: CutbackButton_UIButton
+    path: RightGroup/PriceCellWidget/ModifiedBtn/CutbackButton
+  - uid: eb772c14f0bee3b6093955c000038a7a
+    comType: UIButton
+    memberName: IncreaseButton_UIButton
+    path: RightGroup/PriceCellWidget/ModifiedBtn/IncreaseButton
+  - uid: 6cb6c6dbe2ac4b30457aeaa427abef7a
+    comType: UIButton
+    memberName: RefButton_UIButton
+    path: RightGroup/PriceCellWidget/ModifiedBtn/RefButton
+  - uid: b1d1e0cc0e30a22bc3ff4ba45e7a6757
+    comType: UIButton
+    memberName: ShelvesButton_UIButton
+    path: RightGroup/PriceCellWidget/ModifiedBtn/ShelvesButton
+  - uid: 61640ccaa82125581239235f2caf90f0
+    comType: UILabel
+    memberName: CountLabel_UILabel
+    path: RightGroup/ItemCell/CountLabel
+  - uid: a75b28f8a1fb9895f76d599f9401d1a0
+    comType: UISprite
+    memberName: IconSprite_UISprite
+    path: RightGroup/ItemCell/IconSprite
+  - uid: d052b89b656d2b4313c80f578b00ca40
+    comType: UILabel
+    memberName: NameLabel_UILabel
+    path: RightGroup/ItemCell/NameLabel
+  - uid: 1a61f5ae11ef0415606f3607b04a87b2
+    comType: UILabel
+    memberName: Prive_UILabel
+    path: RightGroup/PriceCellWidget/valueBg/valLbl
+  - uid: b136b28fd1a00fc3b102be956a93bc6e
+    comType: UILabel
+    memberName: TotalPrice_UILabel
+    path: RightGroup/TotalPriceCellWidget/valueBg/valLbl
+  - uid: 78d60d13293bea2a3295c2768a6211fd
+    comType: UILabel
+    memberName: Fee_UILabel
+    path: RightGroup/FeeCellWidget/valueBg/valLbl
+  - uid: 42096e3f43aeb233c271201675fd60fb
+    comType: UILabel
+    memberName: IncrementLabel_UILabel
+    path: RightGroup/IncrementLabel
+  - uid: 55a557a9caa6f225b5ae659905f358a0
+    comType: UIButton
+    memberName: CloseButton_UIButton
+    path: CloseButton
+  - uid: 434bdc75b01f45c06d28f614ec74c5dd
+    comType: UIButton
+    memberName: ItemCell_UIButton
+    path: RightGroup/ItemCell
+  codePath: /Scripts/MyGameScripts/Module/TradeModule/Market/Sell/ShelvesView.cs
+  codeLuaPath: 

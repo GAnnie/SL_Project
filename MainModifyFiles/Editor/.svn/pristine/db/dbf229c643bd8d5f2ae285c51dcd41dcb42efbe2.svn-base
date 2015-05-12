@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: PracticeSkillView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 755fe2ec8e11b007c70c50af9468436a
+    comType: UIGrid
+    memberName: PracticeSkillCellGrid
+    path: LeftGroup/PracticeSkillScrollView/PracticeSkillCellGrid
+  - uid: 0e5b0e19f6cea26536407a054e22c01b
+    comType: UILabel
+    memberName: PracticeSkillInfoTitleLabel
+    path: RightGroup/1_PracticeSkillInfoGroup/PracticeSkillInfoTitleLabel
+  - uid: 085ba0ff4fc80d9389ca01004fc57e7c
+    comType: UILabel
+    memberName: PracticeSkillDescriptionLabel
+    path: RightGroup/1_PracticeSkillInfoGroup/PracticeSkillDescriptionScrollView/PracticeSkillDescriptionLabel
+  - uid: d6bfdbae502bc69fe9aa8dac0e3c467c
+    comType: UIToggle
+    memberName: PracticeToggle
+    path: RightGroup/2_RelationGroup/PracticeToggle
+  - uid: 7b40fd528f0f71134263e3f2e44739b4
+    comType: UIButton
+    memberName: TipsButton
+    path: RightGroup/2_RelationGroup/TipsButton
+  - uid: d186df185c4b468cf76e98a09180019b
+    comType: UILabel
+    memberName: UpgradeTitleLabel
+    path: RightGroup/3_UpgradeConditionsGroup/UpgradeTitleLabel
+  - uid: 9171cdce52bb5392cce037d57db8b0ea
+    comType: UILabel
+    memberName: ConsumptionLabel
+    path: RightGroup/3_UpgradeConditionsGroup/ConsumptionLabel
+  - uid: bcb81deabc3e42776a8443414e464d10
+    comType: UILabel
+    memberName: HaveLabel
+    path: RightGroup/3_UpgradeConditionsGroup/HaveLabel
+  - uid: 78257873ad65b56d93a5e87a7ab627ce
+    comType: UILabel
+    memberName: ExpLabel
+    path: RightGroup/3_UpgradeConditionsGroup/ExpLabel
+  - uid: d954613fe1aea037ad768e92d742c6b0
+    comType: GameObject
+    memberName: FastLearningBtnPos
+    path: RightGroup/FastLearningBtnPos
+  - uid: 16c7fd1ff70fead6da83bd7759979bc5
+    comType: GameObject
+    memberName: LearningBtnPos
+    path: RightGroup/LearningBtnPos
+  - uid: a87c8ead6a3dc675ee460a2a11e5c5cc
+    comType: UIButton
+    memberName: PracticeToggleBtn
+    path: RightGroup/2_RelationGroup/PracticeToggle
+  codePath: 

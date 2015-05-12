@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: PlayerInfoItemCell
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 2106aec5762d29b19a7178fe6958c67c
+    comType: UILabel
+    memberName: From_LevelLbl
+    path: From_Level
+  - uid: ed3dddb5127e9c98ca2f72378e2e5baf
+    comType: GameObject
+    memberName: RelationObj
+    path: Relation
+  - uid: 89469004b07802dbe698cae1b3a16a64
+    comType: UILabel
+    memberName: NameLbl
+    path: NameLbl
+  - uid: a67d9fcf9532d318b27ab0038b29ee00
+    comType: UIButton
+    memberName: MoreBtn
+    path: MoreBtn
+  - uid: 6b8546e7683e534f7dc891d6090d95e6
+    comType: UISprite
+    memberName: iconFace
+    path: iconBg/icon
+  - uid: 15117aa497e9f4c2702d5492c5f42648
+    comType: UIButton
+    memberName: ClickBtn
+    path: 
+  - uid: a9cfdde7caf8be2cc45daeb98f86fe8f
+    comType: UISprite
+    memberName: Bg
+    path: Bg
+  - uid: e941f03daa30976e1c6dbcc25eb95113
+    comType: UISprite
+    memberName: RedPoint
+    path: RedPoint
+  codePath: /Scripts/MyGameScripts/Module/FriendModule/View/PlayerInfoItemCell.cs
+  codeLuaPath: 

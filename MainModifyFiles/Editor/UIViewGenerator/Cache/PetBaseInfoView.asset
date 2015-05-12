@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: PetBaseInfoView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: ffb07788545087ce368321213c04ba1c
+    comType: Transform
+    memberName: modelAnchor
+    path: ContentBg/TopInfoGroup/ModelAnchor
+  - uid: aa1d2d4139d2382601c0d50a2f139d37
+    comType: UIButton
+    memberName: petTypeBtn
+    path: ContentBg/TopInfoGroup/ModelAnchor/ButtonPanel/petTypeBtn
+  - uid: 21b7765e906725ad047720f30f489b28
+    comType: UIButton
+    memberName: petRankingBtn
+    path: ContentBg/TopInfoGroup/PetRankingInfo/titleBg
+  - uid: 7e0723857a8fde1e9ed872f973b99f17
+    comType: UILabel
+    memberName: petRankingLbl
+    path: ContentBg/TopInfoGroup/PetRankingInfo/valueBg/valLbl
+  - uid: 038898ccb43d3e8a90a08731d47a6b86
+    comType: UISlider
+    memberName: expSlider
+    path: ContentBg/TopInfoGroup/ExpInfo/slider
+  - uid: ca0e67c983b905492f4a82a2c3785f44
+    comType: UILabel
+    memberName: expLbl
+    path: ContentBg/TopInfoGroup/ExpInfo/slider/valueLbl
+  - uid: 53b0dec615c00999dd350d57904576f9
+    comType: UIButton
+    memberName: petGrowthInfoBtn
+    path: ContentBg/TopInfoGroup/PetGrowthInfoBtn
+  - uid: 4827d80325bc931f1f9a525252a09b41
+    comType: UIGrid
+    memberName: petEqItemGrid
+    path: ContentBg/TopInfoGroup/EquipmentGroup
+  - uid: 6a5fbe93ce0c5707ef6e58c170d31229
+    comType: UIGrid
+    memberName: petInfoTabBtnGrid
+    path: ContentBg/BottomInfoGroup/TabBtnGrid
+  - uid: d86fb9e8f225c6aa43ebb1de9c511716
+    comType: GameObject
+    memberName: TabContent_BaseProperty
+    path: ContentBg/BottomInfoGroup/TabContentRoot/TabContent_BaseProperty
+  - uid: 699b3b52ee2184c426111d7f9919e42c
+    comType: GameObject
+    memberName: TabContent_PetAptitude
+    path: ContentBg/BottomInfoGroup/TabContentRoot/TabContent_PetAptitude
+  - uid: 732afbffa6c5cdfb6d8112eed41278c1
+    comType: GameObject
+    memberName: TabContent_PetSkill
+    path: ContentBg/BottomInfoGroup/TabContentRoot/TabContent_PetSkill
+  - uid: 2ef48e5523eb81efc9a4541cdd585af4
+    comType: UIButton
+    memberName: decorationBtn
+    path: ContentBg/TopInfoGroup/ModelAnchor/ButtonPanel/decorationBtn
+  - uid: b62c70d7301fbdd47a3cc48fabe803f0
+    comType: GameObject
+    memberName: modelBtnGroup
+    path: ContentBg/TopInfoGroup/ModelAnchor/ButtonPanel
+  codePath: /Scripts/MyGameScripts/Module/PetPropertyModule/View/PetBaseInfoView.cs

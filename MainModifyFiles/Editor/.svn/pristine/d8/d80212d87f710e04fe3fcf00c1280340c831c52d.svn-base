@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: PetHandBookView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 988cceb7ad292b62467cc346d19a1d2e
+    comType: UIGrid
+    memberName: petTypeTabBtnGrid
+    path: petTypeTabBtnGrid
+  - uid: 0c7717fbbf34ca9de156b92cf42631aa
+    comType: PageScrollView
+    memberName: petItemGrid
+    path: petTypeTabContent/petItemScrollView/itemGrid
+  - uid: 0efd9629ca7e4f7a57d1a16850152f52
+    comType: Transform
+    memberName: modelAnchor
+    path: petDetailInfoGroup/ModelAnchor
+  - uid: 0d7b044c4fd3b124cf9f227a81aafd4f
+    comType: UILabel
+    memberName: petNameLbl
+    path: petDetailInfoGroup/petNameLbl
+  - uid: 3fdef1011d1305288298d167d4fd193f
+    comType: UIGrid
+    memberName: petApItemGrid
+    path: petDetailInfoGroup/petApItemGrid
+  - uid: 0d3549f38676394fbe55e819afa636ad
+    comType: UIGrid
+    memberName: skillItemGrid
+    path: petDetailInfoGroup/petSkillInfo/skillItemGrid
+  - uid: cbe263c4771172826d94a157426ac98c
+    comType: GameObject
+    memberName: regularGroup
+    path: petDetailInfoGroup/petAchieveInfo/regularGroup
+  - uid: dd6fd7db81bbd5653db3a86d94bc9877
+    comType: GameObject
+    memberName: mythGroup
+    path: petDetailInfoGroup/petAchieveInfo/mythGroup
+  - uid: d8ddca74876196e64b3d64ef007204b0
+    comType: UIButton
+    memberName: buyBtn
+    path: petDetailInfoGroup/petAchieveInfo/regularGroup/buyBtn
+  - uid: 986d99d79f6e6c8cc9e6d2c6f9196019
+    comType: UIButton
+    memberName: captiveBtn
+    path: petDetailInfoGroup/petAchieveInfo/regularGroup/captiveBtn
+  - uid: d5bc142ccd38ae9c2cde98e977621bae
+    comType: UILabel
+    memberName: captiveBtnLbl
+    path: petDetailInfoGroup/petAchieveInfo/regularGroup/captiveBtn/btnLbl
+  - uid: cc9dfe8c87cad57f2377dd02afe0b63e
+    comType: UIButton
+    memberName: captiveHintBtn
+    path: petDetailInfoGroup/petAchieveInfo/regularGroup/captiveHintBtn
+  - uid: 2e5502e7c3539978377513fc191ac070
+    comType: UIButton
+    memberName: buyHintBtn
+    path: petDetailInfoGroup/petAchieveInfo/regularGroup/buyHintBtn
+  - uid: 27bf56e49541d5366cc50f43919d636f
+    comType: UIButton
+    memberName: exchangeBtn
+    path: petDetailInfoGroup/petAchieveInfo/mythGroup/exchangeBtn
+  - uid: 67c7e80da01a2f72a0e301d307d31fda
+    comType: UIButton
+    memberName: petTypeBtn
+    path: petDetailInfoGroup/ModelAnchor/ButtonPanel/petTypeBtn
+  - uid: 04300963b6547de0063c87da87b138a0
+    comType: UIGrid
+    memberName: pageFlagGrid
+    path: petTypeTabContent/pageFlagGrid
+  - uid: 1bd11a51a04891d738d202e4d3b522c0
+    comType: GameObject
+    memberName: propItemAnchor
+    path: petDetailInfoGroup/petAchieveInfo/mythGroup/propItemAnchor
+  - uid: 192efc527b56deec7eb30507bf54258d
+    comType: UILabel
+    memberName: achieveTipsLbl
+    path: petDetailInfoGroup/petAchieveInfo/achieveTipsLbl
+  codePath: /Scripts/MyGameScripts/Module/PetPropertyModule/View/PetHandBookView.cs
+  codeLuaPath: 

@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: ItemTipsView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 092b6332c49e38df63135ba6fe6c22a8
+    comType: UISprite
+    memberName: ContentBg
+    path: ContentBg
+  - uid: c1c1458914ec721aa6998baac3b117fa
+    comType: UISprite
+    memberName: IconSprite
+    path: ContentBg/TopGroup/IconSprite
+  - uid: 00b0adb4929091b44efcf3b00042a4b8
+    comType: UILabel
+    memberName: NameLabel
+    path: ContentBg/TopGroup/NameLabel
+  - uid: 5a7bd112ee6453f9dde46487c6e4a5bd
+    comType: UIAnchor
+    memberName: OptBtnGroupAnchor
+    path: ContentBg/OptBtnGroup
+  - uid: d527666ee83851a77f4b2e0d3eb0e1f8
+    comType: GameObject
+    memberName: RButtonPos
+    path: ContentBg/OptBtnGroup/RButtonPos
+  - uid: 685d8f5c63dc68c32ae78f6a75453afe
+    comType: GameObject
+    memberName: LButtonPos
+    path: ContentBg/OptBtnGroup/LButtonPos
+  - uid: 06f1d32e40b265363e40f7f29d4a381b
+    comType: UITable
+    memberName: DecTable
+    path: ContentBg/DecTable
+  - uid: 61504c2fda71dd443c5dfc7377a3391b
+    comType: UIAnchor
+    memberName: ItemTipsViewAnchor
+    path: ContentBg
+  - uid: 1dd8d4306910f772b8213194e24351cc
+    comType: UISprite
+    memberName: CirculationTypeSprite
+    path: ContentBg/TopGroup/CirculationTypeSprite
+  codePath: /Scripts/MyGameScripts/Module/ItemTipsModule/view/ItemTipsView.cs
+  codeLuaPath: 

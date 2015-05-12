@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: QuestionWinUI
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: aba02722c41f2a315d70bcf3f5853dc6
+    comType: UIButton
+    memberName: CloseBtn
+    path: bgGroup/CloseBtn
+  - uid: f1863e4aae9c3cb107f1ec01c56869ac
+    comType: UILabel
+    memberName: TimeLabel
+    path: TimeLabel
+  - uid: 46f40cc85d12a38bb4ac426d9e62e710
+    comType: UILabel
+    memberName: TipsLabel
+    path: TipsLabel
+  - uid: 201c0acf6fb65511610849133d2fd48b
+    comType: UILabel
+    memberName: NumberLabel
+    path: NumberLabel
+  - uid: 75b4f74f4751bc2df4a278e561c5b255
+    comType: UILabel
+    memberName: QuestionLabel
+    path: QuestionLabel
+  - uid: dd983774e9255d79b9787833e06b9d2a
+    comType: UILabel
+    memberName: AQuestionLabel
+    path: QuestionGroup/AQuestionLabel
+  - uid: 6d8e9e6a355f34ddf4e43bd9130f463e
+    comType: UISprite
+    memberName: AResultSprite
+    path: QuestionGroup/AQuestionLabel/AResultSprite
+  - uid: 768607f47de54b7154b64e24566c1254
+    comType: UILabel
+    memberName: BQuestionLabel
+    path: QuestionGroup/BQuestionLabel
+  - uid: c8e92a84d5b12d066500657aac4a91d0
+    comType: UISprite
+    memberName: BResultSprite
+    path: QuestionGroup/BQuestionLabel/BResultSprite
+  - uid: aea2c784aec8063c8c43496aca51f3ac
+    comType: UILabel
+    memberName: CQuestionLabel
+    path: QuestionGroup/CQuestionLabel
+  - uid: 3d14b9b3fb7cdfb12c993eaf8633403f
+    comType: UISprite
+    memberName: CResultSprite
+    path: QuestionGroup/CQuestionLabel/CResultSprite
+  - uid: 5ceee806e45a537c3eb0238ae7c7aa98
+    comType: UILabel
+    memberName: DQuestionLabel
+    path: QuestionGroup/DQuestionLabel
+  - uid: a1883f9f074ab9006d39550b2bb4ecb3
+    comType: UISprite
+    memberName: DResultSprite
+    path: QuestionGroup/DQuestionLabel/DResultSprite
+  - uid: a6b134fda21378a8af0c4d98b94fc319
+    comType: UILabel
+    memberName: ResultLabel
+    path: ResultLabel
+  - uid: 562129b63270389fd3c8b27c52da20f0
+    comType: UIButton
+    memberName: AQuestionBtnSprite
+    path: bgGroup/Sprite/AQuestionBtnSprite
+  - uid: ed995291f72c586514d3aa64223706b3
+    comType: UIButton
+    memberName: CQuestionBtnSprite
+    path: bgGroup/Sprite/CQuestionBtnSprite
+  - uid: 78cf8dc26c433fccdf87b57d33db56dc
+    comType: UIButton
+    memberName: DQuestionBtnSprite
+    path: bgGroup/Sprite/DQuestionBtnSprite
+  - uid: 99cffa6ef3002b38d0d470f05b56dab4
+    comType: UIButton
+    memberName: BQuestionBtnSprite
+    path: bgGroup/Sprite/BQuestionBtnSprite
+  - uid: 85fe2ac97195e1ef974ce176371741dd
+    comType: UISprite
+    memberName: TitleSprite
+    path: bgGroup/Sprite/TitleSprite
+  - uid: 46d04c8c0af2521c38d61811e4787867
+    comType: UILabel
+    memberName: TimeTipsLabel
+    path: bgGroup/Sprite/TimeTipsLabel
+  - uid: 10c3657aa7be77cdac0e05da9cd6df21
+    comType: UILabel
+    memberName: NameLabel
+    path: bgGroup/NameLabel
+  codePath: 
+  codeLuaPath: 

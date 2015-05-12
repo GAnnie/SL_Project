@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: BatchSellToMarketView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: bcb4b2dd248f4ebf12cc15f3d3076bab
+    comType: UIButton
+    memberName: CloseButton_UIButton
+    path: CloseButton
+  - uid: ffe23ed3c7111f0abd866d40a5411d0e
+    comType: UIButton
+    memberName: QuickAddButton_UIButton
+    path: QuickAddButton
+  - uid: 2ca93985e5a7d76b38d10eb1f4827a16
+    comType: UILabel
+    memberName: ItemCountLabel_UILabel
+    path: RightGroup/ItemCell/CountLabel
+  - uid: 9ebe18a360728075b348e0865947dc55
+    comType: UISprite
+    memberName: ItemIconSprite_UISprite
+    path: RightGroup/ItemCell/IconSprite
+  - uid: f13c713744579dd62c62996115d63da4
+    comType: UILabel
+    memberName: ItemNameLabel_UILabel
+    path: RightGroup/ItemCell/NameLabel
+  - uid: f9115857854d2142e0d5d1fcaeaeef65
+    comType: UILabel
+    memberName: PriceValLbl_UILabel
+    path: RightGroup/PriceCellWidget/valueBg/valLbl
+  - uid: a37536cf0859fd058bac2350a715557e
+    comType: UILabel
+    memberName: CountValLbl_UILabel
+    path: RightGroup/CountCellWidget/valueBg/valLbl
+  - uid: 563ac9855332be7b71f349d2a7c3fc15
+    comType: UILabel
+    memberName: TotalPriceValLbl_UILabel
+    path: RightGroup/TotalPriceCellWidget/valueBg/valLbl
+  - uid: d12b397edd1a2ad9ecb27b52f593ead1
+    comType: UILabel
+    memberName: FeeValLbl_UILabel
+    path: RightGroup/FeeCellWidget/valueBg/valLbl
+  - uid: 4a8c19fa53d7cf71a86edc1c30fe4dd2
+    comType: Transform
+    memberName: LeftGroup_Transform
+    path: LeftGroup
+  - uid: 177b53e8c172af367f1e09ae1543aa2e
+    comType: UILabel
+    memberName: LeftCountLabel_UILabel
+    path: LeftCountLabel
+  - uid: 5b35476d0495b5b8822991bcfc17bc38
+    comType: UIButton
+    memberName: CutbackButton_UIButton
+    path: RightGroup/PriceCellWidget/ModifiedBtn/CutbackButton
+  - uid: fc0466c1ba524e8b7ca5fbde40239a06
+    comType: UIButton
+    memberName: IncreaseButton_UIButton
+    path: RightGroup/PriceCellWidget/ModifiedBtn/IncreaseButton
+  - uid: a00842e3d7186c80df6aa58152a321e6
+    comType: UIButton
+    memberName: CutbackCountButton_UIButton
+    path: RightGroup/PriceCellWidget/ModifiedBtn/CutbackCountButton
+  - uid: d153a35d0970fe12f6f59a71b0b38e12
+    comType: UIButton
+    memberName: IncreaseCountButton_UIButton
+    path: RightGroup/PriceCellWidget/ModifiedBtn/IncreaseCountButton
+  - uid: a695a27892bce62204376beddeffb051
+    comType: UILabel
+    memberName: IncrementLabel_UILabel
+    path: RightGroup/IncrementLabel
+  codePath: /Scripts/MyGameScripts/Module/TradeModule/Market/Sell/BatchSellToMarketView.cs
+  codeLuaPath: 

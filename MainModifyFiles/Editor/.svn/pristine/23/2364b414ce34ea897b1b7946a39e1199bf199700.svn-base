@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: PetResumeWinUI
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 0e04355a20287349dccd0fe65148f8ca
+    comType: UIGrid
+    memberName: PetGrid
+    path: RGroup/PetScrollView/Grid
+  - uid: 8e586c72d0ce279b8fae1aec65e82085
+    comType: UIButton
+    memberName: CloseBtn
+    path: bgGroup/CloseBtn
+  - uid: 23e6d3d236f283ec3ef80442e3a41d39
+    comType: GameObject
+    memberName: CostBtnPos
+    path: RGroup/CostBtnPos
+  - uid: 140246f11188acfc072cb9c10a7987fe
+    comType: Transform
+    memberName: LGroup
+    path: LGroup
+  codePath: 

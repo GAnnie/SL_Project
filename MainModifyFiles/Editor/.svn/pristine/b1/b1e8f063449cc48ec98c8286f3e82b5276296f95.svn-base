@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: AuctionView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 7b277cee55584b87fd320d115125a70c
+    comType: UIGrid
+    memberName: TabGrid_UIGrid
+    path: TabGrid
+  - uid: 6bd7eba9e1573b38462d481c2ba93f74
+    comType: UIButton
+    memberName: PreviousBtn_UIButton
+    path: BtnControls/PreviousBtn
+  - uid: a435460c91a540f8a7f7270af2b77e8d
+    comType: UIButton
+    memberName: OnePriceBtn_UIButton
+    path: BtnControls/OnePriceBtn
+  - uid: 62697c0883be5f5c4475e1dc33055f60
+    comType: UIButton
+    memberName: NextpageBtn_UIButton
+    path: BtnControls/NextpageBtn
+  - uid: 00618191854d325e0a33cad57d700d34
+    comType: UIButton
+    memberName: BiddingBtn_UIButton
+    path: BtnControls/BiddingBtn
+  - uid: 85fccf223b311028d5aa19026c90dffe
+    comType: PageScrollView
+    memberName: ItemCellListGrid_PageScrollView
+    path: BuyTabGroup/RightInfoGroup/ItemCellScrollView/ItemCellListGrid
+  - uid: fe8ef2c31fd7bf5b80f409fb5ae97cfe
+    comType: UIGrid
+    memberName: TypeListGrid_UIGrid
+    path: BuyTabGroup/TypeListGroup/TypeListScrollView/TypeListGrid
+  - uid: 75b7ec5bb3f6cb652537bfe568876c12
+    comType: UILabel
+    memberName: IngotNumLabel_UILabel
+    path: LabelInfoGroup/IngotGroup/IngotNumLabel
+  - uid: 8a894523e413a03290775d1f7a1ee829
+    comType: Transform
+    memberName: BuyTabGroup_Transform
+    path: BuyTabGroup
+  - uid: 3a88b44831d8cb6474939a96e7fdf069
+    comType: Transform
+    memberName: BidAndSellTabGroup_Transform
+    path: BidAndSellTabGroup
+  - uid: 2ad84dd258eccc00a6e70d3619d96fd8
+    comType: UILabel
+    memberName: PageLabel_UILabel
+    path: LabelInfoGroup/PageGroup/PageLabel
+  - uid: 7eadcf76e04f3126dec246b5586ab7fe
+    comType: UIScrollView
+    memberName: TypeListScrollView_UIScrollView
+    path: BuyTabGroup/TypeListGroup/TypeListScrollView
+  - uid: 7df11f10c0404e35c783fde51ada06e9
+    comType: UIScrollView
+    memberName: BidScrollView_UIScrollView
+    path: BidAndSellTabGroup/ItemScrollerVeiw/BidScrollView
+  - uid: 53028a078b098baca351d2caa7fab629
+    comType: UIGrid
+    memberName: BidAndSellListGrid_UIGrid
+    path: BidAndSellTabGroup/ItemScrollerVeiw/BidScrollView/BidAndSellListGrid
+  codePath: /Scripts/MyGameScripts/Module/TradeModule/Auction/AuctionView.cs
+  codeLuaPath: 

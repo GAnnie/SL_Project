@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: HyperlinkMission
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 2c290aea565b4f5bde85b18859ad1b83
+    comType: GameObject
+    memberName: MIssionContentObj
+    path: Content/MIssionContent
+  - uid: 98cd309012f3020d2379fb9f06ae5ff8
+    comType: UILabel
+    memberName: MissionDescription
+    path: Content/MIssionContent/MissionDescription/Description
+  - uid: 4de1bbb4814204287ed823c09360b522
+    comType: UILabel
+    memberName: MissionTarget
+    path: Content/MIssionContent/MissionTarget/Target
+  - uid: a3e1b49e46a93e2cd560978784276e96
+    comType: UILabel
+    memberName: MissionName
+    path: Content/MIssionContent/MissionName/Name
+  - uid: 6b36e5178cc2767877bbdcee3acd4927
+    comType: GameObject
+    memberName: TitleContentObj
+    path: Content/TitleContent
+  - uid: fcd3b5dda2d100abd748cd304a5fda1c
+    comType: UILabel
+    memberName: TitleName
+    path: Content/TitleContent/TitleName
+  - uid: 35705fa5e34fd788098483839e60ed1c
+    comType: UILabel
+    memberName: TitleDescription
+    path: Content/TitleContent/TitleName/TitleDescription
+  - uid: 05b15aa0a996caa4708fea1515f90d68
+    comType: GameObject
+    memberName: SkillContentObj
+    path: Content/SkillContent
+  - uid: 8c42333638d38c14ac288efa4ba6c1e1
+    comType: UILabel
+    memberName: SkillName
+    path: Content/SkillContent/SkillName
+  - uid: b0324d9f7c1f28ca0e594e323bcc50a6
+    comType: UILabel
+    memberName: SkillDescription
+    path: Content/SkillContent/SkillName/SkillDescription
+  - uid: e36ddbf60b8f174ff58b25b2378ba1f8
+    comType: UIButton
+    memberName: CloseBtn
+    path: Content/CloseBtn
+  codePath: /Scripts/MyGameScripts/Module/FriendModule/View/HyperlinkMission.cs
+  codeLuaPath: 

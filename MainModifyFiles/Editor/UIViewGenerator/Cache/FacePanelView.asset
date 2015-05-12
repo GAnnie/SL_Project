@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: FacePanelView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 2b838628a1d5887e1feefb609ca80c39
+    comType: UIButton
+    memberName: ExpressionBtn
+    path: ContentFrame/LPanel/ExpressionBtn
+  - uid: 5d7c7cebd73221c3493ca448234aeead
+    comType: UIButton
+    memberName: AppellationBtn
+    path: ContentFrame/LPanel/AppellationBtn
+  - uid: 8109acccbe6e99ee6d8000e415e7a74c
+    comType: UIButton
+    memberName: AchievementBtn
+    path: ContentFrame/LPanel/AchievementBtn
+  - uid: cc1ba2adfedc01111460d5f33dce952e
+    comType: UIButton
+    memberName: AssignmentBtn
+    path: ContentFrame/LPanel/AssignmentBtn
+  - uid: bec4a347ba0975b69a37f0d401b69b39
+    comType: UIButton
+    memberName: PetBtn
+    path: ContentFrame/LPanel/PetBtn
+  - uid: 5c6d4918fd087a92eef6093cab0228f1
+    comType: UIButton
+    memberName: SkillBtn
+    path: ContentFrame/LPanel/SkillBtn
+  - uid: f91027a54e5ebba7334724dc03a75043
+    comType: UIButton
+    memberName: PartnerBtn
+    path: ContentFrame/LPanel/PartnerBtn
+  - uid: 1c4e365e8a97550de55fef8487fe712e
+    comType: UIButton
+    memberName: GoodsBtn
+    path: ContentFrame/LPanel/GoodsBtn
+  - uid: 814729b25d9aacd4441f78f62d4c8a7f
+    comType: UIEventTrigger
+    memberName: BgBoxCollider
+    path: BoxCollider
+  - uid: 867ed06b158f2efeaf29f50d909d8b1a
+    comType: UIPageGrid
+    memberName: GoodsGrid
+    path: ContentFrame/RPanel/ItemScrollView/GoodsGrid
+  - uid: 77c63d74d9b5d22f47801fb6c82931ae
+    comType: GameObject
+    memberName: GoodsPageFlag
+    path: ContentFrame/RPanel/GoodsPageFlagGrid
+  - uid: f3586d15b1091e3bb00a3e51b8e70e6e
+    comType: UIScrollView
+    memberName: ItemScrollView
+    path: ContentFrame/RPanel/ItemScrollView
+  - uid: 6ceefb3bc8119b11fad8c1eec2e6ae10
+    comType: GameObject
+    memberName: Tips
+    path: ContentFrame/Tips
+  codePath: /Scripts/MyGameScripts/Module/FriendModule/View/FacePanelView.cs
+  codeLuaPath: 

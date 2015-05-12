@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: FormationItemWidget
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 092b3e86c90dbc258147a7b3efe1383e
+    comType: UIEventTrigger
+    memberName: eventTrigger
+    path: 
+  - uid: 38fa0a9cd77146e7b3fb736605dd5eab
+    comType: UISprite
+    memberName: icon
+    path: icon
+  - uid: e8e0fa38ff333168d8aedfa7279d58c9
+    comType: UISprite
+    memberName: indexSprite
+    path: bgSprite/indexSprite
+  - uid: 2aaaedc31cfffa7d85dd170c3e399fd4
+    comType: GameObject
+    memberName: selectEffect
+    path: selectEffect
+  - uid: 8dff535cb24c45d3bb03544d18c9c7bb
+    comType: UILabel
+    memberName: nameLbl
+    path: nameLbl
+  - uid: 1421f7523fa3368e7e51b1626858486c
+    comType: GameObject
+    memberName: bgSprite
+    path: bgSprite
+  codePath: 
+  codeLuaPath: 

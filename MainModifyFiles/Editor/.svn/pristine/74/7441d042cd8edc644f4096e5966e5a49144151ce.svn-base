@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: TabBtnWidget
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: cd398711df714d3a9c436959f8d902db
+    comType: UISprite
+    memberName: btnBg
+    path: 
+  - uid: 4854f68f3ba4940bb421b561bd8ec8de
+    comType: UILabel
+    memberName: btnLbl
+    path: btnLbl
+  codePath: /Scripts/MyGameScripts/Module/CommonUIModule/View/TabBtnWidget.cs

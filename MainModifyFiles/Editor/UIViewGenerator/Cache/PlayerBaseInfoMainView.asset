@@ -1,0 +1,184 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: PlayerBaseInfoMainView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: a69eaaa13b05830227a593a8c5350995
+    comType: UIButton
+    memberName: closeBtn
+    path: ContentFrame/CloseBtn
+  - uid: f22318002ecc56603e8e332ed99fdfff
+    comType: GameObject
+    memberName: BaseInfoGroup
+    path: ContentFrame/ContentBg/BaseInfoGroup
+  - uid: 76b7f8d395538478a917066510c517d5
+    comType: GameObject
+    memberName: AddPointInfoGroup
+    path: ContentFrame/ContentBg/AddPointInfoGroup
+  - uid: d116d450e59129bf0ec3e9d16e5679f3
+    comType: UIGrid
+    memberName: rightTabBtnGrid
+    path: ContentFrame/ContentBg/RightTabBtnGrid
+  - uid: 60e513da9504086c4b914590430ecc26
+    comType: Transform
+    memberName: modelAnchor
+    path: ContentFrame/ContentBg/BaseInfoGroup/LeftInfoGroup/ModelAnchor
+  - uid: b58be90e1f55a90b6071339a2541a25e
+    comType: UIButton
+    memberName: vipBtn
+    path: ContentFrame/ContentBg/BaseInfoGroup/LeftInfoGroup/NameInfo/vipBtn
+  - uid: adaa4e54e3e78642c4a2f350eab11fdf
+    comType: UILabel
+    memberName: lvLbl
+    path: ContentFrame/ContentBg/BaseInfoGroup/LeftInfoGroup/NameInfo/lvLbl
+  - uid: 80ff088a1442b0d82b1615a43912bd1b
+    comType: UILabel
+    memberName: nameLbl
+    path: ContentFrame/ContentBg/BaseInfoGroup/LeftInfoGroup/NameInfo/nameLbl
+  - uid: 64a5a15a16ca533e8d4b5d9b5c8cb70c
+    comType: UIButton
+    memberName: changeNameBtn
+    path: ContentFrame/ContentBg/BaseInfoGroup/LeftInfoGroup/NameInfo/changeNameBtn
+  - uid: bf98145d2d984341db0360747d9ee971
+    comType: UIButton
+    memberName: factionBtn
+    path: ContentFrame/ContentBg/BaseInfoGroup/LeftInfoGroup/IdInfo/factionIcon
+  - uid: d72a9b181f6e7f34be16c042c9f32a17
+    comType: UILabel
+    memberName: idLbl
+    path: ContentFrame/ContentBg/BaseInfoGroup/LeftInfoGroup/IdInfo/idLbl
+  - uid: f687178e77f1bedb770972d6b8930cee
+    comType: UILabel
+    memberName: guildLbl
+    path: ContentFrame/ContentBg/BaseInfoGroup/LeftInfoGroup/IdInfo/guildLbl
+  - uid: 0e6f8b4d9b2512f501d784661f307b79
+    comType: UILabel
+    memberName: appellationLbl
+    path: ContentFrame/ContentBg/BaseInfoGroup/LeftInfoGroup/AppellationInfo/valueBg/valLbl
+  - uid: 03135402eb1eb6633ae7aa49cbdae439
+    comType: UIButton
+    memberName: appellationBtn
+    path: ContentFrame/ContentBg/BaseInfoGroup/LeftInfoGroup/AppellationInfo/appellationBtn
+  - uid: 1f6ef57eefe8babac0476a60d0b1c1dd
+    comType: UISprite
+    memberName: titleSprite
+    path: ContentFrame/_titleBg/titleSprite
+  - uid: 80563b0e8ee521c5bd89ddc8626bdf7a
+    comType: UIGrid
+    memberName: propertySliderGrid
+    path: ContentFrame/ContentBg/BaseInfoGroup/RightInfoGroup/sliderGrid
+  - uid: 6120655c213d3d2ca549eec6fc007884
+    comType: UIButton
+    memberName: energyBtn
+    path: ContentFrame/ContentBg/BaseInfoGroup/RightInfoGroup/energyBtn
+  - uid: ed1322afbe9cb1f36d9250eff87093b6
+    comType: UIGrid
+    memberName: bpItemGrid
+    path: ContentFrame/ContentBg/BaseInfoGroup/RightInfoGroup/BpInfoBg/bpItemGrid
+  - uid: 54e8c33d61271feb88e5a7077beda893
+    comType: UIGrid
+    memberName: apItemGrid
+    path: ContentFrame/ContentBg/BaseInfoGroup/RightInfoGroup/ApInfoBg/apItemGrid
+  - uid: 91f344dc38841667c1804b00fabcdd64
+    comType: UISlider
+    memberName: expSlider
+    path: ContentFrame/ContentBg/BaseInfoGroup/RightInfoGroup/ExpInfo/expSlider
+  - uid: c74905e30e8c45f3bc6058c7b6b1deb2
+    comType: UILabel
+    memberName: expLbl
+    path: ContentFrame/ContentBg/BaseInfoGroup/RightInfoGroup/ExpInfo/expSlider/valueLbl
+  - uid: 5b6e4aab513004e84048e725db52d875
+    comType: UIButton
+    memberName: expInfoBtn
+    path: ContentFrame/ContentBg/BaseInfoGroup/RightInfoGroup/ExpInfo/expInfoBtn
+  - uid: 7763e9f810f73c09850c28afdb922307
+    comType: UILabel
+    memberName: reserveExpLbl
+    path: ContentFrame/ContentBg/BaseInfoGroup/RightInfoGroup/ReserveExpInfo/reserveExpLbl
+  - uid: 2ddf1432aa191b4a390d120a234a5dcc
+    comType: UISprite
+    memberName: vipBtnSprite
+    path: ContentFrame/ContentBg/BaseInfoGroup/LeftInfoGroup/NameInfo/vipBtn
+  - uid: c8468c45c0f13d6e826659bb842c5492
+    comType: UIButton
+    memberName: curPlanInfoBtn
+    path: ContentFrame/ContentBg/AddPointInfoGroup/LeftInfoGroup/planInfoBtn
+  - uid: 11429ce41ffb105e302bb72d0ba9bb4c
+    comType: GameObject
+    memberName: planInfoGroup
+    path: ContentFrame/ContentBg/AddPointInfoGroup/LeftInfoGroup/planInfoGroup
+  - uid: f366317de9a02da330cc27b909b13e21
+    comType: UIGrid
+    memberName: planItemGrid
+    path: ContentFrame/ContentBg/AddPointInfoGroup/LeftInfoGroup/planInfoGroup/planItemGrid
+  - uid: b65cd43eec6cce2d2a7345cc62010ab2
+    comType: GameObject
+    memberName: planBtnPrefab
+    path: ContentFrame/ContentBg/AddPointInfoGroup/LeftInfoGroup/planInfoGroup/planItemGrid/planBtnPrefab
+  - uid: ea029d2767f17385e0eaf78667c7f92c
+    comType: UIGrid
+    memberName: bpInfoGrid
+    path: ContentFrame/ContentBg/AddPointInfoGroup/LeftInfoGroup/bpInfo/bpItemGrid
+  - uid: 99557eb017251e17c1a99421488251f8
+    comType: UILabel
+    memberName: activeTipsLbl
+    path: ContentFrame/ContentBg/AddPointInfoGroup/TipsInfoGroup/activeTipsLbl
+  - uid: c537be8abeb4381a27a052d1faa95bd4
+    comType: UIButton
+    memberName: planActiveBtn
+    path: ContentFrame/ContentBg/AddPointInfoGroup/LeftInfoGroup/bottomGroup/activeBtn
+  - uid: 3f30b0876a61ed00940bfa116ee89dd2
+    comType: UILabel
+    memberName: ppLbl
+    path: ContentFrame/ContentBg/AddPointInfoGroup/RightInfoGroup/ppInfo/bgSprite/ppLbl
+  - uid: 5bd8d5bc70fd377e90fa6221b338c220
+    comType: UIButton
+    memberName: recommendBtn
+    path: ContentFrame/ContentBg/AddPointInfoGroup/RightInfoGroup/recommendBtn
+  - uid: 5bdc98c31d6083efe1ea7b56b4600ccd
+    comType: UIGrid
+    memberName: addPointSliderGrid
+    path: ContentFrame/ContentBg/AddPointInfoGroup/RightInfoGroup/sliderGrid
+  - uid: 10e0c16b01d22dc7a0c0e501a95098aa
+    comType: UIButton
+    memberName: resetPointBtn
+    path: ContentFrame/ContentBg/AddPointInfoGroup/RightInfoGroup/bottomGroup/resetPointBtn
+  - uid: 12b23c48247c7ea509c0c3c48ffd3169
+    comType: UIButton
+    memberName: confirmBtn
+    path: ContentFrame/ContentBg/AddPointInfoGroup/RightInfoGroup/bottomGroup/confirmBtn
+  - uid: b8175bb6eb37da1ec58ef5e01d041ff4
+    comType: UILabel
+    memberName: curPlanInfoLbl
+    path: ContentFrame/ContentBg/AddPointInfoGroup/LeftInfoGroup/planInfoBtn/planLbl
+  - uid: bf743def49a37ce32af913d64030012f
+    comType: UILabel
+    memberName: planTipsLbl
+    path: ContentFrame/ContentBg/AddPointInfoGroup/TipsInfoGroup/planTipsLbl
+  - uid: f35fc5bb6b0741d62c0c2ac354ac4b25
+    comType: GameObject
+    memberName: RecommendTipPanel
+    path: ContentFrame/ContentBg/AddPointInfoGroup/RecommendTipPanel
+  - uid: 0fdf31506e8e80442555a2c6bdc7432e
+    comType: UIGrid
+    memberName: recTopInfoGrid
+    path: ContentFrame/ContentBg/AddPointInfoGroup/RecommendTipPanel/ContentBg/topInfoGrid
+  - uid: 773066d8144618e927226f7b4b8bb10d
+    comType: UIGrid
+    memberName: recBottomInfoGrid
+    path: ContentFrame/ContentBg/AddPointInfoGroup/RecommendTipPanel/ContentBg/bottomInfoGrid
+  - uid: efee3527235ceb707327448332a67b18
+    comType: GameObject
+    memberName: recTipsItemPrefab
+    path: ContentFrame/ContentBg/AddPointInfoGroup/RecommendTipPanel/ContentBg/topInfoGrid/tipsItem
+  codePath: /Scripts/MyGameScripts/Module/PlayerPropertyModule/View/PlayerBaseInfoMainView.cs
+  codeLuaPath: 

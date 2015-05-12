@@ -1,0 +1,208 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: FriendView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 3561c1a8990a3cede8b842e41862f3c5
+    comType: UIInput
+    memberName: ChatInputLbl
+    path: ContentFrame/ContentBg/RightPanel/ChatContent/ChatBtnGroup/ChatInput
+  - uid: 607bacb1d6c55a7caff4049afb2d6943
+    comType: GameObject
+    memberName: ChatBtnGroupObj
+    path: ContentFrame/ContentBg/RightPanel/ChatContent/ChatBtnGroup
+  - uid: 334411edc586da454becd4975a231c33
+    comType: UITable
+    memberName: ItemTable
+    path: ContentFrame/ContentBg/RightPanel/ChatContent/ItemScrollView/ItemTable
+  - uid: a7edb123dabe08e173564a1f9bf1038d
+    comType: GameObject
+    memberName: RightPanelObj
+    path: ContentFrame/ContentBg/RightPanel
+  - uid: d098e70d9045755949c0ec16944941a8
+    comType: GameObject
+    memberName: LeftPanelObj
+    path: ContentFrame/ContentBg/LeftPanel
+  - uid: f432bf157a2ec8ccf4b3ce3764481499
+    comType: UIGrid
+    memberName: TypeTabBtnGrid
+    path: ContentFrame/ContentBg/LeftPanel/TypeTabBtnGrid
+  - uid: ceb4ed26ae15c366210956e6fb3e5cfd
+    comType: UIButton
+    memberName: GiftBtn
+    path: ContentFrame/ContentBg/LeftPanel/FunctionBtns/GiftBtn
+  - uid: 53293110fa3ab40286ec51a77d09908c
+    comType: UIButton
+    memberName: HomeBtn
+    path: ContentFrame/ContentBg/LeftPanel/FunctionBtns/HomeBtn
+  - uid: 06cefc956ac4786538e8bc287801a418
+    comType: UIButton
+    memberName: AddFriendBtn
+    path: ContentFrame/ContentBg/LeftPanel/FunctionBtns/AddFriendBtn
+  - uid: bb239db8c98b00766c8ebc1f5967a105
+    comType: GameObject
+    memberName: FunctionBtnsObj
+    path: ContentFrame/ContentBg/LeftPanel/FunctionBtns
+  - uid: a3dbaa402710629c5fdb49490e0b6142
+    comType: UIGrid
+    memberName: itemGrid
+    path: ContentFrame/ContentBg/LeftPanel/ItemScrollView/itemGrid
+  - uid: ce60c19ff55ba46e3c0bf945010db8a4
+    comType: GameObject
+    memberName: TipsObj
+    path: ContentFrame/ContentBg/Tips
+  - uid: df30b09278e9d64e4c77043df1ae2b1e
+    comType: UILabel
+    memberName: TipsLbl
+    path: ContentFrame/ContentBg/Tips/Label
+  - uid: 92cfebed163f8b465c8f0f426325b00b
+    comType: UISprite
+    memberName: TitleSprite
+    path: ContentFrame/TitleSprite
+  - uid: 243497ba0f8490c28e8d1ed14e5b7bad
+    comType: UIButton
+    memberName: FaceBtn
+    path: ContentFrame/ContentBg/RightPanel/ChatContent/ChatBtnGroup/FaceBtn
+  - uid: 5fe6a2b99c0dc5b9a8969445b3a4999c
+    comType: GameObject
+    memberName: RelationObj
+    path: ContentFrame/ContentBg/RightPanel/ChatContent/ChatBtnGroup/Relation
+  - uid: 69d6041445598ee8c69da007778e0e95
+    comType: UILabel
+    memberName: RelationShipLbl
+    path: ContentFrame/ContentBg/RightPanel/ChatContent/ChatBtnGroup/Relation/RelationShip
+  - uid: f49fe431a1a17d79b480966f40847cee
+    comType: UIButton
+    memberName: addBtn
+    path: ContentFrame/ContentBg/RightPanel/ChatContent/ChatBtnGroup/Relation/add
+  - uid: d8630006ab36a8de95c36bce43e7a8ec
+    comType: UILabel
+    memberName: FriendlyDegreeLbl
+    path: ContentFrame/ContentBg/RightPanel/ChatContent/ChatBtnGroup/Relation/FriendlyDegree
+  - uid: b6350e736a46583d3c8caaf3be0f3814
+    comType: GameObject
+    memberName: EmailObj
+    path: ContentFrame/ContentBg/RightPanel/Email
+  - uid: d4ec32b253ac9a56ae46482d3bdbe057
+    comType: UILabel
+    memberName: EmailContentLbl
+    path: ContentFrame/ContentBg/RightPanel/Email/EmailContent/ContentGroup/scrollView/EmailContentLbl
+  - uid: f4698b472204222489d9523dbc110b16
+    comType: UIButton
+    memberName: CloseBtn
+    path: ContentFrame/CloseBtn
+  - uid: cc6b5e15c0c5aa8480bc5e3fa669180d
+    comType: GameObject
+    memberName: ChatContentObj
+    path: ContentFrame/ContentBg/RightPanel/ChatContent
+  - uid: 9aab60abe5e773831a91d8fdb08ef483
+    comType: UIGrid
+    memberName: RewardItemGrid
+    path: ContentFrame/ContentBg/RightPanel/Email/EmailContent/RewardGroup/scrollView/itemGrid
+  - uid: ff141e58b889a2475451d49c4c12428b
+    comType: UIButton
+    memberName: RewardBtn
+    path: ContentFrame/ContentBg/RightPanel/Email/EmailContent/RewardGroup/RewardBtn
+  - uid: b0f267ec6e5284cca1169897211eedda
+    comType: GameObject
+    memberName: NoMailTextObj
+    path: ContentFrame/ContentBg/RightPanel/Email/NoMailText
+  - uid: 67c450c0e795f224f8cda0cc3c42de2b
+    comType: UILabel
+    memberName: WarmLbl
+    path: ContentFrame/ContentBg/RightPanel/Email/NoMailText/WarmLbl
+  - uid: 8a08b3be0264fa4599d659dda34755f4
+    comType: GameObject
+    memberName: RewardSplitObj
+    path: ContentFrame/ContentBg/RightPanel/Email/RewardSplit
+  - uid: 5f1ec4cb79df14aba45f8640b51ef1cf
+    comType: GameObject
+    memberName: NoFriendTextObj
+    path: ContentFrame/ContentBg/RightPanel/ChatContent/NoFriendText
+  - uid: 3d0f8d5e8adfb5e885b8bab035f4d711
+    comType: UILabel
+    memberName: FriendWarmLbl
+    path: ContentFrame/ContentBg/RightPanel/ChatContent/NoFriendText/WarmLbl
+  - uid: beaa9bec4aa9cc53f5764352bfc147af
+    comType: UISprite
+    memberName: tipSpriteObj
+    path: ContentFrame/ContentBg/Tips/tip
+  - uid: 9e854182a5c9c5d09baea65db7f7fed0
+    comType: GameObject
+    memberName: AddFriendsObj
+    path: ContentFrame/ContentBg/AddFriends
+  - uid: bb38a243eb0cdaef775f3d17cd08d47e
+    comType: UIButton
+    memberName: ChangeBtn
+    path: ContentFrame/ContentBg/AddFriends/Change/ChangeBtn
+  - uid: d938bfdff6acd378a9bc4ee6d5a6f669
+    comType: UIInput
+    memberName: InputLbl
+    path: ContentFrame/ContentBg/AddFriends/PlayerId/Input
+  - uid: 44a554ff2f5f995262ce9d6e2b8e0789
+    comType: UIButton
+    memberName: SeachBtn
+    path: ContentFrame/ContentBg/AddFriends/PlayerId/SeachBtn
+  - uid: 5781a490cd838db327c3b3eb0767feb3
+    comType: UIButton
+    memberName: CloseAddFriendViewBtn
+    path: ContentFrame/ContentBg/AddFriends/CloseAddFriendViewBtn
+  - uid: f4f1557426891d3a5867798ee70d4d66
+    comType: UIScrollView
+    memberName: RewardScrollView
+    path: ContentFrame/ContentBg/RightPanel/Email/EmailContent/RewardGroup/scrollView
+  - uid: 0643f1d6fa95a4fae5f77bc8399fa405
+    comType: UISprite
+    memberName: SpeedOrInputBg
+    path: ContentFrame/ContentBg/RightPanel/ChatContent/ChatBtnGroup/SpeedOrInputBtn/Background
+  - uid: 59cacb77558125b41a13144adb859f05
+    comType: UIEventListener
+    memberName: SpeedBtn
+    path: ContentFrame/ContentBg/RightPanel/ChatContent/ChatBtnGroup/SpeedBtn
+  - uid: 23a92a9529b0696f7e3fa11e11494eae
+    comType: UIButton
+    memberName: SpeedOrInputBtn
+    path: ContentFrame/ContentBg/RightPanel/ChatContent/ChatBtnGroup/SpeedOrInputBtn
+  - uid: 744d13c70cd86bd1b7fbde91241ee0fa
+    comType: UIButton
+    memberName: SendBtn
+    path: ContentFrame/ContentBg/RightPanel/ChatContent/ChatBtnGroup/SendBtn
+  - uid: 0833cfe1216b2ba9c11b9ece5cf9f5ae
+    comType: GameObject
+    memberName: SpeechAnchorObj
+    path: ContentFrame/ContentBg/RightPanel/ChatContent/SpeechAnchor
+  - uid: d2f3f14aa6befb5ff426bbfabe19feb8
+    comType: GameObject
+    memberName: SpeechObj
+    path: ContentFrame/ContentBg/RightPanel/ChatContent/SpeechAnchor/Speech
+  - uid: 526349be1633a6a411ff9efc5da6e4a9
+    comType: UISprite
+    memberName: EnergyBar
+    path: ContentFrame/ContentBg/RightPanel/ChatContent/SpeechAnchor/Speech/EnergyBar
+  - uid: e2c8dbe76a55883449b2a5b0b1f0a2c9
+    comType: GameObject
+    memberName: GiveUpObj
+    path: ContentFrame/ContentBg/RightPanel/ChatContent/SpeechAnchor/GiveUp
+  - uid: a915c63d67c35b3b30977450bc6a9ffc
+    comType: GameObject
+    memberName: ShortVoiceObj
+    path: ContentFrame/ContentBg/RightPanel/ChatContent/SpeechAnchor/Short
+  - uid: 7404591165cb9b6f3a828d442dfd9652
+    comType: UILabel
+    memberName: VoiceTipLbl
+    path: ContentFrame/ContentBg/RightPanel/ChatContent/SpeechAnchor/Tip
+  - uid: d42a1cd3bcf35d27d995eb032866b43d
+    comType: UITable
+    memberName: RecommendFriendsTable
+    path: ContentFrame/ContentBg/AddFriends/RecommendFriends/ItemScrollView/itemGrid
+  codePath: /Scripts/MyGameScripts/Module/FriendModule/View/FriendView.cs
+  codeLuaPath: 

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: PracticeSkillCell
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 70257739f5cee68268826bb5215dead5
+    comType: UISprite
+    memberName: IconSprite
+    path: IconSprite
+  - uid: f1f53eade033253b1ace976494c4b724
+    comType: UILabel
+    memberName: LvLabel
+    path: LvLabel
+  - uid: 40c93aea0a0d103169db186c062d8fd4
+    comType: UILabel
+    memberName: NameLabel
+    path: NameLabel
+  - uid: 9026d0581da4fb4e54d7e88bcc5aea01
+    comType: UILabel
+    memberName: TypeLabel
+    path: TypeLabel
+  - uid: 390d4c2fd67ceb16356611ba2ee97ad9
+    comType: UIButton
+    memberName: SelectBtn
+    path: 
+  - uid: 403d43e5790c6505dc14cd697956499f
+    comType: UISprite
+    memberName: SelectSprite
+    path: 
+  - uid: ac59c52e32f11a35d30448b614c57afa
+    comType: GameObject
+    memberName: PracticeIconSprite
+    path: PracticeIconSprite
+  codePath: 

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: SkillCellPrefab
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 5eaaebc7e550e319b9e28e44c4cce500
+    comType: UIButton
+    memberName: SkillCellPrefab_UIButton
+    path: 
+  - uid: 99a24a447ebf67714f9cc9fcb6d1ef81
+    comType: UILabel
+    memberName: NameLabel_UILabel
+    path: NameLabel
+  - uid: 1eca029d4e229cefb2944652adce02c5
+    comType: UILabel
+    memberName: TypeLabel_UILabel
+    path: TypeLabel
+  - uid: 3857814b271a55b4f9e58b00d7ea18db
+    comType: UISprite
+    memberName: IconSprite_UISprite
+    path: IconGroup/IconSprite
+  codePath: 
+  codeLuaPath: 

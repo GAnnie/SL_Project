@@ -1,0 +1,108 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: PlayerInfoView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 5e89c20a94fb646dd96382b80368a1fa
+    comType: UIPanel
+    memberName: uiPanel
+    path: 
+  - uid: e8c785dcabe855166bb354c26a1dca34
+    comType: UISprite
+    memberName: Bg
+    path: Content
+  - uid: 286b060512e303d90f381dd3ff589d41
+    comType: UILabel
+    memberName: PlayerNameLbl
+    path: Content/Info/PlayerNameLbl
+  - uid: 213c89ebc25f4232111d1fc0982a78aa
+    comType: UILabel
+    memberName: OnLine
+    path: Content/Info/OnLine
+  - uid: 007023c2109a1bd382cdf081a732f89a
+    comType: UILabel
+    memberName: Level
+    path: Content/Info/Level
+  - uid: 0854c2aeff23ce4a54ec73150f099f75
+    comType: UILabel
+    memberName: Sex
+    path: Content/Info/Sex
+  - uid: 1f621a77dcb93b9b75752fe599651be8
+    comType: UISprite
+    memberName: FactionSprite
+    path: Content/Info/Faction
+  - uid: ea0ff42a00b748397bc81210d41c2c8c
+    comType: UILabel
+    memberName: IdLbl
+    path: Content/Info/ID/IdLbl
+  - uid: 05f8d44d20be4911f96f784596327149
+    comType: UILabel
+    memberName: AppellationLbl
+    path: Content/Info/Appellation/AppellationLbl
+  - uid: 199669ebe375ff2795c2333378cd76a6
+    comType: UILabel
+    memberName: FactionLbl
+    path: Content/Info/Faction/FactionLbl
+  - uid: ea923a8e7704c6a9e5a3db28246747a4
+    comType: UILabel
+    memberName: PositionLbl
+    path: Content/Info/Position/PositionLbl
+  - uid: fbf373589ccae92d7b109e8406530fd1
+    comType: UIGrid
+    memberName: ButtonGrid
+    path: Content/ButtonGrid
+  - uid: ce9b1abae5accb5ae9342b4443b9982d
+    comType: UIButton
+    memberName: AddFriendBtn
+    path: Content/ButtonGrid/AddFriendBtn
+  - uid: 79ecf22b1fa073cc48e990d44fc19893
+    comType: UIButton
+    memberName: BeginChatBtn
+    path: Content/ButtonGrid/BeginChatBtn
+  - uid: 03a3fce4d5c859d23df6d9249ea908b5
+    comType: UIButton
+    memberName: InviteTeamBtn
+    path: Content/ButtonGrid/InviteTeamBtn
+  - uid: f5889ce3d0be1142ff10a6a3bf2f30ce
+    comType: UIButton
+    memberName: GiveBtn
+    path: Content/ButtonGrid/GiveBtn
+  - uid: bab1a0334cc1766ce46a6feb2ee97e68
+    comType: UIButton
+    memberName: PKBtn
+    path: Content/ButtonGrid/PKBtn
+  - uid: 4ba053d24df3210eda08027be6f0ce26
+    comType: UIButton
+    memberName: VisitHomeBtn
+    path: Content/ButtonGrid/VisitHomeBtn
+  - uid: 02f4c764a2d2076828a61c2fc2481aea
+    comType: UILabel
+    memberName: InviteTeamLbl
+    path: Content/ButtonGrid/InviteTeamBtn/Label
+  - uid: 25956c90b908da6a7951a8864b1255f3
+    comType: UISprite
+    memberName: VipSprite
+    path: Content/Info/ID/VipSprite
+  - uid: fabe42b2957fce0c8de814e83dd169b6
+    comType: UILabel
+    memberName: AddFriendLbl
+    path: Content/ButtonGrid/AddFriendBtn/Label
+  - uid: 6000dd6852f7a8635ab0a6310044d9f1
+    comType: UISprite
+    memberName: TeamSprite
+    path: Content/Info/TeamSprite
+  - uid: 618955d47a6222ee292cf388347080f8
+    comType: UILabel
+    memberName: TeamNOLbl
+    path: Content/Info/TeamSprite/TeamNO
+  codePath: /Scripts/MyGameScripts/Module/MainUIModule/View/PlayerInfoView.cs
+  codeLuaPath: 

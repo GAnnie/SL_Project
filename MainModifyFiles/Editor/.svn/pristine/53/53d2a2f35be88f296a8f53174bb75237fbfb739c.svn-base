@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: EquipmentGemView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: e1b66ba81d366db719b04aaf51b685d3
+    comType: UIButton
+    memberName: LBtn
+    path: LeftGroup/pageGroup/LButton
+  - uid: a69530a7712016445044c5862b316942
+    comType: UIButton
+    memberName: RBtn
+    path: LeftGroup/pageGroup/RButton
+  - uid: 39be283d51f9a2e7fcecab39d2ad1712
+    comType: UIGrid
+    memberName: EquipmentGrid
+    path: LeftGroup/EquipmentGroup
+  - uid: d337e44de3225c6b20dc71ce96114b41
+    comType: UIGrid
+    memberName: GemGrid
+    path: TopRightGroup/GemGrid
+  - uid: 19117d37688beb4dfac430e5d6dafe8d
+    comType: GameObject
+    memberName: CurrEquipPos
+    path: TopRightGroup/CurrEquipPos
+  - uid: fe16dca677acd2e1076b0da269752da5
+    comType: UILabel
+    memberName: EquipmentPropertyLabel
+    path: TopRightGroup/EquipmentPropertyScrollView/EquipmentPropertyLabel
+  - uid: b57538f05c4983f29d7083c65a63be3f
+    comType: UIGrid
+    memberName: MaterialGrid
+    path: BottomRightGroup/MaterialGrid
+  - uid: 228e593dddbf667ce532ad3802d7e13e
+    comType: UIButton
+    memberName: OptButton
+    path: BottomRightGroup/OptButton
+  - uid: 528d7846ae89b8c19e709f735fedd1a2
+    comType: UILabel
+    memberName: CostLabel
+    path: BottomRightGroup/OptButton/CostLabel
+  - uid: 351e8da18c7fcaf8e0a6ce6603c57a59
+    comType: UILabel
+    memberName: OptNameLabel
+    path: BottomRightGroup/OptButton/OptNameLabel
+  codePath: 

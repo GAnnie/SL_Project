@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: ChannelChatItemCell
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 930eb5daab28c45b739dec8d2e782e40
+    comType: UILabel
+    memberName: contentLbl
+    path: content
+  - uid: bbb993fba9b393af3d9b580923c9cdde
+    comType: UIWidget
+    memberName: ItemCellWidget
+    path: 
+  - uid: e0f7a794a853c7bfd7680da79c3749bf
+    comType: UISprite
+    memberName: ChannelBg
+    path: ChannelBg
+  codePath: 
+  codeLuaPath: 

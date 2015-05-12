@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: AssistSkillMakeWinUI
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 871ea0c01dd54ca6e5030cbeaf4ffc30
+    comType: UIButton
+    memberName: CloseBtn
+    path: CloseBtn
+  - uid: 8c114ffed436a648d3580a400f48c8f0
+    comType: UILabel
+    memberName: VigourValLbl
+    path: vigour/bgSprite/valueBg/VigourValLbl
+  - uid: f11d8c6888287f94f2898f19c01abb98
+    comType: UILabel
+    memberName: ItemNameLabel
+    path: ItemNameLabel
+  - uid: d747f3e6527c8849c7d072d252748dd9
+    comType: GameObject
+    memberName: ItemPos
+    path: ItemPos
+  - uid: aec1566249a9bda60106e5e33c99e901
+    comType: UILabel
+    memberName: UsageDescLabel
+    path: UsageDescLabel
+  - uid: 0b9d451cab9c589e9ee979d220673747
+    comType: GameObject
+    memberName: OptBtnPos
+    path: OptBtnPos
+  - uid: 0f6429aae96b7f2f0f26062bfd83e9a1
+    comType: UIButton
+    memberName: LBtn
+    path: LBtn
+  - uid: 08360b571cacde4d7dc66e271e0e1366
+    comType: UIButton
+    memberName: RBtn
+    path: RBtn
+  codePath: 
+  codeLuaPath: 

@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: VigourWinUI
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 0ca169ca561bd77a490265a30d88cab4
+    comType: UIButton
+    memberName: CloseBtn
+    path: CloseBtn
+  - uid: 3ff351da20b6d9e6b7095cd766b0b9bb
+    comType: UISprite
+    memberName: BarSprite
+    path: infoGroup/VigourGroup/Sprite/BarSprite
+  - uid: 28ccd24fa3832dd0b596c3084bb6c344
+    comType: UILabel
+    memberName: VigourVuale
+    path: infoGroup/VigourGroup/VigourVuale
+  - uid: 5d28b7560a53520f29409e251f8058e6
+    comType: UILabel
+    memberName: WorkVigourLabel
+    path: infoGroup/WorkVigourLabel
+  - uid: 1218d8bd512824e95876eb07f59fbdc2
+    comType: UILabel
+    memberName: FactionSKillVigourLabel
+    path: infoGroup/FactionSKillVigourLabel
+  - uid: d4b2d09191360d73e911a8b8e2e6ac7b
+    comType: GameObject
+    memberName: WorkBtnPos
+    path: infoGroup/WorkBtnPos
+  - uid: f6d0ea9f80d6eb9a9a6f3f67b8e87975
+    comType: GameObject
+    memberName: AssistSkillBtn
+    path: infoGroup/AssistSkillBtn
+  - uid: ece9c4713e7d03d90ea0213b019c25ce
+    comType: GameObject
+    memberName: FactionSKillBtn
+    path: infoGroup/FactionSKillBtn
+  - uid: b30dc29c54820f0050241a148e835714
+    comType: UILabel
+    memberName: FactionSkillLabel
+    path: infoGroup/FactionSkillLabel
+  codePath: 
+  codeLuaPath: 

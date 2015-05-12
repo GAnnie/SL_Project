@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: PetIncreaseBaseApView
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: fdefdd9e1ebc80a097bae1178baeb9ca
+    comType: UIGrid
+    memberName: baseApItemGrid
+    path: BgSprite/baseApItemGrid
+  - uid: 0fcc4b007d1086a9556be749dc43593c
+    comType: UIButton
+    memberName: closeBtn
+    path: BgSprite/CloseButton
+  - uid: 8856b8063795c58d9fa1951f0ff520b0
+    comType: UISprite
+    memberName: petIconSprite
+    path: BgSprite/ContentGroup/iconBg/iconSprite
+  - uid: 78e50f7f4ce44d94d151ac4fb5b9b1c9
+    comType: UILabel
+    memberName: petNameLbl
+    path: BgSprite/ContentGroup/petNameLbl
+  - uid: 1301e93d64e90a5ef97dd0b41aad64a4
+    comType: UILabel
+    memberName: petLvLbl
+    path: BgSprite/ContentGroup/petLvLbl
+  - uid: 9463fae6eb7f5ed3b291d4b50980c972
+    comType: UISprite
+    memberName: propIconSprite
+    path: BgSprite/ContentGroup/PropItemCell/iconBg/iconSprite
+  - uid: e55e586add08971275b24cf704cf7d77
+    comType: UILabel
+    memberName: propCountLbl
+    path: BgSprite/ContentGroup/PropItemCell/iconBg/Label
+  codePath: /Scripts/MyGameScripts/Module/PetPropertyModule/View/PetIncreaseBaseApView.cs
+  codeLuaPath: 
