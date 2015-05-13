@@ -1,0 +1,291 @@
+﻿using UnityEngine;
+using System.Collections;
+using com.nucleus.h1.logic.core.modules.player.dto;
+using System.Collections.Generic;
+using com.nucleus.h1.logic.core.modules.scene.data;
+using System;
+
+public class MiniMapController : MonoBehaviour,IViewController
+{
+	private MiniMapView _view;
+
+	private float _timer = 0f;
+	
+	private bool _updateWalkPath = false;
+	private List<GameObject> _walkPoints = new List<GameObject>();
+
+	/// <summary>
+	/// 从DataModel中取得相关数据对界面进行初始化
+	/// </summary>
+	public void InitView(){
+		_view = gameObject.GetMissingComponent<MiniMapView> ();
+		_view.Setup (this.transform);
+	}
+	
+	/// <summary>
+	/// Registers the event.
+	/// DateModel中的监听和界面控件的事件绑定,这个方法将在InitView中调用
+	/// </summary>
+	public void RegisterEvent(){
+		EventDelegate.Set (_view.CloseBtn.onClick, OnCloseButtonClick);
+	}
+	
+	/// <summary>
+	/// 关闭界面时清空操作放在这
+	/// </summary>
+	public void Dispose(){
+		_heroView = null;
+		_heroSign = null;
+	}
+
+	private void OnCloseButtonClick()
+	{
+		ProxyWorldMapModule.CloseMiniMap ();
+	}
+
+	public void Open()
+	{
+		InitView ();
+		RegisterEvent ();
+		SetData ();
+	}
+
+	private HeroView _heroView = null;
+	private GameObject _heroSign = null;
+	private float _scale = 72/10;
+	private float _mapOffX = 299f;
+	private float _mapOffY = 333f;
+
+	private void SetData()
+	{
+		if (WorldManager.Instance.GetModel ().GetSceneDto () == null)
+		{
+			_view.Texture.mainTexture = null;
+			_view.Texture.gameObject.SetActive(false);
+			return;
+		}
+
+		_view.Texture.gameObject.SetActive(true);
+
+		int resId = WorldManager.Instance.GetModel ().GetSceneDto ().sceneMap.resId;
+		_heroView = WorldManager.Instance.GetHeroView ();
+		_view.WalkSprite.gameObject.SetActive (false);
+
+		Texture2D tex = ResourceLoader.Load(PathHelper.IMAGES_PATH + "MiniMaps/" + resId , "jpg") as Texture2D;
+		_view.Texture.mainTexture = tex;
+		if (tex != null)
+		{
+			_view.Texture.width = _view.Texture.mainTexture.width;
+			_view.Texture.height = _view.Texture.mainTexture.height;
+
+			_view.BgSprite.width = _view.Texture.width + 55;
+			_view.BgSprite.height = _view.Texture.height + 47;
+
+			_view.Texture.transform.localPosition = new Vector3(-1*_view.Texture.width/2, _view.Texture.height/2, 0);
+
+			_view.CloseBtn.transform.localPosition = new Vector3(_view.Texture.width/2, _view.Texture.height/2, 0);
+		}
+
+		Dictionary<int, INpcUnit> npcs = WorldManager.Instance.GetNpcViewManager ().GetNpcUnits ();
+		foreach(INpcUnit npc in npcs.Values)
+		{
+			if (npc.GetNpc().type == Npc.NpcType_DoubleTeleport)
+			{
+				AddTeleportNpc(npc.GetNpc() as NpcDoubleTeleport);
+			}
+			else if (npc.GetNpc().type == Npc.NpcType_General)
+			{
+				AddGeneralNpc(npc.GetNpc() as NpcGeneral);
+			}
+		}
+	}
+
+	private string GetNpcName(string name)
+	{
+		name = name.Replace ("#", "\n");
+		return name;
+	}
+
+	private void AddTeleportNpc(NpcDoubleTeleport npc)
+	{
+		GameObject go = NGUITools.AddChild(_view.SignPanel.gameObject, (GameObject)ResourcePoolManager.Instance.SpawnUIPrefab("Prefabs/Module/WorldMapModule/TeleportSprite"));
+		go.GetComponentInChildren<UILabel> ().text = "[b]"+GetNpcName(npc.name);
+
+		go.transform.localPosition = ChangeToMiniMapPosition (new Vector3(npc.x, npc.y, npc.z));
+	}
+
+	private void AddGeneralNpc(NpcGeneral npc)
+	{
+		GameObject go = NGUITools.AddChild(_view.SignPanel.gameObject, (GameObject)ResourcePoolManager.Instance.SpawnUIPrefab("Prefabs/Module/WorldMapModule/NpcSprite"));
+		UILabel nameLabel = go.GetComponentInChildren<UILabel> ();
+		UISprite pointSprite = go.GetComponentInChildren<UISprite>();
+		nameLabel.text = "[b]"+GetNpcName(npc.shortName);
+
+		Color textColor = Color.white;
+		string pointName = "green-npc";
+		switch(npc.kind)
+		{
+		case NpcGeneral.NpcGeneralKindEnum_Idler:
+			textColor = ColorConstant.Color_MiniMap_Npc_Idle;
+			pointName = "yellow-npc";
+			break;
+		case NpcGeneral.NpcGeneralKindEnum_Function:
+			textColor = ColorConstant.Color_MiniMap_Npc_Function;
+			pointName = "green-npc";
+			break;
+		}
+
+		nameLabel.color = textColor;
+		pointSprite.spriteName = pointName;
+
+		go.transform.localPosition = ChangeToMiniMapPosition (new Vector3(npc.x, npc.y, npc.z));
+	}
+
+	private Vector3 ChangeToMiniMapPosition(Vector3 vec)
+	{
+		int texWidth = _view.Texture.width;
+		int texHeight = _view.Texture.height;
+		
+		vec.x = -1*vec.x*_scale + _mapOffX;
+		vec.y = -1*vec.z*_scale - _mapOffY;
+		vec.z = 0;
+		return vec;
+	}
+
+
+	private void UpdateWalkPoints(Vector3[] list)
+	{
+		foreach(GameObject obj in _walkPoints)
+		{
+			ResourcePoolManager.Instance.Despawn(obj);
+		}
+		_walkPoints.Clear ();
+
+		for (int i=0,len=list.Length; i<len; i++)
+		{
+//			Vector3 vec = list[i];
+//
+//			GameObject go = NGUITools.AddChild(_view.SignPanel.gameObject, (GameObject)ResourcePoolManager.Instance.SpawnUIPrefab("Prefabs/Module/WorldMapModule/WalkPointSprite"));
+//			go.transform.localPosition = ChangeToMiniMapPosition (new Vector3(vec.x, vec.y, vec.z));
+//			_walkPoints.Add(go);
+
+			if (i+1<len)
+			{
+				DarwPoints(list[i], list[i+1]);
+			}
+		}
+	}
+
+	private void DarwPoints(Vector3 beginPoint3D, Vector3 endPoint3D)
+	{
+		Vector2 beginPoint = new Vector2 (beginPoint3D.x, beginPoint3D.z);
+		Vector2 endPoint = new Vector2 (endPoint3D.x, endPoint3D.z);
+
+		float Ox = beginPoint.x;
+		float Oy = beginPoint.y;
+
+		float radian = (float)Math.Atan2(endPoint.y - Oy, endPoint.x - Ox);
+		float totalLen = Vector2.Distance (beginPoint, endPoint);
+		float grap = 2f;
+		float currLen = grap;
+		float x, y;
+
+		while (currLen < totalLen)
+		{
+			x = Ox + (float)Math.Cos(radian) * currLen;
+			y = Oy +(float)Math.Sin(radian) * currLen;
+
+			GameObject go = NGUITools.AddChild(_view.SignPanel.gameObject, (GameObject)ResourcePoolManager.Instance.SpawnUIPrefab("Prefabs/Module/WorldMapModule/WalkPointSprite"));
+			go.transform.localPosition = ChangeToMiniMapPosition(new Vector3(x, 0, y));
+			_walkPoints.Add(go);
+
+			currLen += grap;
+		}
+	}
+
+	void Update()
+	{
+		if (_heroView != null)
+		{
+			if (_updateWalkPath)
+			{
+				_updateWalkPath = false;
+				UpdateWalkPoints( _heroView.GetWalkPathList() );
+			}
+
+			_timer += Time.deltaTime;
+			if (_timer > 0.3f)
+			{
+				_timer = 0f;
+				_view.HeroSprite.transform.localEulerAngles = new Vector3(0,_view.HeroSprite.transform.localEulerAngles.y+180,0);
+			}
+
+			Vector3 heroPosition = ChangeToMiniMapPosition(_heroView.transform.localPosition);
+			_view.HeroSprite.transform.localPosition = heroPosition;
+
+			for (int i=0; i<_walkPoints.Count; i++)
+			{
+				GameObject obj = _walkPoints[i];
+				Vector3 distance = heroPosition-obj.transform.localPosition;
+				float magnitude = distance.magnitude;
+				
+				if (magnitude < 0.5f)
+				{
+					_walkPoints.Remove(obj);
+					ResourcePoolManager.Instance.Despawn(obj);
+				}
+			}
+
+			if (_view.WalkSprite.activeInHierarchy)
+			{
+				Vector3 distance2 = heroPosition-_view.WalkSprite.transform.localPosition;
+				if (distance2.magnitude < 0.5f)
+				{
+					_view.WalkSprite.SetActive(false);
+				}
+			}
+
+			if( Input.GetMouseButtonDown(0) )
+			{
+				GameObject hitObject = null;
+				
+				Vector3 mousePosition = Input.mousePosition;
+				Ray ray = LayerManager.Instance.UICamera.ScreenPointToRay( mousePosition );
+
+				RaycastHit[] hits = Physics.RaycastAll(ray,500f);
+				RaycastHit hit;
+				
+				for (int i=0,len=hits.Length; i<len; i++)
+				{
+					hit = hits[i];
+					if (hit.collider.gameObject.name == "Texture")
+					{
+						Transform trans = this.transform;
+						float factor = UIRoot.GetPixelSizeAdjustment (this.gameObject);
+						
+						float startX = (Screen.width - _view.Texture.width/factor)/2;
+						float startY = (Screen.height - _view.Texture.height/factor)/2;
+						
+						float x = mousePosition.x - startX;
+						float y = (Screen.height-mousePosition.y) - startY;
+						
+						x *= factor;
+						y *= factor;
+						
+						Vector3 walkTo = new Vector3((_mapOffX-x)/_scale, 0, (y-_mapOffY)/_scale);
+						Debug.Log("walkTo=" + walkTo.ToString());
+						_heroView.WalkToPoint(walkTo);
+
+						_updateWalkPath = true;
+
+						_view.WalkSprite.transform.localPosition = new Vector3(x, -1*y, 0);
+						
+						_view.WalkSprite.gameObject.SetActive (true);
+						break;
+					}
+				}
+			}
+		}
+	}
+}
+	

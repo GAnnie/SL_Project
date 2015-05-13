@@ -1,0 +1,123 @@
+﻿// **********************************************************************
+// Copyright (c) 2013 Baoyugame. All rights reserved.
+// File     :  PackItemDtoListener.cs
+// Author   : willson
+// Created  : 2015/1/16 
+// Porpuse  : 
+// **********************************************************************
+using System;
+using com.nucleus.player.msg;
+using com.nucleus.h1.logic.core.modules.player.data;
+using com.nucleus.h1.logic.core.modules;
+using com.nucleus.h1.logic.core.modules.player.dto;
+
+public class PackItemNotifyListener : BaseDtoListener 
+{
+	override protected Type getDtoClass()
+	{
+		return typeof(PackItemNotify);
+	}
+
+	override public void process( object message )
+	{
+		PackItemNotify dto = message as PackItemNotify;
+		
+		if (dto.traceTypeId == H1TraceTypes.MINE_BATTLE_GAIN) 
+		{
+			BattleManager.Instance.AddBattleRewardNotiryList(dto);
+		}
+		else 
+		{
+			HandlePackItemNotify(dto);
+		}
+	}
+
+	public static void HandlePackItemNotify(PackItemNotify dto)
+	{
+		if(dto.packId == H1Item.PackEnum_Backpack)
+		{
+			if(dto.optType == PackItemNotify.PackItemOptType_Default)
+			{
+				/** 删除的包项位置，int数组 */
+				if(dto.deleteItems != null && dto.deleteItems.Count > 0)
+				{
+					for(int index = 0;index < dto.deleteItems.Count;index++)
+					{
+						if(dto.deleteItems[index] >= 0)
+							BackpackModel.Instance.DeleteItem(dto.deleteItems[index]);
+					}
+				}
+				
+				/** 添加和更新的包项，PackItemDto数组 */
+				if(dto.updateItems != null && dto.updateItems.Count > 0)
+				{
+					for(int index = 0;index < dto.updateItems.Count;index++)
+					{
+						BackpackModel.Instance.UpdateItem(dto.updateItems[index], dto.traceType.tip);
+					}
+				}
+			}
+			else if(dto.optType == PackItemNotify.PackItemOptType_Equipment)
+			{
+				/**
+				 * 装备从 index >= 0 (背包中删除),有2种情况:
+				 * 1.穿装备
+				 * 2.装备炼化
+				 */
+				if(dto.deleteItems != null && dto.deleteItems.Count > 0)
+				{
+					for(int index = 0;index < dto.deleteItems.Count;index++)
+					{
+						if(dto.deleteItems[index] >= 0)
+							BackpackModel.Instance.EquipDelete(dto.deleteItems[index]);
+					}
+				}
+				
+				/**
+				 * 装备从 index < 0 -> >=0 (恢复到背包中),有2种情况:
+				 * 1.脱装备
+				 * 2.装备找回
+				 */
+				if(dto.updateItems != null && dto.updateItems.Count > 0)
+				{
+					for(int index = 0;index < dto.updateItems.Count;index++)
+					{
+						BackpackModel.Instance.EquipUpdate(dto.updateItems[index]);
+					}
+				}
+			}
+
+            BackpackDto packDto = GameDataManager.Instance.GetDataObj<BackpackDto>(GameDataManager.Data_Self_PackDto_Backpack);
+			if (packDto != null && packDto.packDto != null)
+			{
+				packDto.packDto.version = dto.version;
+			}
+		}
+		else if(dto.packId == H1Item.PackEnum_Warehouse)
+		{
+			/** 删除的仓库项位置，int数组 */
+			if(dto.deleteItems != null && dto.deleteItems.Count > 0)
+			{
+				for(int index = 0;index < dto.deleteItems.Count;index++)
+				{
+					WarehouseModel.Instance.DeleteItem(dto.deleteItems[index]);
+				}
+			}
+			
+			/** 添加和更新的仓库项，PackItemDto数组 */
+			if(dto.updateItems != null && dto.updateItems.Count > 0)
+			{
+				for(int index = 0;index < dto.updateItems.Count;index++)
+				{
+					WarehouseModel.Instance.UpdateItem(dto.updateItems[index]);
+				}
+			}
+
+            PackDto packDto = GameDataManager.Instance.GetDataObj<PackDto>(GameDataManager.Data_Self_PackDto_Warehouse);
+			if (packDto != null)
+			{
+				packDto.version = dto.version;
+			}
+		}
+	}
+}

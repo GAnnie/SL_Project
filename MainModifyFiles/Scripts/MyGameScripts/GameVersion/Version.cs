@@ -1,0 +1,86 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class Version : MonoBehaviour {
+	
+	public static int ClientMode_test = 0;
+	
+	public static int ClientMode = ClientMode_test;
+
+#if UNITY_EDITOR || UNITY_STANDALONE
+	public static bool Release = false;
+#else
+	public static bool Release = true;
+#endif
+
+	public static bool _androidTestMode = false;
+
+	private static string sp_version = "0.2.16"; //游戏版本号
+
+	//public static int ver = 1000000;  //新服测试版本号
+	public static int ver = 9549;  //svn版本号  version.xml会根据这个进行判断是否提示更新
+	private static string date = "(2015/05/11)";
+	
+	void Start () {
+		UILabel label = this.gameObject.GetComponent<UILabel>();
+		
+		label.text = GetShowVersion();
+	}
+	
+	public static string bundleVersion
+	{
+		get
+		{
+			return sp_version + "." + ver;
+		}
+	}
+	
+	public static string shortBundleVersion
+	{
+		get
+		{
+			return sp_version;
+		}
+	}
+
+	public static int bundleVersionCode
+	{
+		get
+		{
+			return ver;
+		}
+	}
+
+	public static string GetShowVersion()
+	{
+		return GameVersion;
+	}
+
+	public static string GameVersion 
+	{
+		get
+		{
+			if( Version.Release )
+			{
+				return "v" + bundleVersion + "_Release";
+			}
+			else
+			{
+				return "v" + bundleVersion + "_Develop";
+			}
+//			string origin = ServiceProviderManager.GetOrigin();
+//			if (!string.IsNullOrEmpty(origin))
+//			{
+//				return "v" + bundleVersion + "_" + GetComeFrom() + "_" +origin + date;	
+//			}else
+//			{
+//				return "v" + bundleVersion + "_" + GetComeFrom() + date;
+//			}
+		}    
+	}
+	
+	public static string GetComeFrom(){
+		return AgencyPlatform.GetComeFrom(ClientMode);
+	}
+	
+}

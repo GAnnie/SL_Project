@@ -1,0 +1,563 @@
+﻿// **********************************************************************
+// Copyright (c) 2013 Baoyugame. All rights reserved.
+// File     :  PlayerView.cs
+// Author   : willson
+// Created  : 2014/12/2 
+// Porpuse  : 
+// **********************************************************************
+
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using com.nucleus.h1.logic.core.modules.player.dto;
+using com.nucleus.player.msg;
+using com.nucleus.h1.logic.core.modules.equipment.dto;
+using com.nucleus.h1.logic.core.modules.equipment.data;
+using com.nucleus.h1.logic.core.modules.title.data;
+
+public class PlayerView : MonoBehaviour
+{
+	private NavMeshAgent _mAgent;
+	private GameObject _mGo;
+	private Transform _mTrans;
+	private bool _isVisual = false;
+
+	//Character Model Member
+	protected Animator curAnimation;
+	protected Animator playerAnimation;
+	protected GameObject _heroModelObject;
+	private bool _isHero = false;
+
+	//PlayerHUD Name Member
+	public PlayerHUDView _playerHUDView;
+
+	private SimplePlayerDto _dto = null;
+	private bool _isRunning = false;
+
+	protected int _modelId;
+
+	protected bool _testMode = false;
+
+	private System.Action _toTargetCallback = null;
+	private System.Action _checkMissioinCallback = null;
+	public System.Action checkMissioinCallback {
+		get { return _checkMissioinCallback; }
+		set { _checkMissioinCallback = value; }
+	}
+
+	public void SetPatrolFlag(bool active){
+		if(_playerHUDView != null)
+		{
+			_playerHUDView.runFlagSprite.enabled = active;
+			_playerHUDView.runFlagSpriteAnimation.enabled = active;
+			if(active){
+				_playerHUDView.runFlagSprite.spriteName ="PatrolFlag_01";
+				_playerHUDView.runFlagSpriteAnimation.namePrefix ="PatrolFlag_";
+			}
+		}
+	}
+
+	public void SetNavFlag(bool active){
+		if(_playerHUDView != null){
+			_playerHUDView.runFlagSprite.enabled = active;
+			_playerHUDView.runFlagSpriteAnimation.enabled = active;
+			if(active){
+				_playerHUDView.runFlagSprite.spriteName ="NavFlag_01";
+				_playerHUDView.runFlagSpriteAnimation.namePrefix ="NavFlag_";
+			}
+		}
+	}
+
+	public void SetFightFlag(bool active){
+		if(_playerHUDView != null){
+			_playerHUDView.fightFlagSprite.enabled = active;
+			_playerHUDView.fightFlagSpriteAnimation.enabled = active;
+		}
+	}
+
+	#region Team Relative
+	public PlayerView leaderView;
+	public List<PlayerView> inTeamPlayerList = new List<PlayerView>(5);
+
+	public void UpdateTeamStatus(){
+		if (_dto.teamStatus == PlayerDto.PlayerTeamStatus_Leader) {
+			SetTeamLeaderFlag (true);
+		} else {
+			SetTeamLeaderFlag (false);
+			//变更队长状态时，清空队员列表
+			inTeamPlayerList.Clear();
+		}
+		
+		if(_dto.teamStatus == PlayerDto.PlayerTeamStatus_Member){
+			SimplePlayerDto leaderDto = WorldManager.Instance.GetModel().GetTeamLeader(_dto.teamUniqueId);
+			if(leaderDto != null){
+				PlayerView leaderView = WorldManager.Instance.GetView().GetPlayerView(leaderDto.id);
+				SetupTeamLeader(leaderView);
+			}
+		}else{
+			ClearTeamLeader();
+		}
+	}
+
+	private void SetTeamLeaderFlag(bool active){
+		if(_playerHUDView != null){
+			_playerHUDView.teamFlagSprite.enabled = active;
+			_playerHUDView.teamFlagSpriteAnimation.enabled = active;
+		}
+	}
+
+	private void SetupTeamLeader(PlayerView newLeader){
+		if(leaderView != newLeader){
+			leaderView = newLeader;
+			_mAgent.autoBraking = false;
+			leaderView.AddTeamMember(this);
+		}
+
+		if(leaderView != null){
+			_mAgent.ResetPath();
+			_mTrans.position = leaderView.cachedTransform.position - _dto.teamIndex * leaderView.cachedTransform.forward*(_mAgent.radius+0.5f);
+			_mTrans.rotation = leaderView.cachedTransform.rotation;
+		}
+	}
+
+	private void ClearTeamLeader(){
+		if(leaderView != null){
+			leaderView.RemoveTeamMember(this);
+			leaderView = null;
+			_mAgent.autoBraking = true;
+			StopAndIdle();
+		}
+	}
+
+	private void AddTeamMember(PlayerView playerView){
+		if(!inTeamPlayerList.Contains(playerView)){
+			inTeamPlayerList.Add(playerView);
+		}
+	}
+
+	private void RemoveTeamMember(PlayerView playerView){
+		inTeamPlayerList.Remove(playerView);
+	}
+	#endregion
+
+	#region Getter
+	public GameObject cachedGameObject { get { if (_mGo == null) _mGo = gameObject; return _mGo; } }
+	public Transform cachedTransform { get { if (_mTrans == null) _mTrans = transform; return _mTrans; } }
+
+	public GameObject GetPlayerModelGo()
+	{
+		return _heroModelObject;
+	}
+	
+	public float Speed
+	{
+		get { return _mAgent.speed; }
+	}
+
+	public SimplePlayerDto GetPlayerDto(){
+		return _dto;
+	}
+	#endregion
+	
+	public void SetupPlayerDto(SimplePlayerDto dto,bool isHero)
+	{
+		_dto = dto;
+		_isHero = isHero;
+
+		_mGo = this.gameObject;
+		_mTrans = this.transform;
+		
+		//set NavMeshAgent
+		_mAgent = _mGo.GetMissingComponent<NavMeshAgent>();
+		_mAgent.radius = 0.4f;
+		_mAgent.speed = 3f;
+		_mAgent.acceleration = 1000;
+		_mAgent.angularSpeed = 1000;
+		_mAgent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
+		_mAgent.autoTraverseOffMeshLink = false;
+		_mAgent.autoRepath = false;
+
+		if (_isHero)
+		{
+			PlayerModel.Instance.OnPlayerNicknameUpdate += UpdatePlayerNickName;
+		}
+	}
+
+	private void UpdatePlayerNickName(string nickname)
+	{
+		_dto.nickname = nickname;
+		UpdatePlayerName();
+	}
+
+	// Use this for initialization
+	void Start()
+	{
+		InitPlayerView();
+	}
+	
+	private void InitPlayerView(){
+		if (_isHero){
+			OnNewCallback(null);
+		}
+		else{
+			ShowChecker showChecker = _mGo.GetMissingComponent<ShowChecker>();
+			showChecker.Setup(OnNewCallback, OnDeleteCallback);
+		}
+	}
+	
+	private void OnNewCallback(GameObject go)
+	{
+//		Debug.Log("PlayerView OnNewCallback");
+		_isVisual = true;
+		if (_heroModelObject == null)
+		{
+
+			if (_dto.charactor != null)
+			{
+				_modelId = _dto.charactor.modelId;
+			}
+			else
+			{
+				_modelId = ModelHelper.DefaultModelId;
+			}
+
+			string petStylePath = ModelHelper.GetCharacterPrefabPath(_modelId);
+			ResourcePoolManager.Instance.Spawn(petStylePath, OnLoadFinish, ResourcePoolManager.PoolType.DONT_DESTROY);
+		}
+		else
+		{
+			if(_heroModelObject != null)
+				_heroModelObject.SetActive(true);
+			
+//			if(_playerNameController != null)
+//			{
+//				_playerNameController.PlayerHUD.gameObject.SetActive(true);
+//			}
+
+			InitPlayerAnimation ();
+		}
+	}
+
+	private void OnDeleteCallback(GameObject go)
+	{
+		_isVisual = false;
+//		Debug.Log("PlayerView OnDeleteCallback");
+//		if(_petModelObject != null)
+//			_petModelObject.SetActive(false);
+		
+		if(_heroModelObject != null)
+			_heroModelObject.SetActive(false);
+		
+//		if(_playerNameController != null)
+//			_playerNameController.PlayerHUD.gameObject.SetActive(false);
+	}
+	
+	private void InitPlayerAnimation()
+	{
+		_isRunning = false;
+		if (_mAgent != null && _mAgent.hasPath)
+		{
+			PlayRunAnimation();
+		} 
+		else 
+		{
+			PlayIdleAnimation();
+		}
+	}
+	
+	protected void OnLoadFinish(UnityEngine.Object inst)
+	{
+		GameObject model = inst as GameObject;
+		if (model == null)
+		{
+			GameDebuger.Log("PlayerView OnLoadFinish null and Use Default 2020");
+			_modelId = ModelHelper.DefaultModelId;
+			string petStylePath = ModelHelper.GetCharacterPrefabPath(_modelId);
+			ResourcePoolManager.Instance.Spawn(petStylePath, OnLoadFinish, ResourcePoolManager.PoolType.DONT_DESTROY);
+			return;
+		}
+
+		GameObjectExt.RemoveChildren(_mGo);
+		_heroModelObject = GameObjectExt.AddPoolChild(_mGo, model);
+//		SetPlayerObjTag(_heroModelObject);
+//		SetPlayerCollider();
+
+		ModelHelper.SetPetShadow (_heroModelObject);
+
+		if (_testMode == false)
+		{
+			UpdateModelHSV();
+			InitWeapon ();
+			InitPlayerName ();
+		}
+
+		if(_isHero)
+		{
+			// 设置自动挂机
+			SetPatrolFlag(PlayerModel.Instance.IsAutoFram);
+
+			WorldManager.Instance.CheckTargetNpc();
+		}
+
+		playerAnimation = _heroModelObject.GetComponent<Animator>();
+		
+		if (playerAnimation == null)
+		{
+			return;
+		}
+		
+		curAnimation = playerAnimation;
+		InitPlayerAnimation ();
+	}
+
+	private void InitWeapon()
+	{
+		int wpModel = _dto.wpmodel;
+
+		if (_isHero)
+		{
+			wpModel = BackpackModel.Instance.GetCurrentWeaponModel();
+			BackpackModel.Instance.OnWeaponModelChange += UpdateWeapon;
+		}
+
+		UpdateWeapon(wpModel);
+	}
+
+	public void UpdateWeapon(int model)
+	{
+		if (_heroModelObject != null)
+		{
+			ModelHelper.UpdateModelWeapon (_heroModelObject, _modelId, model);
+		}
+	}
+
+	public void UpdatePlayerName(){
+		if(_dto.titleId != 0){
+			Title titleInfo = DataCache.getDtoByCls<Title>(_dto.titleId);
+			if(titleInfo != null){
+				_playerHUDView.nameLbl.text=string.Format("[b]{0}\n{1}",
+				                                          titleInfo.name.WrapColor(ColorConstant.Color_Title_Str),
+				                                          _dto.nickname.WrapColor(ColorConstant.Color_Name_Str));
+			}
+		}else{
+			_playerHUDView.nameLbl.text=string.Format("[b]{0}",_dto.nickname.WrapColor(ColorConstant.Color_Name_Str));
+		}
+	}
+
+	public void UpdateModelHSV(){
+//		TipManager.AddTip(string.Format("hair:{0} cloth:{1} decoration:{2}",_dto.hairDyeId,_dto.dressDyeId,_dto.accoutermentDyeId));
+		ModelHelper.SetPetLook(_heroModelObject,
+		                       _dto.charactor.texture,
+		                       0,
+		                       PlayerModel.Instance.GetDyeColorParams(_dto.hairDyeId,_dto.dressDyeId,_dto.accoutermentDyeId));
+	}
+
+	private void InitPlayerName()
+	{
+		if (_playerHUDView == null)
+		{
+			GameObject playerNamePrefab = ResourcePoolManager.Instance.SpawnUIPrefab( "Prefabs/Module/PlayerHUDModule/PlayerHUDView" ) as GameObject;
+			GameObject playerNameGo = NGUITools.AddChild(LayerManager.Instance.sceneHudTextAnchor, playerNamePrefab);
+			playerNameGo.name ="PlayerHUDView_"+_dto.id;
+			_playerHUDView = playerNameGo.GetMissingComponent<PlayerHUDView>();
+			_playerHUDView.Setup(playerNameGo.transform);
+			if (_dto.nickname == ""){
+				_dto.nickname = _dto.id.ToString();
+			}
+
+			UpdatePlayerName();
+
+			SetTeamLeaderFlag(_dto.teamStatus == PlayerDto.PlayerTeamStatus_Leader);
+			SetFightFlag(WorldManager.Instance.GetModel().GetPlayerBattleStatus(_dto.id));
+			_playerHUDView.runFlagSprite.enabled = false;
+			_playerHUDView.runFlagSpriteAnimation.enabled = false;
+		}
+
+		UIFollowTarget follower = _playerHUDView.gameObject.GetMissingComponent<UIFollowTarget>();
+		follower.gameCamera = LayerManager.Instance.GameCamera;
+		follower.uiCamera = LayerManager.Instance.UICamera;
+		
+		Transform mountHUD = _heroModelObject.transform.GetChildTransform(ModelHelper.Mount_shadow);
+		follower.target = mountHUD;
+		follower.offset = new Vector3 (0f,-0.5f,0f);
+	}
+
+	void Update()
+	{
+		if(leaderView != null){
+			if(leaderView._isRunning){
+				Vector3 dest = leaderView.cachedTransform.position - _dto.teamIndex * leaderView.cachedTransform.forward*(_mAgent.radius+0.5f);
+				_mAgent.SetDestination(dest);
+				PlayRunAnimation();
+			}else{
+				_mAgent.ResetPath();
+				PlayIdleAnimation();
+			}
+		}
+		else{
+			if (!_walkWithJoystick)
+			{
+				if (_mAgent.hasPath)
+				{
+					PlayRunAnimation();
+				} 
+				else 
+				{
+					PlayIdleAnimation();
+				}
+			}
+
+			//	任务判断\......判断角色坐标回调
+			if (_checkMissioinCallback != null) {
+				_checkMissioinCallback();
+			}
+		}
+	}
+
+	#region 人物行走操作
+	private bool _walkWithJoystick = false;
+	public void WalkWithJoystick()
+	{
+		_walkWithJoystick = true;
+		PlayRunAnimation ();
+	}
+
+	public void WalkToPoint(Vector3 targetPoint, System.Action toTargetCallback = null)
+	{
+		_toTargetCallback = toTargetCallback;
+
+		if (_mAgent == null)
+			return;
+
+		if (_isHero)
+		{
+			WorldManager.Instance.PlanWalk(targetPoint.x, targetPoint.z);
+		}
+
+		if (_mGo.activeInHierarchy)
+		{
+			//玩家不可见，直接设置其坐标
+			if (_isVisual)
+				_mAgent.SetDestination(targetPoint);
+			else
+				_mTrans.position = targetPoint;
+		}
+
+//		Debug.Log ("================");
+//
+//		Vector3[] list = agent.path.corners;
+//		foreach (Vector3 vec in list) 
+//		{
+//			Debug.Log(vec.ToString());
+//		}
+//
+//		Debug.Log ("================");
+//
+//		float pathLen = PathLength (agent.path);
+
+		_walkWithJoystick = false;
+	}
+	#endregion
+
+	public Vector3[] GetWalkPathList()
+	{
+		return _mAgent.path.corners;
+	}
+
+	float PathLength(NavMeshPath path) {
+		if (path.corners.Length < 2)
+			return 0;
+		
+		Vector3 previousCorner = path.corners[0];
+		float lengthSoFar = 0.0F;
+		int i = 1;
+		while (i < path.corners.Length) {
+			Vector3 currentCorner = path.corners[i];
+			lengthSoFar += Vector3.Distance(previousCorner, currentCorner);
+			previousCorner = currentCorner;
+			i++;
+		}
+		return lengthSoFar;
+	}
+	
+	#region 人物停止操作
+	public void StopAndIdle()
+	{
+		OnReachDestination();
+	}
+	
+	public void StopWalk(Vector3 position)
+	{
+		if(_mAgent == null) return;
+		
+		OnReachDestination();
+	}
+
+	private void OnReachDestination()
+	{
+		_walkWithJoystick = false;
+		PlayIdleAnimation();
+		if (_mGo.activeInHierarchy)
+		{
+			_mAgent.ResetPath();
+		}
+	}
+	#endregion
+	
+	virtual public void DestroyMe()
+	{
+		ClearTeamLeader();
+		BackpackModel.Instance.OnWeaponModelChange -= UpdateWeapon;
+
+		if(_playerHUDView != null)
+			GameObject.Destroy (_playerHUDView.gameObject);
+
+		if (_isHero)
+		{
+			PlayerModel.Instance.OnPlayerNicknameUpdate -= UpdatePlayerNickName;
+		}
+		
+		if (_heroModelObject != null)
+		{
+			ResourcePoolManager.Instance.Despawn(_heroModelObject, ResourcePoolManager.PoolType.DONT_DESTROY);
+			_heroModelObject = null;
+		}
+		GameObject.Destroy(_mGo);
+	}
+
+	private void PlayIdleAnimation()
+	{
+		if (_isRunning) 
+		{
+			PlayAnimation(ModelHelper.Anim_idle, true);
+			_isRunning = false;
+			
+			//	到达目标点回调
+			if (_toTargetCallback != null) {
+				_toTargetCallback();
+
+				_toTargetCallback = null;
+			}
+		}
+	}
+	
+	private void PlayRunAnimation()
+	{
+		if (!_isRunning) 
+		{
+			PlayAnimation(ModelHelper.Anim_run, false);
+			_isRunning = true;
+		}
+	}
+
+	public bool IsRunning()
+	{
+		return _isRunning;
+	}
+
+	private void PlayAnimation(string action, bool crossFade)
+	{
+		ModelHelper.PlayAnimation(curAnimation, action, crossFade, null, false);
+	}
+}
+

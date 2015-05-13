@@ -1,0 +1,453 @@
+﻿// **********************************************************************
+// Copyright (c) 2013 Baoyugame. All rights reserved.
+// File     :  ItemTipsViewController.cs
+// Author   : willson
+// Created  : 2015/1/13 
+// Porpuse  : 
+// **********************************************************************
+using com.nucleus.player.msg;
+using UnityEngine;
+using com.nucleus.h1.logic.core.modules.player.data;
+using com.nucleus.h1.logic.core.modules.equipment.dto;
+using com.nucleus.h1.logic.core.modules.equipment.data;
+using com.nucleus.player.data;
+using System.Collections.Generic;
+using com.nucleus.h1.logic.services;
+using com.nucleus.h1.logic.whole.modules.trade.data;
+using com.nucleus.h1.logic.core.modules.player.dto;
+using com.nucleus.commons.message;
+using com.nucleus.h1.logic.core.modules;
+using System;
+using com.nucleus.h1.logic.core.modules.scene.data;
+
+public class ItemTipsViewController : MonoBehaviourBase,IViewController
+{
+	protected ItemTipsView _view;
+	protected UIButton LButton;
+	protected UILabel Llbl;
+	protected UIButton RButton;
+	protected UILabel Rlbl;
+
+	protected int space = 135;
+
+	protected PackItemDto _dto;
+	protected System.Action<PackItemDto> _onUseCallback;
+
+	public void InitView()
+	{
+		_view = gameObject.GetMissingComponent<ItemTipsView> ();
+		_view.Setup(this.transform);
+
+		RegisterEvent();
+	}
+
+	public void RegisterEvent()
+	{
+		UICamera.onClick += ClickEventHandler;
+
+		LButton = UIHelper.CreateBaseBtn(_view.LButtonPos,"待定",OnSellItem);
+		Llbl = LButton.GetComponentInChildren<UILabel>();
+		RButton = UIHelper.CreateBaseBtn(_view.RButtonPos,"使用",OnUseItem);
+		Rlbl = RButton.GetComponentInChildren<UILabel>();
+	}
+
+	/*此方法形参添加了一个标志位tipAnchor，0表示为原本默认位置，其他值表示在anchor上方*/
+	public void SetData(PackItemDto dto,GameObject anchor,bool hasOpt,System.Action<PackItemDto> onUseCallback,int tipAnchor = 0){
+		_dto = dto;
+		_view.NameLabel.text = _dto.item.name.WrapColor(ColorConstant.Color_UI_Tab_Str);
+
+		if(_dto.circulationType == RealItem.CirculationType_Stall)
+		{
+			_view.CirculationTypeSprite.enabled = true;
+			_view.CirculationTypeSprite.spriteName = "shoparound";
+		}
+		else if(_dto.circulationType == RealItem.CirculationType_Gift)
+		{
+			_view.CirculationTypeSprite.enabled = true;
+			_view.CirculationTypeSprite.spriteName = "send";
+		}
+		else if(_dto.circulationType == RealItem.CirculationType_Bind)
+		{
+			_view.CirculationTypeSprite.enabled = true;
+			_view.CirculationTypeSprite.spriteName = "specialues";
+		}
+		else
+		{
+			_view.CirculationTypeSprite.enabled = false;
+		}
+
+		_onUseCallback = onUseCallback;
+
+		if(_view.IconSprite.atlas.GetSprite(_dto.item.icon) != null)
+			_view.IconSprite.spriteName = _dto.item.icon;
+		else
+			_view.IconSprite.spriteName = "0";
+
+		LButton.gameObject.SetActive(hasOpt);
+		RButton.gameObject.SetActive(hasOpt);
+		space = hasOpt ? 135 : 100;
+
+		ShowTips();
+		ContentBgReposition();
+
+		_view.OptBtnGroupAnchor.enabled = hasOpt;
+
+		UpdateAnchorPos(anchor,tipAnchor);
+	}
+	/*此方法形参添加了一个标志位tipAnchor，0表示为原本默认位置，其他值表示在anchor上方*/
+	private void UpdateAnchorPos(GameObject anchor,int tipAnchor = 0){
+		_view.ItemTipsViewAnchor.container = anchor;
+
+		switch(tipAnchor){
+		case 0:
+			//默认
+			_view.ItemTipsViewAnchor.pixelOffset = new Vector2(-_view.ContentBg.width/2,0);
+			break;
+		case 1:
+			//上方
+			_view.ItemTipsViewAnchor.pixelOffset = new Vector2(_view.ContentBg.width/2,_view.ContentBg.height);
+			break;
+		case 2:
+			//场景中间
+			_view.ItemTipsViewAnchor.side = UIAnchor.Side.Center;
+			_view.ItemTipsViewAnchor.pixelOffset = new Vector2(0,_view.ContentBg.height/2);
+			break;
+		}
+
+		_view.ItemTipsViewAnchor.Update();
+
+		UIPanel panel = UIPanel.Find(_view.ContentBg.cachedTransform);
+		panel.ConstrainTargetToBounds(_view.ContentBg.cachedTransform,true);
+	}
+
+	private bool _canSell = false;
+
+	protected virtual void ShowTips()
+	{
+		H1Item item = _dto.item;
+
+		if (_dto.tradePrice > 0)
+		{
+			AddDecLbl( StringHelper.WrapColor( string.Format("购买价格: {0}", _dto.tradePrice), "FFFF00" ) );
+		}
+		if(!string.IsNullOrEmpty(item.description))
+		{
+			AddDecLbl(item.description);
+		}
+
+		if (_dto.circulationType == RealItem.CirculationType_Free)
+		{
+			if (IsTradeGoods(item))
+			{
+				_canSell = true;
+			}
+			else
+			{
+				if(item.salePrice == 0 && item.saleSilverPrice == 0 && _dto.tradePrice == 0)
+				{
+					_canSell = false;
+				}
+				else
+				{
+					_canSell = true;
+				}
+			}
+		}
+		else
+		{
+			_canSell = false;
+		}
+
+		if(_canSell)
+		{
+			Llbl.text = "卖出";
+		}
+		else if(_dto.item.nimbus > 0)
+		{
+			Llbl.text = "炼化";
+		}
+		else
+		{
+			Llbl.text = "炼化";
+		}
+
+	}
+
+	private bool IsTradeGoods(H1Item item)
+	{
+		TradeGoods goods = DataCache.getDtoByCls<TradeGoods>(item.id);
+		return goods != null;
+	}
+
+	protected void ContentBgReposition()
+	{
+		_view.DecTable.Reposition();
+
+		List<Transform> childs = _view.DecTable.GetChildList();
+		if(childs.Count > 0)
+		{
+			Transform bottom = childs[childs.Count - 1];
+			UIWidget widget = bottom.GetComponent<UIWidget>();
+			if(widget)
+			{
+				_view.ContentBg.height = space + (int)Mathf.Abs(bottom.localPosition.y) + widget.height;
+			}
+		}
+	}
+
+	protected UILabel AddDecLbl(string text = "")
+	{
+		UILabel decLbl = NGUITools.AddWidget<UILabel>(_view.DecTable.gameObject,3);
+		decLbl.bitmapFont = _view.NameLabel.bitmapFont;
+		decLbl.fontSize = 18;
+		decLbl.overflowMethod = UILabel.Overflow.ResizeHeight;
+		decLbl.width = 298;
+		decLbl.pivot = UIWidget.Pivot.TopLeft;
+		decLbl.spacingY = 6;
+
+		decLbl.text = text;
+		return decLbl;
+	}
+
+	protected UILabel AddDecLblWithTitle(string title,string titleColor = ColorConstant.Color_Channel_Team_Str,string text = "")
+	{
+		UILabel titleLbl = NGUITools.AddWidget<UILabel>(_view.DecTable.gameObject,3);
+		titleLbl.bitmapFont = _view.NameLabel.bitmapFont;
+		titleLbl.fontSize = 20;
+		titleLbl.overflowMethod = UILabel.Overflow.ResizeHeight;
+		titleLbl.width = 298;
+		titleLbl.pivot = UIWidget.Pivot.TopLeft;
+		titleLbl.text = string.Format("[{1}]{0}[-]",title,titleColor);
+		AddSpace(2);
+		return AddDecLbl(text);
+	}	
+
+	protected void AddSpace(int height = 5)
+	{
+		UIWidget space = NGUITools.AddWidget<UIWidget>(_view.DecTable.gameObject,3);
+		space.height = height;
+	}
+
+	private void OnSellItem()
+	{
+		bool canReClick = false;
+
+		if(_dto != null)
+		{
+			Debug.Log("OnSellItem");
+			if(_dto.item.itemType == H1Item.ItemTypeEnum_PetEquipment)
+			{
+				ProxyPetPropertyModule.OpenEqCombineView();
+			}
+			else if (_canSell)
+			{
+				canReClick = true;
+
+				ServiceRequestAction.requestServer (TradeService.sell(_dto.index), "", delegate(GeneralResponse e) {
+					GameLogicHelper.HandlerItemTipDto(e as ItemTipDto, false);
+				});
+			}
+			else
+			{
+				//TipManager.AddTip("炼化功能暂未支持");
+				// 1.宠物装备合成
+
+				if(_dto.item is Equipment)
+				{
+				// 2.背包人物装备,炼化
+					if(_dto.index >= 0 && _dto.item.nimbus > 0)
+					{
+						canReClick = BackpackModel.Instance.Refine(_dto);
+					}
+				// 3.身上人物装备, 修理镶嵌
+					else if(_dto.index < 0)
+					{
+						EquipmentExtraDto extraDto = _dto.extra as EquipmentExtraDto;
+						if(extraDto != null)
+						{
+							if(extraDto.duration <= 50)
+							{
+								// "修理";
+								EquipmentModel.Instance.Repair(_dto);
+							}
+							else
+							{
+								ProxyEquipmentOptModule.ShowEquipmentGem(_dto,UILayerType.SubModule);
+							}
+						}
+						canReClick = false;
+					}
+				}
+
+				// 4.道具炼化
+				if(_dto.item is Props && _dto.item.nimbus > 0)
+				{
+					canReClick = BackpackModel.Instance.Refine(_dto);
+				}
+
+				if(_dto.item.nimbus == 0)
+				{
+					canReClick = false;
+					TipManager.AddTip("该物品无法炼化");
+				}
+			}
+		}
+
+		CheckReClickOrClose (canReClick);
+	}
+
+	private void OnUseItem()
+	{
+		bool canReClick = false;
+
+		if(_dto != null)
+		{
+			int minGrade = 0;
+			if(_dto.item is Props)
+			{
+				minGrade = (_dto.item as Props).minGrade;
+			}
+			else if(_dto.item is Equipment)
+			{
+				minGrade = (_dto.item as Equipment).equipLevel;
+			}
+
+			if (PlayerModel.Instance.GetPlayerLevel() < minGrade)
+			{
+				if (_dto.itemId == DataHelper.GetStaticConfigValue(H1StaticConfigs.RENAME_ITEM_ID))
+				{
+					TipManager.AddTip("10≤等级≤30时可使用改名许可证免费改名");
+				}
+				else
+				{
+					TipManager.AddTip(string.Format("等级需达到{0}", minGrade));
+				}
+			}
+			else
+			{
+				if(_onUseCallback != null)
+				{
+					Props props = _dto.item as Props;
+					if(props != null && props.logicId == Props.PropsLogicEnum_PET_LIFE)
+						canReClick = true;
+					_onUseCallback(_dto);
+				}
+				else
+				{
+					if(BackpackModel.Instance.isPetProps(_dto))
+					{
+						ProxyBackpackModule.Close();
+						ProxyPetPropertyModule.Open();
+					}
+
+					else if((_dto.item as Props) != null && (_dto.item as Props).logicId == Props.PropsLogicEnum_Treasure){
+
+						HeroView go = WorldManager.Instance.GetHeroView();
+						PropsExtraDto_24 dto_24 = _dto.extra as PropsExtraDto_24;
+						ProxyTreasureMapModule.dto = _dto;
+						if (go && WorldManager.Instance.GetModel().GetSceneDto().id == dto_24.sceneId)
+						{
+
+							float x = go.transform.localPosition.x;
+							float z = go.transform.localPosition.z;
+							
+							double range = Math.Sqrt((x - dto_24.x/10f)*(x - dto_24.x/10f) + (z - dto_24.z/10f)*(z - dto_24.z/10f));
+							if(range <= 1)
+							{
+								ProxyBackpackModule.Close();
+								//真正的使用
+//								Debug.LogError("已到达指定地点,挖挖挖" + "sceneId: " + dto_24.sceneId + "x: " + dto_24.x + "Z : " +dto_24.z);
+								ProxyWindowModule.OpenConfirmWindow("挖?","已到达挖宝地点",delegate {
+
+									//使用物品并打开藏宝图效果界面
+
+									ProxyTreasureMapModule.Open();
+								});
+
+								
+							}
+							else{
+
+								Npc npc = new Npc();
+								npc.x = dto_24.x;
+								npc.z = dto_24.z;
+								npc.sceneId = dto_24.sceneId;
+								
+								string msg = string.Format("藏宝图在{0}({1},{2})，正在进行寻路",dto_24.sceneId,dto_24.x,dto_24.z);
+								TipManager.AddTip(msg);
+								ProxyBackpackModule.Close();
+								WorldManager.Instance.WalkToByNpc(npc,delegate {
+
+									ProxyBackpackModule.Close();
+
+									//调用打开背包并选中
+									ProxyBackpackModule.ShowItemTips(ProxyTreasureMapModule.dto.index);
+								});
+							}
+						}
+						else{
+
+							string msg = string.Format("藏宝图在{0}({1},{2})，正在进行寻路",dto_24.sceneId,dto_24.x,dto_24.z);
+							TipManager.AddTip(msg);
+
+							Npc npc = new Npc();
+							npc.x = dto_24.x;
+							npc.z = dto_24.z;
+							npc.sceneId = dto_24.sceneId;
+							ProxyBackpackModule.Close();
+
+							WorldManager.Instance.WalkToByNpc(npc,delegate {
+
+								//调用打开背包并选中
+								ProxyBackpackModule.ShowItemTips(ProxyTreasureMapModule.dto.index);
+							});
+						}
+					}
+
+					else{
+						canReClick =  BackpackModel.Instance.UseProp(_dto);
+					}
+				}
+			}
+		}
+
+		CheckReClickOrClose (canReClick);
+	}
+
+	private void CheckReClickOrClose(bool canReClick)
+	{
+		if (canReClick)
+		{
+			if (_dto.count == 1)
+			{
+				CloseView();
+			}
+			else
+			{
+				_dto.count -= 1;
+			}
+		}
+		else
+		{
+			CloseView();
+		}
+	}
+
+	void ClickEventHandler(GameObject go)
+	{
+		if (go != LButton.gameObject && go != RButton.gameObject)
+		{
+			CloseView();
+		}
+	}
+
+	private void CloseView()
+	{
+		ProxyItemTipsModule.Close();
+	}
+
+	public void Dispose()
+	{
+		UICamera.onClick -= ClickEventHandler;
+	}
+}

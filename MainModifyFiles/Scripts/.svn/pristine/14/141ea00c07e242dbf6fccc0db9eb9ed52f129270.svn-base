@@ -1,0 +1,251 @@
+﻿// **********************************************************************
+// Copyright (c) 2013 Baoyugame. All rights reserved.
+// File     :  NpcView.cs
+// Author   : willson
+// Created  : 2014/12/23 
+// Porpuse  : 
+// **********************************************************************
+using UnityEngine;
+using System.Collections.Generic;
+using com.nucleus.h1.logic.core.modules.scene.data;
+
+public class NpcViewManager
+{
+	private WorldModel _model;
+
+	private Dictionary<int, INpcUnit> _npcs;
+	private List<INpcUnit> _loadNpcUnitPool;
+
+	//	维护一个冥雷怪的Dic
+	private Dictionary<int, INpcUnit> _npcMonsters = null;
+
+	private GameObject _heroPlayer;
+	
+	private UnitWaitingTrigger _unitWaitingTrigger;
+	
+	public static bool EnableTrigger = true;
+	
+	private bool _worldSceneFinish = false;
+
+	public void Start(WorldModel model, GameObject heroPlayer)
+	{
+		_model = model;
+		_heroPlayer = heroPlayer;
+
+		_npcs = new Dictionary<int, INpcUnit>();
+
+		_loadNpcUnitPool = new List<INpcUnit>();
+
+		_npcMonsters = new Dictionary<int, INpcUnit>();
+
+		_unitWaitingTrigger = new UnitWaitingTrigger();
+		_unitWaitingTrigger.SetHeroPlayer(_heroPlayer);
+
+		InitStaticNpc();
+	}
+
+	private void InitStaticNpc()
+	{
+		List<Npc> npcs = DataCache.getArrayByCls<Npc>();
+		int tModelSceneID = _model.GetSceneId();
+
+		foreach (Npc npc in npcs){
+			if (npc.sceneId == tModelSceneID){
+				if (npc is NpcDoubleTeleport || npc is NpcGeneral)
+				{
+					AddNpcUnit(npc);
+				}
+			}
+		}
+
+		//	是否有明雷任务Npc存在当前场景
+		InitShowMonster();
+	}
+
+	#region 任务相关（生成明雷怪物NPC）
+	private void InitShowMonster() {
+		int tModelSceneID = _model.GetSceneId();
+
+		//	是否有明雷任务Npc存在当前场景
+		List<Npc> tShowNpcGeneralList = MissionDataModel.Instance.GetShowMonsterNpcListBySceneID();
+		for (int i = 0, len = tShowNpcGeneralList.Count; i < len; i++) {
+			AddNpcUnit(tShowNpcGeneralList[i]);
+		}
+	}
+
+	//	生成一只冥雷怪
+	/// <summary>
+	/// 生成一只冥雷怪 -- Inits the show monster.
+	/// </summary>
+	/// <param name="npc">Npc.</param>
+	public void InitShowMonster(Npc npc) {
+		AddNpcUnit(npc);
+	}
+
+	//	删除一只冥雷怪
+	/// <summary>
+	/// 删除一只冥雷怪 -- DESs the show monster.
+	/// </summary>
+	/// <param name="npc">Npc.</param>
+	public void DesShowMonster(Npc npc) {
+		if (_npcMonsters.ContainsKey(npc.id)) {
+			_npcMonsters[npc.id].Destroy();
+
+			//	清除列表数据
+			_npcMonsters.Remove(npc.id);
+
+			if (_npcs.ContainsKey(npc.id)) {
+				_npcs.Remove(npc.id);
+			}
+		}
+	}
+	#endregion
+
+	private void AddNpcUnit(Npc npc, bool needUpdatePosition = true)
+	{
+		if (npc.sceneId != _model.GetSceneDto().id)
+		{
+			GameDebuger.Log("!! "+npc.name + " at " + npc.sceneId);
+			npc.sceneId = _model.GetSceneDto().id;
+		}
+		
+		if (_npcs.ContainsKey(npc.id)){
+			if (needUpdatePosition){
+				UpdateNPC(npc);
+			}
+			return;
+		}
+		
+		INpcUnit npcUnit = null;
+
+		/*
+		if( npc is NpcGeneral )
+		{
+			NpcGeneral npcGeneral = npc as NpcGeneral;
+			if( npcGeneral.type == 1 )
+			{
+				npcUnit = new GeneralUnit();
+				(npcUnit as TriggerNpcUnit ).SetHeroPlayer( _heroPlayer );
+			}
+			else if ( npcGeneral.type == 2 )
+			{
+				npcUnit = new DoubleTeleportUnit();
+				(npcUnit as TriggerNpcUnit ).SetHeroPlayer( _heroPlayer );
+			}
+		}
+		*/
+		if (npc is NpcDoubleTeleport)
+		{
+			npcUnit = new DoubleTeleportUnit();
+		}
+		else if (npc is NpcGeneral)
+		{
+			npcUnit = new GeneralUnit();
+		}
+		//	随机生成的明雷怪
+		else if (npc is NpcMonster)
+		{
+			npcUnit = new MonsterUnit();
+			if (!_npcMonsters.ContainsKey(npc.id)) {
+				_npcMonsters.Add(npc.id, npcUnit);
+			}
+		}
+		
+		if (npcUnit != null)
+		{
+			if (npcUnit is TriggerNpcUnit)
+			{
+				_unitWaitingTrigger.AddTriggerUnit( npcUnit as TriggerNpcUnit );
+			}
+			npcUnit.Show(npc);
+			
+			npcUnit.LoadNpcGO();
+			_npcs.Add(npc.id, npcUnit);
+		}
+	}
+
+	private void UpdateNPC(Npc npc)
+	{
+		INpcUnit npcUnit = _npcs[npc.id];
+		npcUnit.UpdateNpc(npc);
+	}
+
+	public void Tick(){
+		if (EnableTrigger)
+		{
+			if (_unitWaitingTrigger != null)
+			{
+				_unitWaitingTrigger.Tick();
+			}
+			
+			//            if (_loadNpcUnitPool.Count > 0)
+			//            {
+			//                INpcUnit npcUint = _loadNpcUnitPool[0];
+			//                _loadNpcUnitPool.RemoveAt(0);
+			//                npcUint.LoadNpcGO();
+			//            }
+		}
+	}
+	
+	public void Click(GameObject go)
+	{
+		INpcUnit npcUnit = GetNpcUnit(go);
+		if (npcUnit != null)
+		{
+			npcUnit.Trigger();
+		}
+	}
+
+	public INpcUnit GetNpcUnit(Npc npc)
+	{
+		return GetNpcUnit(npc.id);
+	}
+
+	public INpcUnit GetNpcUnit(int npcId)
+	{
+		INpcUnit unit = null;
+		_npcs.TryGetValue(npcId, out unit);
+		return unit;
+	}	
+
+	public INpcUnit GetNpcUnit(GameObject go)
+	{
+		foreach (INpcUnit npcUnit in _npcs.Values)
+		{
+			if (npcUnit.GetNpcColliderGO() == go || npcUnit.GetNpcUnitGO() == go || npcUnit.GetUnitGO() == go)
+			{
+				return npcUnit;
+			}
+		}
+		return null;
+	}
+
+	public Dictionary<int, INpcUnit> GetNpcUnits()
+	{
+		return _npcs;
+	}
+
+	public void Destroy()
+	{	
+		if(_unitWaitingTrigger != null){
+			_unitWaitingTrigger.Destroy();
+			_unitWaitingTrigger = null;
+		}
+
+		if(_npcs != null){
+			foreach (INpcUnit npcUnit in _npcs.Values)
+			{
+				npcUnit.Destroy();
+			}
+			
+			_npcs.Clear();
+		}
+
+		if (_npcMonsters != null) {
+			foreach (INpcUnit npcMonster in _npcMonsters.Values) {
+				npcMonster.Destroy();
+			}
+			_npcMonsters.Clear();
+		}
+	}
+}

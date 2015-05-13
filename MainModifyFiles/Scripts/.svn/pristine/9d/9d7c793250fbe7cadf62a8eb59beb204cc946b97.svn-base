@@ -1,0 +1,268 @@
+﻿// **********************************************************************
+// Copyright (c) 2013 Baoyugame. All rights reserved.
+// File     :  EquipmentTipsViewController.cs
+// Author   : willson
+// Created  : 2015/2/2 
+// Porpuse  : 
+// **********************************************************************
+using com.nucleus.h1.logic.core.modules.equipment.dto;
+using UnityEngine;
+using com.nucleus.h1.logic.core.modules.equipment.data;
+using com.nucleus.h1.logic.core.modules.charactor.data;
+using com.nucleus.player.data;
+using com.nucleus.h1.logic.core.modules.player.data;
+using com.nucleus.h1.logic.core.modules.charactor.model;
+using System.Collections.Generic;
+using com.nucleus.h1.logic.core.modules.battle.data;
+
+public class EquipmentTipsViewController : ItemTipsViewController
+{
+	protected override void ShowTips ()
+	{
+		Equipment item = _dto.item as Equipment;
+		AddIntroductionlbl(item);
+		AddPropertylbl(item);
+		AddGemlbl(item);
+        AddBufflbl(item);
+		AddDescriptionlbl(item);
+		HandleOpt();
+	}
+
+	protected void AddIntroductionlbl(Equipment item)
+	{
+		string introduction = "";
+		if(item.equipPartType == Equipment.EquipPartType_Weapon)
+		{
+			introduction += string.Format("类型：{0}\n",ItemHelper.WeaponTypeName(item.mainCharactorId));
+			introduction += string.Format("等级：{0}\n",item.equipLevel);
+			introduction += string.Format("适用：{0}",item.mainCharactor.name);
+		}
+		else
+		{
+			introduction += string.Format("类型：{0}\n",ItemHelper.EquipmentPartName(item));
+			introduction += string.Format("等级：{0}",item.equipLevel);
+		}
+		AddDecLbl().text = introduction.WrapColor(ColorConstant.Color_UI_Tab_Str);
+	}
+
+	protected void AddPropertylbl(Equipment item)
+	{
+		EquipmentExtraDto extra = _dto.extra as EquipmentExtraDto;
+		if(extra != null)
+		{
+			AddSpace();
+			UILabel propertylbl = AddDecLblWithTitle("装备属性");
+
+			if(!extra.hasIdentified)
+			{
+				propertylbl.text += "  未鉴定".WrapColor(ColorConstant.Color_UI_Tab_Str);
+			}
+			else
+			{
+				/** 战斗属性 */
+				if(extra.battleBaseProperties != null)
+				{
+					PropertyStr(propertylbl,"速度",extra.battleBaseProperties.speed);
+					PropertyStr(propertylbl,"攻击",extra.battleBaseProperties.attack);
+					PropertyStr(propertylbl,"防御",extra.battleBaseProperties.defense);
+					PropertyStr(propertylbl,"气血",extra.battleBaseProperties.hp);
+					PropertyStr(propertylbl,"魔法",extra.battleBaseProperties.mp);
+					PropertyStr(propertylbl,"灵力",extra.battleBaseProperties.magic);
+					//PropertyStr(propertylbl,"最大气血",extra.battleBaseProperties.maxHp);
+					//PropertyStr(propertylbl,"最大法力",extra.battleBaseProperties.maxMp);
+				}
+
+				/** 资质属性 */
+				if(extra.aptitudeProperties != null && extra.aptitudeProperties.Count > 0)
+				{
+					propertylbl.text += "\n";
+					List<EquipmentAptitude> aptitudeProperties = EquipmentTipGroup.MergeAptitudeProperties(extra.aptitudeProperties);
+					for(int index = 0;index < aptitudeProperties.Count;index++)
+					{
+						PropertyStr(propertylbl,ItemHelper.AptitudeTypeName(aptitudeProperties[index].aptitudeType),aptitudeProperties[index].value);
+					}
+				}
+
+                /** 特技 */
+                if(extra.activeSkillIds != null && extra.activeSkillIds.Count > 0)
+                {
+                    propertylbl.text += "\n";
+                    List<string> skills = new List<string>();
+                    for(int index = 0;index < extra.activeSkillIds.Count;index++)
+                    {
+                        EquipmentSkill skill = DataCache.getDtoByCls<Skill>(extra.activeSkillIds[index]) as EquipmentSkill;
+                        if(skill != null)
+                        {
+                            string str = string.Format("特技：[{0}]", skill.name).WrapColor(ColorConstant.Color_Equip_Skill_Str) + skill.description.WrapColor(ColorConstant.Color_Channel_Guild_Str);
+                            skills.Add(str);
+                        }
+                    }
+                    propertylbl.text += string.Join("\n", skills.ToArray());
+                }
+
+				propertylbl.text += "\n";
+				propertylbl.text += string.Format("耐久:{0}",extra.duration).WrapColor(ColorConstant.Color_Channel_Guild_Str);
+			}
+
+			if(!string.IsNullOrEmpty(extra.smithee))
+			{
+				propertylbl.text += "\n";
+				propertylbl.text += string.Format("制作人:{0}",extra.smithee).WrapColor(ColorConstant.Color_Channel_Guild_Str);
+			}
+		}
+	}
+
+	private void PropertyStr(UILabel propertylbl,string name,int value)
+	{
+		if(value != 0)
+		{
+			if(value > 0)
+			{
+				propertylbl.text += (name + "+" + value + " ").WrapColor(ColorConstant.Color_Channel_Guild_Str);
+			}
+			else
+			{
+				propertylbl.text += (name + value + " ").WrapColor(ColorConstant.Color_Channel_Guild_Str);
+			}
+		}
+	}
+
+	protected void AddGemlbl(Equipment item)
+	{
+		EquipmentExtraDto extraDto = _dto.extra as EquipmentExtraDto;
+		if(extraDto != null)
+		{
+			if(extraDto.equipmentEmbedInfo != null 
+			   && extraDto.equipmentEmbedInfo.embedItemIds != null 
+			   && extraDto.equipmentEmbedInfo.embedItemIds.Count > 0)
+			{
+				AddSpace();
+				UILabel gemlbl = AddDecLblWithTitle("宝石属性");
+				string propertyStr = "";
+				string gemName = "镶嵌 ";
+				int lv = 0;
+				for(int index = 0;index < extraDto.equipmentEmbedInfo.embedItemIds.Count;index++)
+				{
+					if(index < extraDto.equipmentEmbedInfo.embedLevels.Count)
+					{
+						int gemId = extraDto.equipmentEmbedInfo.embedItemIds[index];
+						int gemLv = extraDto.equipmentEmbedInfo.embedLevels[index];
+						lv += gemLv;
+						
+						Props gem = DataCache.getDtoByCls<GeneralItem>(gemId) as Props;
+						gemName += gem.name + "、";
+						
+						PropsParam_3 param = gem.propsParam as PropsParam_3;
+						
+						int value = 0;
+						if(param.battleBasePropertyValues[0] != AptitudeProperties.USE_ILV)
+						{
+							value = param.battleBasePropertyValues[0]*gemLv;
+						}
+						else
+						{
+							value = item.equipLevel*gemLv;
+						}
+						
+						// 属性+10 属性+10 锻造等级x 镶嵌 宝石名字、宝石名字
+						
+						if(value > 0)
+						{
+							propertyStr += ItemHelper.BattleBasePropertyTypeName(param.battleBasePropertyTypes[0]) + "+" + value + " ";
+						}
+						else
+						{
+							propertyStr += ItemHelper.BattleBasePropertyTypeName(param.battleBasePropertyTypes[0]) + value + " ";
+						}
+					}
+				}
+				
+				propertyStr += "锻造等级" + lv + " ";
+				if(!string.IsNullOrEmpty(gemName))
+				{
+					gemName = gemName.Substring(0,gemName.Length - "、".Length);
+					propertyStr += gemName;
+				}
+				gemlbl.text = propertyStr.WrapColor(ColorConstant.Color_Channel_Guild_Str);
+			}
+		}
+	}
+
+    protected void AddBufflbl(Equipment item)
+    {
+        EquipmentExtraDto extraDto = _dto.extra as EquipmentExtraDto;
+        if(extraDto != null)
+        {
+            if(extraDto.propertiesBuffList != null && extraDto.propertiesBuffList.Count > 0)
+            {
+                AddSpace();
+
+                UILabel buffLbl = AddDecLbl();
+                for(int index = 0;index < extraDto.propertiesBuffList.Count;index++)
+                {
+                    EquipmentBuffDto buffDto = extraDto.propertiesBuffList[index];
+                    if (buffDto.remainSeconds <= 0)
+                        continue;
+                    if (index != extraDto.propertiesBuffList.Count - 1)
+                        buffLbl.text += string.Format("附魔：{0}+{1}（剩余{2}）\n", ItemHelper.BattleBasePropertyTypeName(buffDto.property.battleBasePropertyType), buffDto.property.value, DateUtil.getVipTime(buffDto.remainSeconds)).WrapColor(ColorConstant.Color_Channel_Guild_Str);
+                    else
+                        buffLbl.text += string.Format("附魔：{0}+{1}（剩余{2}）", ItemHelper.BattleBasePropertyTypeName(buffDto.property.battleBasePropertyType), buffDto.property.value, DateUtil.getVipTime(buffDto.remainSeconds)).WrapColor(ColorConstant.Color_Channel_Guild_Str);
+                }
+            }
+        }
+    }
+
+	protected void AddDescriptionlbl(Equipment item)
+	{
+		if(!string.IsNullOrEmpty(item.description))
+		{
+			AddSpace();
+			AddDecLbl().text = item.description.WrapColor(ColorConstant.Color_UI_Tab_Str);
+		}
+	}
+
+	private void HandleOpt()
+	{
+		// 左边按钮
+		if(_dto.index >=0)
+		{
+			Llbl.text = "炼化";
+		}
+		else
+		{
+			Llbl.text = "镶嵌";
+
+			EquipmentExtraDto extraDto = _dto.extra as EquipmentExtraDto;
+			if(extraDto != null)
+			{
+				if(extraDto.duration <= 50)
+				{
+					Llbl.text = "修理";
+				}
+			}
+		}
+
+		// 右边按钮
+		if(_dto.index >= 0)
+		{
+			Rlbl.text = "装备";
+
+			EquipmentExtraDto extraDto = _dto.extra as EquipmentExtraDto;
+			if(extraDto != null)
+			{
+				if(extraDto.hasIdentified == false)
+				{
+					Rlbl.text = "鉴定";
+				}
+				else if(extraDto.duration == 0)
+				{
+					Rlbl.text = "修理";
+				}
+			}
+		}
+		else
+		{
+			Rlbl.text = "卸下";
+		}
+	}
+}

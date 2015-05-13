@@ -1,0 +1,1150 @@
+﻿using UnityEngine;
+using System.Collections;
+using com.nucleus.h1.logic.core.modules.scene.dto;
+using com.nucleus.h1.logic.core.modules.charactor.dto;
+using com.nucleus.h1.logic.core.modules.player.data;
+using com.nucleus.h1.logic.core.modules.player.dto;
+//using LuaInterface;
+using System.Collections.Generic;
+using com.nucleus.h1.logic.services;
+using com.nucleus.h1.logic.chat.modules.dto;
+using com.nucleus.h1.logic.chat.modules.data;
+using com.nucleus.h1.logic.core.modules.mission.dto;
+
+public class MainUIViewController : MonoBehaviour,IViewController
+{
+	public static MainUIViewController Instance { get; private set; }
+
+	private MainUIView _view;
+	private const string CharacterPropertyViewName = "Prefabs/Module/MainUIModule/CharacterPropertyView";
+	private const string PetPropertyViewName = "Prefabs/Module/MainUIModule/PetPropertyView";
+	private const string ExpandContentViewName = "Prefabs/Module/MainUIModule/MainUIExpandContentView";
+	private const string ChatMsgViewName = "Prefabs/Module/ChatPrefab/ChannelChatItemCell";
+	public CharactorProperyController _petInfo;
+	public CharactorProperyController _playerInfo;
+	public MainUIExpandContentController _expandContentController;
+
+	private MonoTimer _timer;
+	
+	#region IViewController implementation
+
+	public void InitView ()
+	{
+		if(Instance == null){
+			Instance = this;
+			_view = gameObject.GetMissingComponent<MainUIView> ();
+			_view.Setup (this.transform);
+		}
+
+		RegisterEvent ();
+		
+		InitCharactorInfo ();
+		ShowPlayerInfoBtn (null);
+		InitExpandContentInfo ();
+		UpdatePlayerExpInfo ();
+		UpdateExpandContentToggleFlag();
+		ChangeMode (UIMode.Mode_Game);
+
+		OnSystemWeatherChange ();
+		OnOpenDoublePointChanged();
+		ToggleBattleButtonGroup();
+
+		if (Version.Release)
+		{
+			SystemNotify notify = new SystemNotify();
+			notify.content = "此游戏处于研发阶段，现在版本不代表最终品质";
+			notify.lableType = ChatChannel.LableTypeEnum_System;
+			ChatModel.Instance.AddSysNotify(notify);
+		}
+	}
+
+	private void InitCharactorInfo ()
+	{
+		if (_petInfo == null && _playerInfo == null) {
+			GameObject prefab = ResourcePoolManager.Instance.SpawnUIPrefab (CharacterPropertyViewName) as GameObject;
+			GameObject module = GameObjectExt.AddChild (_view.topRightAnchor, prefab);
+			module.name = "PlayerPropertyInfo";
+			_playerInfo = module.GetMissingComponent<CharactorProperyController> ();
+
+			prefab = ResourcePoolManager.Instance.SpawnUIPrefab (PetPropertyViewName) as GameObject;
+
+			module = GameObjectExt.AddChild (_view.topRightAnchor, prefab, -186f);
+			module.name = "PetProperyInfo";
+			_petInfo = module.GetMissingComponent<CharactorProperyController> ();
+
+			_petInfo.InitItem (false);
+			_playerInfo.InitItem (true);
+		}
+		_petInfo.SetupIconFunc (OpenPetPropView);		
+
+		_playerInfo.SetupIconFunc (OpenPlayerPropView);
+	}
+
+	private void InitExpandContentInfo ()
+	{
+		if (_expandContentController == null) {
+			GameObject prefab = ResourcePoolManager.Instance.SpawnUIPrefab (ExpandContentViewName) as GameObject;
+			GameObject module = GameObjectExt.AddChild (_view.expandPanelAnchor, prefab);
+			_expandContentController = module.GetMissingComponent<MainUIExpandContentController> ();
+		}
+
+		_expandContentController.InitView ();
+		
+		CoolDownManager.Instance.SetupCoolDown("___missionExpandContent", 3.0f, null, () => {
+			_view.expandPanelToggle.value = MissionDataModel.Instance.openExpandContent;
+		});
+	}
+
+	public void RegisterEvent ()
+	{
+		EventDelegate.Set (_view.upgradeBtn.onClick, OpenUpgradView);
+
+		//EventDelegate.Set (_view.autoRunBtn.onClick, OpenAutoRunView);
+		EventDelegate.Set (_view.autoRunBtnTrigger.onPress, onPressAutoRunBtn);
+		EventDelegate.Set (_view.autoRunBtnTrigger.onRelease, onReleaseAutoRunBtn);
+
+
+		EventDelegate.Set (_view.dailyBtn.onClick, OpenDailyView);
+		EventDelegate.Set (_view.BattleButton_Daily_UIButton.onClick, OpenDailyView);
+
+		EventDelegate.Set (_view.guideBtn.onClick, OpenGuideView);
+		EventDelegate.Set (_view.BattleButton_Guide_UIButton.onClick, OpenGuideView);
+
+		EventDelegate.Set (_view.rewardBtn.onClick, OpenRewardView);
+		
+		EventDelegate.Set (_view.storeBtn.onClick, OpenStoreView);
+		EventDelegate.Set (_view.BattleButton_Store_UIButton.onClick, OpenStoreView);
+
+		EventDelegate.Set (_view.tradeBtn.onClick, OpenTradeView);
+		EventDelegate.Set (_view.BattleButton_Trade_UIButton.onClick, OpenTradeView);
+
+		EventDelegate.Set (_view.packBtn.onClick, OpenPackView);
+		EventDelegate.Set (_view.BattleButton_Pack_UIButton.onClick, OpenPackView);
+		
+		EventDelegate.Set (_view.bottomShrinkBtn.onClick, ToggleBottomRightBtnGroup);
+
+		EventDelegate.Set (_view.partnerBtn.onClick, OpenPartnerView);
+		EventDelegate.Set (_view.BattleButton_Partner_UIButton.onClick, OpenPartnerView);
+
+		EventDelegate.Set (_view.skillBtn.onClick, OpenSkillView);
+		EventDelegate.Set (_view.BattleButton_Skill_UIButton.onClick, OpenSkillView);
+
+		EventDelegate.Set (_view.guildBtn.onClick, OpenGuildView);
+		EventDelegate.Set (_view.BattleButton_Guild_UIButton.onClick, OpenGuildView);
+
+		EventDelegate.Set (_view.forgeBtn.onClick, OpenForgeView);
+		EventDelegate.Set (_view.BattleButton_Forge_UIButton.onClick, OpenForgeView);
+
+		EventDelegate.Set (_view.rankingBtn.onClick, OpenRankingList);
+		EventDelegate.Set (_view.BattleButton_Ranking_UIButton.onClick, OpenRankingList);
+
+		EventDelegate.Set (_view.systemBtn.onClick, OpenSystemView);
+		EventDelegate.Set (_view.BattleButton_System_UIButton.onClick, OpenSystemView);
+
+		EventDelegate.Set (_view.friendBtn.onClick, OpenFriendView);
+
+		EventDelegate.Set (_view.gmTestBtn.onClick, OpenGmTestView);
+
+		//战斗模式主界面按钮组
+		EventDelegate.Set (_view.LeftShrinkBtnToggle_UIToggle.onChange, ToggleBattleButtonGroup);
+
+		//	任务右侧边栏
+		EventDelegate.Set (_view.expandPanelToggle.onChange, ToggleExpendContent);
+		EventDelegate.Set (_view.UsePropsBtn_UIButton.onClick, PopupUseMissionPropsBtn);
+		EventDelegate.Set (_view.MissionUseClose_UIButton.onClick, PopupUseMissionPropsClose);
+
+		EventDelegate.Set (_view.playerInfoBtn.onClick, OnClickPlayerInfoBtn);
+
+		EventDelegate.Set (_view.WorldMapBtn_UIButton.onClick, OnClickWorldMapBtn);
+		EventDelegate.Set (_view.MiniMapBtn.onClick, OnClickMiniMapBtn);
+		EventDelegate.Set (_view.ChatBoxTrigger.onClick, OnChatBoxClick);
+
+		EventDelegate.Set (_view.WeatherBtn_UIButton.onClick, OnWeatherBtnClick);
+
+
+		_view.WorldBtnEventListener.onDrag += OnChatBtnDrag;
+		_view.WorldBtnEventListener.onPress += OnWorldChatBtnPress;
+
+		_view.GuideBtnEventListener.onDrag += OnChatBtnDrag;
+		_view.GuideBtnEventListener.onPress += OnGuldeChatBtnPress;
+
+		_view.TeamBtnEventListener.onDrag += OnChatBtnDrag;
+		_view.TeamBtnEventListener.onPress += OnTeamChatBtnPress;
+		EventDelegate.Set (_view.UpBtn.onClick, OnUpBtnClick);
+		EventDelegate.Set (_view.SetUpBtn.onClick, OnSetUpBtnClick);
+		EventDelegate.Set (_view.MessageBtn.onClick, OnChatBoxClick);
+
+		MarqueeModel.Instance.ShowMarquee += ShowMarquee;
+		AutoPlayVoiceModel.Instance.AutoPlayVoice += PlayVoice;
+		FriendModel.Instance.ShowMainUiRedPoint +=ShowFriendRedPoint;
+		SystemTimeManager.Instance.OnSystemWeatherChange += OnSystemWeatherChange;
+		SystemTimeManager.Instance.OnSystemTimeChange += OnSystemTimeChange;
+
+		WorldManager.Instance.OnSceneChanged += OnSceneChanged;
+		PlayerModel.Instance.OnPlayerExpUpdate += UpdatePlayerExpInfo;
+		PlayerModel.Instance.OnPlayerGradeUpdate += UpdatePlayerPropertyInfo;
+		PlayerModel.Instance.OnOpenDoublePointChanged += OnOpenDoublePointChanged;
+		
+		TeamModel.Instance.OnTeamApplicationUpdate += UpdateExpandContentToggleFlag;
+		PetModel.Instance.OnChangeBattlePet += UpdatePetPropertyInfo;
+		PetModel.Instance.OnPetExpUpdate += UpdatePetPropertyInfo;
+
+		BaoyugameSdk.RegisterPower();
+		//BaoyugameSdk.RegisterGsmSignalStrength();
+
+		if (_timer == null)
+		{
+			_timer = TimerManager.GetTimer("MainUIViewController");
+			_timer.Setup(1f, OnDeviceRefresh);
+			_timer.Play();
+		}
+	}
+
+	private void OnDeviceRefresh()
+	{
+		if (BaoyugameSdk.IsBattleCharging())
+		{
+			OnPowerChange(9999);
+		}
+		else
+		{
+			OnPowerChange(BaoyugameSdk.GetBatteryLevel());
+		}
+
+		OnNetworkChange();
+	}
+
+	public void Dispose ()
+	{
+		MissionDataModel.Instance.openExpandContent = _view.expandPanelToggle.value;
+
+		SystemTimeManager.Instance.OnSystemWeatherChange -= OnSystemWeatherChange;
+		SystemTimeManager.Instance.OnSystemTimeChange -= OnSystemTimeChange;
+        //BaoyugameSdk.UnregisterPower();
+
+		WorldManager.Instance.OnSceneChanged -= OnSceneChanged;
+		PlayerModel.Instance.OnPlayerExpUpdate -= UpdatePlayerExpInfo;
+		PlayerModel.Instance.OnPlayerGradeUpdate -= UpdatePlayerPropertyInfo;
+		PlayerModel.Instance.OnOpenDoublePointChanged -= OnOpenDoublePointChanged;
+		TeamModel.Instance.OnTeamApplicationUpdate -= UpdateExpandContentToggleFlag;
+		PetModel.Instance.OnChangeBattlePet -= UpdatePetPropertyInfo;
+		FriendModel.Instance.ShowMainUiRedPoint -=ShowFriendRedPoint;
+
+		if (_timer != null)
+		{
+			TimerManager.RemoveTimer(_timer);
+			_timer = null;
+		}
+	}
+
+	#endregion
+	
+	void Start ()
+	{
+		
+	}
+	int intervalTime = 0;//检测语音的能量值//
+
+	void Update ()
+	{
+		HeroView heroView = WorldManager.Instance.GetHeroView();
+		if (heroView) {
+			Transform heroTrans = heroView.cachedTransform;
+			int x = (int)(heroTrans.localPosition.x * 10);
+			int y = (int)(heroTrans.localPosition.z * 10);
+			_view.ordinateLbl.text = string.Format ("[b]{0},{1}", x, y);
+		}
+
+
+		if(_isPressAutoRunBtn)
+		{
+			_pressAutoRunTimer += Time.deltaTime;
+			if (_pressAutoRunTimer > 0.6 && PlayerModel.Instance.IsAutoFram == false) 
+			{
+				if(WorldManager.Instance.GetModel().GetSceneDto().sceneMap.monsterIds.Count > 0)
+				{
+					PlayerModel.Instance.StartAutoFram();
+				}
+				else
+				{
+					_isPressAutoRunBtn = false;
+					TipManager.AddTip("当前场景不是挂机场景，不能进行原地巡逻");
+				}
+			}
+		}
+
+
+		if( VoiceRecognitionManager.Instance.IsRecord() )
+		{
+			if( intervalTime %5 ==4 )
+			{
+				_view.EnergyBar.fillAmount = VoiceRecognitionManager.Instance.GetVoiceAveraged() ;
+				intervalTime  = 0;
+			}
+			else
+			{
+				intervalTime++;
+			}
+		}
+		else
+		{
+			intervalTime = 0;
+		}
+
+
+	}
+
+	private void OnSystemTimeChange(long time)
+	{
+		_view.DeviceTimeLabel_UILabel.text = DateUtil.getServerTime (time);
+	}
+
+    private void OnPowerChange(int power)
+    {
+        if(power == 9999)
+        {
+            _view.PowerBarSprite.enabled = false;
+            _view.AddPowerSprite.enabled = true;
+        }
+        else if(power == 0)
+        {
+            _view.PowerBarSprite.enabled = false;
+            _view.AddPowerSprite.enabled = false;
+        }
+        else
+        {
+            _view.PowerBarSprite.enabled = true;
+            _view.AddPowerSprite.enabled = false;
+
+            _view.PowerBarSprite.width = 20 * power / 100;
+        }
+    }
+
+	private void OnNetworkChange()
+    {
+        if (Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork)
+        {
+            _view.ViaCarrierDataNetworkSprite.enabled = false;
+            int wifi = BaoyugameSdk.getWifiSignal();
+            if (wifi >= 80)
+            {
+                _view.wifi_1.enabled = true;
+                _view.wifi_2.enabled = true;
+                _view.wifi_3.enabled = true;
+            }
+            else if (wifi >= 40)
+            {
+                _view.wifi_1.enabled = true;
+                _view.wifi_2.enabled = true;
+                _view.wifi_3.enabled = false;
+            }
+            else if (wifi >= 0)
+            {
+                _view.wifi_1.enabled = true;
+                _view.wifi_2.enabled = false;
+                _view.wifi_3.enabled = false;
+            }
+            else
+            {
+                _view.wifi_1.enabled = false;
+                _view.wifi_2.enabled = false;
+                _view.wifi_3.enabled = false;
+            }
+        }
+        else if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork)
+        {
+            _view.wifi_1.enabled = false;
+            _view.wifi_2.enabled = false;
+            _view.wifi_3.enabled = false;
+            _view.ViaCarrierDataNetworkSprite.enabled = true;
+        }
+        else
+        {
+            _view.wifi_1.enabled = false;
+            _view.wifi_2.enabled = false;
+            _view.wifi_3.enabled = false;
+            _view.ViaCarrierDataNetworkSprite.enabled = false;
+        }
+    }
+
+	private void OnSystemWeatherChange()
+	{
+		bool night = SystemTimeManager.Instance.night;
+		_view.WeatherSprite_UISprite.spriteName = night ? "moon" : "sun";
+	}
+
+	private void OnSceneChanged (SceneDto dto)
+	{
+		_view.sceneNameLbl.text = dto.name;
+	}
+
+	public void ChangeMode (string mode)
+	{
+		bool isStoryMode = (mode == UIMode.Mode_Story);
+
+		if (isStoryMode)
+		{
+			this.gameObject.SetActive(false);
+			return;
+		}
+		else
+		{
+			this.gameObject.SetActive(true);
+		}
+
+		bool isGameMode = (mode == UIMode.Mode_Game);
+		
+		_view.TopButtonGrid.SetActive (isGameMode);
+		_view.SceneInfo.SetActive (isGameMode);
+		ShowTopBtnGroup (isGameMode);	
+		ShowBottomBtnGroup (isGameMode);
+		_view.bottomShrinkBtn.gameObject.SetActive (isGameMode);
+		_view.packBtn.gameObject.SetActive (isGameMode);
+		_view.rewardBtn.gameObject.SetActive (isGameMode);
+		_petInfo.ChangeMode (mode == UIMode.Mode_Battle);
+		_playerInfo.ChangeMode (mode == UIMode.Mode_Battle);
+
+		if (mode == UIMode.Mode_Battle)
+		{
+			_view.expandPanelToggle.Set(false);
+		}
+
+		_view.LeftShrinkBtnToggle_UIToggle.Set(false);
+		_view.WorldMapGroup.SetActive(isGameMode);
+		_view.LeftShrinkBtnToggle_UIToggle.gameObject.SetActive(mode == UIMode.Mode_Battle);
+
+		if (isGameMode)
+		{
+			UpdatePetPropertyInfo (PetModel.Instance.GetBattlePetIndex());
+			UpdatePlayerPropertyInfo();
+		}
+		else
+		{
+			MainUIViewController.Instance.ShowPlayerInfoBtn(null);
+		}
+	}
+
+	public void ChangeModeInBattle (bool showMainButton)
+	{
+		_view.TopButtonGrid.SetActive (showMainButton);
+		_view.SceneInfo.SetActive (showMainButton);
+		//_view.topGroup.SetActive (showMainButton);
+		ShowTopBtnGroup (showMainButton);	
+		ShowBottomBtnGroup (showMainButton);
+		//_view.bottomShrinkBtn.gameObject.SetActive (showMainButton);
+		_view.packBtn.gameObject.SetActive (showMainButton);
+		_view.rewardBtn.gameObject.SetActive (showMainButton);
+	}
+
+	public void ShowBottomShrinkBtn(bool show)
+	{
+		_view.bottomShrinkBtn.gameObject.SetActive (show);
+	}
+
+	private void ShowTopBtnGroup (bool active)
+	{
+		_view.topGrid.gameObject.SetActive (active);
+	}
+
+	private bool _bottomRightExpand = true;
+
+	public void ToggleBottomRightBtnGroup ()
+	{
+		ShowBottomBtnGroup (!_bottomRightExpand);
+	}
+	
+	private void ShowBottomBtnGroup (bool active)
+	{
+		_bottomRightExpand = active;
+		_view.bottomGrid.transform.parent.gameObject.SetActive (active);
+		_view.bottomShrinkBtn.transform.eulerAngles = new Vector3 (0, 0, active? 0 : -45);
+	}
+
+	private void ToggleBattleButtonGroup()
+	{
+		bool isOpen = _view.LeftShrinkBtnToggle_UIToggle.value;
+		_view.LeftShrinkBtnArrow_UISprite.flip = isOpen ? UIBasicSprite.Flip.Horizontally : UIBasicSprite.Flip.Nothing;
+		_view.LeftShrinkBtnToggle_UIToggle.transform.localPosition = new Vector3 (isOpen? 237 : -20, -76, 0);
+		_view.BattleButtonGroup.SetActive(isOpen);
+	}
+
+	private void ToggleExpendContent()
+	{
+		bool isOpen = _view.expandPanelToggle.value;
+		_view.expandPanelToggleSprite.flip = isOpen ? UIBasicSprite.Flip.Horizontally : UIBasicSprite.Flip.Nothing;
+		_view.expandPanelToggle.transform.localPosition = new Vector3 (isOpen? -250 : -20, 0, 0);
+		_expandContentController.ToggleContentRoot();
+	}
+
+	private System.Action _useMissionPropsCallback = null;
+	private bool _usePopupState = false;
+	public void PopupUseMissionPropsBtn(ApplyItemSubmitDto applyItemSubmitDto = null, System.Action callback = null, bool callbackState = false) {
+		if (callback != null) {
+			_useMissionPropsCallback = callback;
+		}
+		_usePopupState = callback != null;
+
+		if (_usePopupState) {
+			_view.MissionUseProps_TweenPosition.PlayForward();
+
+			if (applyItemSubmitDto.item != null) {
+				SetUsePopsData(applyItemSubmitDto.item.icon, string.Format("{0}", applyItemSubmitDto.item.name));
+			} else {
+				SetUsePopsData("1313", string.Format("使用：{0}", applyItemSubmitDto.itemId));
+			}
+		} else {
+			_view.MissionUseProps_TweenPosition.PlayReverse();
+
+			if (!callbackState) {
+				if (_useMissionPropsCallback != null) {
+					_useMissionPropsCallback();
+					_useMissionPropsCallback = null;
+				}
+			}
+		}
+	}
+	private void PopupUseMissionPropsClose() {
+		PopupUseMissionPropsBtn(null, null, true);
+	}
+
+	public void SetMissionUsePropsProgress(float floatValue, bool activeState) {
+		_view.MissionUsePropsProgress_UISlider.gameObject.SetActive(activeState);
+		_view.MissionUsePropsProgress_UISlider.value = floatValue;
+	}
+
+	private void SetUsePopsData(string icon, string label) {
+		_view.IconSprite_UISprite.spriteName = icon;
+		_view.MissionUseItemName_UILabel.text = label;
+	}
+
+	private void UpdateExpandContentToggleFlag(){
+		bool hasApplicationInfo = TeamModel.Instance.HasApplicationInfo();
+		_view.expandToggleRedFlag.enabled = hasApplicationInfo;
+	}
+	#region 功能模块入口方法
+	//人物属性面板入口
+	public void OpenPlayerPropView ()
+	{
+		ProxyPlayerPropertyModule.Open ();
+	}
+
+	//宠物属性面板入口
+	public void OpenPetPropView ()
+	{
+		ProxyPetPropertyModule.Open();
+	}
+
+	//提升模块入口
+	public void OpenUpgradView ()
+	{
+		TipManager.AddTip ("提升功能暂未开放");
+	}
+
+	#region 挂机模块入口
+
+	private float _pressAutoRunTimer;
+	private bool _isPressAutoRunBtn;
+
+	private void onPressAutoRunBtn()
+	{
+		Debug.Log("onPressAutoRunBtn");
+		if(!PlayerModel.Instance.IsAutoFram)
+		{
+			_pressAutoRunTimer = 0;
+			_isPressAutoRunBtn = true;
+		}
+		else
+		{
+			PlayerModel.Instance.StopAutoFram(true);
+		}
+	}
+
+	private void onReleaseAutoRunBtn()
+	{
+		if(_isPressAutoRunBtn)
+		{
+			if(PlayerModel.Instance.IsAutoFram)
+			{
+				_pressAutoRunTimer = 0;
+				_isPressAutoRunBtn = false;
+			}
+			else
+			{
+				_isPressAutoRunBtn = false;
+				_pressAutoRunTimer = 0;
+
+				ProxyAutoFramModule.Open();
+			}
+		}
+		else
+		{
+			_pressAutoRunTimer = 0;
+			_isPressAutoRunBtn = false;
+		}
+	}
+
+	private void OnOpenDoublePointChanged()
+	{
+		DoubleExpStateBarDto doubleExpDto = PlayerModel.Instance.GetDoubleExpDto();
+		if(doubleExpDto != null && doubleExpDto.openPoint > 0)
+		{
+			_view.AutoRunDoublePointLbl.text = PlayerModel.Instance.GetDoubleExpDto().openPoint + "点";
+		}
+		else
+		{
+			_view.AutoRunDoublePointLbl.text = "";
+		}
+	}
+	#endregion
+
+	//竞技场入口
+	public void OpenTradeView ()
+	{
+//		if (GameObject.FindWithTag("GameManager") == null? TradeDataModel.Instance.useDynamic : (bool)CallMethod("IsUseDynamic")[0]) {
+//			//	使用动态方式
+//			UluaDebugManager.DebugLogWarning("这里使用ulua方式动态生成");
+//			TipManager.AddTip("交易市场替换为热更新方式 -->> 测试中");
+//			
+//			if (true) {
+//				CallMethod("OpenModuleByClickBtn", "TradeBaseView");
+//			} else {
+//				LuaFunction f = uluaMgr.lua.GetFunction("MainUIViewController.OpenModuleByClickBtn");
+//				f.Call("TradeBaseView");
+//			}
+//		} else {
+			ProxyTradeModule.Open();
+//		}
+	}
+
+	//日程入口
+	public void OpenDailyView ()
+	{
+		TipManager.AddTip ("日程功能暂未开放");
+	}
+
+	//指引入口
+	public void OpenGuideView()
+	{
+		TipManager.AddTip ("指引功能暂未开放");
+	}
+
+	//排行榜入口
+	public void OpenRankingList ()
+	{
+		TipManager.AddTip ("排行功能暂未开放");
+        ProxyRankingModule.Open();
+	}
+
+	//商城入口
+	public void OpenStoreView ()
+	{
+		ProxyShopModule.OpenMallShopping();
+	}
+
+	//奖励入口
+	public void OpenRewardView ()
+	{
+		TipManager.AddTip ("奖励功能暂未开放");
+	}
+
+	//背包入口
+	public void OpenPackView ()
+	{
+		ProxyBackpackModule.Open();
+	}
+
+	//系统入口
+	public void OpenSystemView ()
+	{
+		ProxySystemSettingModule.Open();
+	}
+
+	//帮派入口
+	public void OpenGuildView ()
+	{
+		TipManager.AddTip ("帮派功能暂未开放");
+	}
+
+	//好友入口
+	public void OpenFriendView ()
+	{
+		ProxyFriendModule.Open ();
+	}
+
+	//伙伴入口
+	public void OpenPartnerView()
+	{
+		ProxyCrewModule.Open ();
+	}
+
+	//技能入口
+	public void OpenSkillView ()
+	{
+		ProxySkillModule.Open ();
+	}
+
+	//打造入口
+	public void OpenForgeView ()
+	{
+		if(FunctionOpenHelper.IsEquipmentOpt())
+		{
+			ProxyEquipmentOptModule.Open();
+		}
+	}
+	#endregion
+	#region 聊天
+	public void OnChatBoxClick(){
+		ProxyChatModule.Open ();
+	}
+
+	#endregion
+	#region 聊天背景设置
+	bool isUp = false;
+	public void OnUpBtnClick(){
+		_view.ChatBoxTween.duration = 0f;
+		if (!isUp) {
+			_view.UpBtnSprite.flip = UIBasicSprite.Flip.Vertically;
+			isUp = true;
+			_view.ChatBoxTween.PlayForward();
+		}
+		else{
+			_view.UpBtnSprite.flip = UIBasicSprite.Flip.Nothing;
+			isUp = false;
+			_view.ChatBoxTween.PlayReverse();
+		}
+
+	}
+
+	public void OnSetUpBtnClick(){
+		ProxyChannelShieldModule.Open();
+	}
+	#endregion
+
+
+	List< ChannelChatItemCellController > chatMsgControllerList = new List<ChannelChatItemCellController>(7);
+	public void AddNewChatMsg(string str){
+
+		if(chatMsgControllerList.Count ==0 ){
+			for(int i = 0; i < 7;i++){
+				GameObject MsgPrefab = ResourcePoolManager.Instance.SpawnUIPrefab(ChatMsgViewName) as GameObject;
+				GameObject MsgGameObject = NGUITools.AddChild(_view.ChatTable.gameObject,MsgPrefab);
+				MsgGameObject.transform.SetAsFirstSibling();
+				ChannelChatItemCellController con = MsgGameObject.GetMissingComponent<ChannelChatItemCellController>();
+				con.InitView();
+				chatMsgControllerList.Add(con);
+			}
+		}
+		UpdateChatMsg();
+	}
+	public void UpdateChatMsg(){
+
+		List<string> tList = ChatModel.Instance.GetMainUIChatMsg();
+		for(int i =0;i <tList.Count;i++){
+			chatMsgControllerList[i].ClearExpressionInfo();
+			chatMsgControllerList[i].gameObject.SetActive(true);
+			chatMsgControllerList[i].SetData(tList[i]);
+		}
+		for(int i = tList.Count; i <chatMsgControllerList.Count; i++){
+			chatMsgControllerList[i].gameObject.SetActive(false);
+		}
+		_view.ChatTable.repositionNow = true;
+		_view.ChatTable.Reposition();
+	}
+
+	#region 语音
+	
+	int _curChannel;      //  1  世界频道
+
+	//世界---------start
+	public void OnWorldChatBtnPress(GameObject go,bool isPress){
+		_curChannel = 1;
+
+		if(isPress){
+			_view.CenterAnchorObj.SetActive(true);
+			_view.SpeechObj.SetActive(true);
+			_view.GiveUpSprite.gameObject.SetActive(false);
+			_view.ShortSprite.gameObject.SetActive(false);
+			_view.TipLabel.text = "手指划开,取消发送";
+			VoiceRecognitionManager.Instance.BeginRecord(OnWorldChatBtnRelese);
+		}
+		else{
+			_view.CenterAnchorObj.SetActive(false);
+			OnWorldChatBtnRelese();
+		}
+	}
+
+	//改变值  out表示松开手指取消发送的状态 ,over 表示松开手指发送的状态
+	public void ChangeOut(){
+		VoiceRecognitionManager.Instance.FingersDragOut();
+
+	}
+	public void ChangeOver(){
+		VoiceRecognitionManager.Instance.FingersDragOver();
+	}
+	//-------------
+
+	public void OnChatBtnDrag(GameObject go, Vector2 delta){
+
+		if(delta.y >0 && Mathf.Abs(delta.y) > 3f){
+			_view.SpeechObj.SetActive(false);
+			_view.GiveUpSprite.gameObject.SetActive(true);
+			_view.ShortSprite.gameObject.SetActive(false);
+			_view.TipLabel.text = "松开手指,取消发送";
+			ChangeOut();
+		}
+		if(delta.y <0 && Mathf.Abs(delta.y) > 3f){
+			_view.SpeechObj.SetActive(true);
+			_view.GiveUpSprite.gameObject.SetActive(false);
+			_view.ShortSprite.gameObject.SetActive(false);
+			_view.TipLabel.text = "手指划开,取消发送";
+			ChangeOver();
+		}
+	}
+
+	public void OnWorldChatBtnRelese(){              //把第一次跟第二次的回调分开 ！！！！！2015.4.25 18:36
+		_view.CenterAnchorObj.SetActive(false);
+		VoiceRecognitionManager.Instance.FinishRecord( delegate(string msg,string time) {
+			string  str;
+			str = ChatModel.Instance.GetUrlInfo(msg,0,0,-1,"0");
+			ServiceRequestAction.requestServer (ChatService.talk(1,0,false,str),"world msg",SendSuccess,SendFail);
+
+		},OnWorldChatBtnReleseSecond,delegate {
+
+			//太短时间
+			_view.CenterAnchorObj.SetActive(true);
+			_view.SpeechObj.SetActive(false);
+			_view.GiveUpSprite.gameObject.SetActive(false);
+
+			_view.ShortSprite.gameObject.SetActive(true);
+
+			CoolDownManager.Instance.SetupCoolDown("showShortVoiceTip",2f,null,delegate {
+				_view.CenterAnchorObj.SetActive(false);
+				_view.ShortSprite.gameObject.SetActive(false);
+			});
+	});
+	}
+
+	public void OnWorldChatBtnReleseSecond(string msg){
+		string str;
+		str = ChatModel.Instance.GetUrlInfo(msg,0,0,-1,"1");
+		ChatModel.Instance.SendMessage(1,str,0,true);
+	}
+
+	//世界--------end
+	//帮派---start
+	public void OnGuldeChatBtnPress(GameObject go,bool isPress){
+		_curChannel =2;
+		if(isPress){
+			_view.CenterAnchorObj.SetActive(true);
+			_view.SpeechObj.SetActive(true);
+			_view.GiveUpSprite.gameObject.SetActive(false);
+			_view.ShortSprite.gameObject.SetActive(false);
+			_view.TipLabel.text = "手指划开,取消发送";
+			VoiceRecognitionManager.Instance.BeginRecord(OnGuildChatBtnRelese);
+		}
+		else{
+			_view.CenterAnchorObj.SetActive(false);
+			OnGuildChatBtnRelese();
+		}
+	}
+
+	public void OnGuildChatBtnRelese(){
+		_view.CenterAnchorObj.SetActive(false);
+		
+		VoiceRecognitionManager.Instance.FinishRecord( delegate(string msg,string time) {
+			
+			string  str = ChatModel.Instance.GetUrlInfo(msg,0,0,-1,"0");
+			ServiceRequestAction.requestServer (ChatService.talk(2,0,false,str),"guild msg",SendSuccess,SendFail);
+
+		},delegate(string msg) {
+			string  str = ChatModel.Instance.GetUrlInfo(msg,0,0,-1,"1");
+			ChatModel.Instance.SendMessage(2,str,0,true);
+		},delegate {
+				//太短时间
+				_view.CenterAnchorObj.SetActive(true);
+				_view.SpeechObj.SetActive(false);
+				_view.GiveUpSprite.gameObject.SetActive(false);
+				
+				_view.ShortSprite.gameObject.SetActive(true);
+				
+				CoolDownManager.Instance.SetupCoolDown("showShortVoiceTip",2f,null,delegate {
+					_view.CenterAnchorObj.SetActive(false);
+					_view.ShortSprite.gameObject.SetActive(false);
+				});
+		} );
+	}
+
+	//--------------------
+	//队伍
+	public void OnTeamChatBtnPress(GameObject go,bool isPress){
+		_curChannel=3;
+		if(isPress){
+			_view.CenterAnchorObj.SetActive(true);
+			_view.SpeechObj.SetActive(true);
+			_view.GiveUpSprite.gameObject.SetActive(false);
+			_view.ShortSprite.gameObject.SetActive(false);
+			_view.TipLabel.text = "手指划开,取消发送";
+			VoiceRecognitionManager.Instance.BeginRecord(OnTeamChatBtnRelese);
+		}
+		else{
+			_view.CenterAnchorObj.SetActive(false);
+			OnTeamChatBtnRelese();
+		}
+	}
+	public void OnTeamChatBtnRelese(){
+		_view.CenterAnchorObj.SetActive(false);
+		
+		VoiceRecognitionManager.Instance.FinishRecord( delegate(string msg,string time) {
+			
+			string  str = ChatModel.Instance.GetUrlInfo(msg,0,0,-1,"0");
+			ServiceRequestAction.requestServer (ChatService.talk(3,0,false,str),"team msg",SendSuccess,SendFail);
+
+		},delegate(string msg) {
+			string  str = ChatModel.Instance.GetUrlInfo(msg,0,0,-1,"1");
+			ChatModel.Instance.SendMessage(3,str,0,true);
+		},delegate {
+				//太短时间
+				_view.CenterAnchorObj.SetActive(true);
+				_view.SpeechObj.SetActive(false);
+				_view.GiveUpSprite.gameObject.SetActive(false);
+				
+				_view.ShortSprite.gameObject.SetActive(true);
+				
+				CoolDownManager.Instance.SetupCoolDown("showShortVoiceTip",2f,null,delegate {
+					_view.CenterAnchorObj.SetActive(false);
+					_view.ShortSprite.gameObject.SetActive(false);
+				});
+	} );
+	}
+
+	//发送成功
+	public void SendSuccess(com.nucleus.commons.message.GeneralResponse e){
+
+	}
+	//发送失败
+	public void SendFail( com.nucleus.commons.message.ErrorResponse e){
+//		Debug.LogError(e.message);
+		TipManager.AddTip(e.message);
+	}
+
+	#endregion
+
+
+	#region 公告
+	float timer = 5;   //总时间
+	public void ShowMarquee(string str){
+		timer = 5;
+		//锁住
+		MarqueeModel.Instance.SetIsShowing(true);
+
+		//显示
+		_view.MarqueeLbl.text = str;
+		_view.MarqueeAnchorObj.SetActive(true);
+
+		if(_view.MarqueeLbl.width >_view.MarqueePanel.width){
+
+			_view.MarqueeLbl.pivot = UIWidget.Pivot.Left;
+			_view.MarqueeLbl.text = str;
+			_view.MarqueeLbl.transform.localPosition = new Vector3(-_view.MarqueePanel.GetViewSize().x/2,_view.MarqueeBgSprite.height/2,0);
+			//移动需要的时间
+			float time = (_view.MarqueeLbl.width - _view.MarqueePanel.width) / 80f;
+			timer = timer +   time +1+2;
+
+			//5秒后移动
+			CoolDownManager.Instance.SetupCoolDown("MarqueeShowFive",5f,null,delegate {
+
+				TweenPosition tweenAlpha = UITweener.Begin< TweenPosition >( _view.MarqueeLbl.gameObject , time );
+				tweenAlpha.from = new Vector3(-_view.MarqueePanel.GetViewSize().x/2,_view.MarqueeBgSprite.height/2,0);
+				tweenAlpha.to   = new Vector3( _view.MarqueeLbl.transform.localPosition.x -(_view.MarqueeLbl.width - _view.MarqueePanel.GetViewSize().x),_view.MarqueeBgSprite.height/2,0);
+				tweenAlpha.PlayForward();
+
+			});
+		}
+
+
+		else{
+			_view.MarqueeLbl.pivot = UIWidget.Pivot.Center;
+			_view.MarqueeLbl.transform.localPosition = new Vector3(0,_view.MarqueeBgSprite.height/2,0);
+		}
+
+		StartCoroutine("WaitShotTime");
+	}
+
+	IEnumerator WaitShotTime() {
+		yield return null;
+
+		string tName = "_Marquee";
+
+		CoolDownManager.Instance.SetupCoolDown(tName, timer, null, EndMethod);
+	}
+
+	private void EndMethod ()  {
+		_view.MarqueeAnchorObj.SetActive(false);
+
+		CoolDownManager.Instance.SetupCoolDown("marqueeHideOneSceond", 1f,null, delegate {
+
+			MarqueeModel.Instance.SetIsShowing(false);
+			_view.MarqueeLbl.pivot = UIWidget.Pivot.Center;
+			_view.MarqueeLbl.transform.localPosition = new Vector3(0,_view.MarqueeBgSprite.height/2,0);
+			
+			MarqueeModel.Instance.JudgeMessageList();
+	});
+	
+	}
+	#endregion
+
+	#region 好友消息红点
+	public void ShowFriendRedPoint(bool b){
+		_view.FriendRedPoint.gameObject.SetActive(b);
+	}
+	#endregion
+	
+	#region 自动播放语音
+	float VoicePlayingWaitingtimer;
+	public void PlayVoice(string fileName){
+		//锁住
+		AutoPlayVoiceModel.Instance.SetIsPlaying(true);
+//		TipManager.AddTip("自动播放");
+		VoiceRecognitionManager.Instance.GetVoiceInQiniu(fileName,delegate(AudioClip obj) {
+			
+			if( obj != null )
+			{
+				VoicePlayingWaitingtimer = obj.length / 10f;
+//				TipManager.AddTip("音频时长：" + VoicePlayingWaitingtimer.ToString());
+				VoiceRecognitionManager.Instance.PlayQiniuSoundByClip( obj );
+			}
+			else
+			{
+				TipManager.AddTip( "获取不到音频" +  fileName);
+			}
+			
+			StartCoroutine("PlayingVoice");
+			
+		});
+	}
+	
+	IEnumerator PlayingVoice() {
+		yield return null;
+		string tName = "autoPlayVoice";
+
+		CoolDownManager.Instance.SetupCoolDown(tName, VoicePlayingWaitingtimer, null, PlayingVoiceEnd);
+	}
+	
+	private void PlayingVoiceEnd ()  {
+//		TipManager.AddTip("播放完等一秒");
+		CoolDownManager.Instance.SetupCoolDown("AutoPlayVoiceStopOneSceond", 1f,null, delegate {
+//			TipManager.AddTip("一秒后");
+			AutoPlayVoiceModel.Instance.SetIsPlaying(false);
+			
+			AutoPlayVoiceModel.Instance.JudgeVoiceList();
+		});
+		
+	}
+	#endregion
+
+
+	public void OpenGmTestView ()
+	{
+		ProxyGMTestModule.Open ();
+	}
+
+	void UpdatePlayerExpInfo ()
+	{
+		ExpGrade expGrade = DataCache.getDtoByCls<ExpGrade> (PlayerModel.Instance.GetPlayerLevel()+1);
+		_view.expSlider.value = (float)PlayerModel.Instance.GetPlayerExp() / (float)expGrade.mainCharactorExp;
+	}
+
+	void UpdatePetPropertyInfo (int petIndex)
+	{
+		if(petIndex != PetModel.Instance.GetBattlePetIndex())
+			return;
+
+		PetPropertyInfo battlePetInfo = PetModel.Instance.GetBattlePetInfo();
+		if (battlePetInfo == null)
+		{
+			_petInfo.SetEnable (false);
+			_petInfo.SetCharacterDto(null);
+		}
+		else
+		{
+			_petInfo.SetEnable (true);
+
+			_petInfo.SetCharacterDto(battlePetInfo.petDto);
+			_petInfo.SetLvLbl (battlePetInfo.petDto.level);
+			_petInfo.SetHpSlider (battlePetInfo.hp, battlePetInfo.hp);
+			_petInfo.SetMpSlider (battlePetInfo.mp, battlePetInfo.mp);
+			ExpGrade expGrade = DataCache.getDtoByCls<ExpGrade> (battlePetInfo.petDto.level+1);
+			_petInfo.SetSpSlider (battlePetInfo.petDto.exp,expGrade.petExp);
+		}
+	}
+
+	void UpdatePlayerPropertyInfo ()
+	{
+		SimpleCharactorDto mainCharacterDto = PlayerModel.Instance.GetSimplePlayerInfo();
+		_playerInfo.SetCharacterDto (mainCharacterDto);
+		_playerInfo.SetLvLbl (mainCharacterDto.level);
+		_playerInfo.SetHpSlider (mainCharacterDto.hp, mainCharacterDto.hp);
+		_playerInfo.SetMpSlider (mainCharacterDto.mp, mainCharacterDto.mp);
+		_playerInfo.SetSpSlider (mainCharacterDto.sp, mainCharacterDto.sp);
+	}
+
+	private SimplePlayerDto _curSelectedPlayerDto;
+	public void ShowPlayerInfoBtn(SimplePlayerDto playerDto){
+		_curSelectedPlayerDto = playerDto;
+		if(playerDto == null)
+			_view.playerInfoBtn.gameObject.SetActive(false);
+		else
+		{
+//			if(playerDto.id != PlayerModel.Instance.GetPlayerId()){
+	//			_view.playerInfoIcon.spriteName = "";
+				_view.playerInfoLvLbl.text = string.Format("[b]{0}[-]",playerDto.grade);
+			    _view.playerInfoNameLbl.text = string.Format("[b]{0}[-]",playerDto.nickname); 
+				_view.playerInfoBtn.gameObject.SetActive(true);
+//			}
+		}
+	}
+
+	private void OnClickPlayerInfoBtn(){
+		if(_curSelectedPlayerDto != null)
+			ProxyMainUIModule.OpenPlayerInfoView(_view.playerInfoViewAnchor,_curSelectedPlayerDto);
+	}
+
+	private void OnWeatherBtnClick()
+	{
+		bool night = SystemTimeManager.Instance.night;
+
+		int hourMinute = SystemTimeManager.Instance.GetDateTime ().Minute;
+		int modMinute = hourMinute % 15;
+		modMinute = 15 - modMinute;
+
+		int hourSecond = SystemTimeManager.Instance.GetDateTime ().Second;
+
+		int leftSecond = modMinute * 60 + (60 - hourSecond);
+
+		string nowWeather = night?"黑夜":"白天";
+		string timeTip = DateUtil.getVipTime(leftSecond);
+		string nextWeather = !night?"黑夜":"白天";
+		string hint = string.Format("现在为{0}，将在{1}后转为{2}\n夜间物理攻击和防御降低，带有夜战效果的则不受影响", nowWeather, timeTip, nextWeather);
+		GameHintManager.Open(_view.WeatherBtn_UIButton.gameObject,hint);
+	}
+
+	private void OnClickWorldMapBtn()
+	{
+        ProxyWorldMapModule.OpenMiniWorldMap();
+	}
+
+	private void OnClickMiniMapBtn()
+	{
+		ProxyWorldMapModule.OpenMiniMap ();
+	}
+
+	public CharactorProperyController GetPetProperyController()
+	{
+		return _petInfo;
+	}
+
+	public CharactorProperyController GetPlayerProperyController()
+	{
+		return _playerInfo;
+	}
+}

@@ -1,0 +1,415 @@
+﻿// **********************************************************************
+// Copyright (c) 2013 Baoyugame. All rights reserved.
+// File     :  GameStart.cs
+// Author   : SK
+// Created  : 2014/11/6
+// Purpose  : 
+// **********************************************************************
+using UnityEngine;
+using System.Collections;
+
+public class GameStart : MonoBehaviour
+{
+
+	//没有网络
+	private const string NO_NET_STATE = "NONE";
+	//2G网络
+	private const string NET_2G_STATE = "2G";
+	//3G网络
+	private const string NET_3G_STATE = "3G";
+	//WIFI网络
+	private const string NET_WIFI_STATE = "WIFI";
+	
+	private bool isDownLocalPackage = false;
+
+	//是否第一次加载资源
+	private bool isFirstLoad = false;
+	//加载的数量
+	private int updateAssetsNum = 0;
+	//加载的大小
+	private float updateAssetsSize = 0.0f;
+	//apk 包的大小
+	private float appSize = 0.0f;
+	//资源文件的版本信息
+	private long resDataVersion = long.MaxValue;
+	//private long resDataVersion = 0;
+
+	void Awake()
+	{
+		GameObjectExt.GetMissingComponent<ExitGameScript>(this.gameObject);
+		GameObjectExt.GetMissingComponent<SocketCloseHelper>(this.gameObject);
+		GameObjectExt.GetMissingComponent<GameDebuger>(this.gameObject);
+//		if (UluaDebugManager.luaRelease) {
+//			GameObjectExt.GetMissingComponent<GlobalGenerator>(this.gameObject);
+//		}
+		ResourcePoolManager.Instance.Setup();
+	}
+
+	// Use this for initialization
+	void Start ()
+	{
+		HttpController.Instance.Setup ();
+		LuaManager.Instance.Setup ();
+		GameSetting.Setup();
+		AssetbundleManager.Instance.Setup();
+
+		//Invoke("CheckAssets", 1);
+		CheckAssets();
+	}
+
+	private void CheckAssets()
+	{
+		ShowTip("检测资源更新。。。");
+
+		if (GameSetting.IsUpdateLocalPackage())
+		{
+			GameDebuger.Log("InitializeLocalPackage");
+			AssetbundleManager.Instance.InitializeLocalPackage(resDataVersion , UpdateLocalPackagerMessage);
+		}
+		else
+		{
+			ReadyBeginGame();
+		}
+	}
+
+	private int _beginDownLoadBytes = 0;
+	private int _endDownLoadBytes 	= 0;
+	private int _downLoadSpeed    	= 0;
+
+	private void ShowTip(string tip)
+	{
+		if (LayerManager.Instance.GameReadyTipLabel == null)
+			return;
+		LayerManager.Instance.GameReadyTipLabel.text = tip;
+	}
+
+	private void UpdateLocalPackagerMessage(bool isFirstDownload, int updateNum, uint totalSize, bool downLoadLoaclPackage = false)
+	{
+		GameDebuger.Log("Load Local Assets Number : " + updateNum);
+		//isFirstLoad = isFirstDownload;
+		//updateAssetsNum = updateNum;
+		_beginDownLoadBytes = 0;
+		_endDownLoadBytes 	= 0;
+		_downLoadSpeed    	= 0;	
+		
+		updateAssetsSize = ((float)totalSize / 1024);
+		
+		//isDownLocalPackage = downLoadLoaclPackage;
+		
+		//是否有资源进行更新
+		if (updateNum > 0)
+		{
+			//if (initWord != null) initWord.SetActive(false);
+			//if (loadGroup != null) loadGroup.SetActive(true);
+			
+			//            if (!isStartTips)
+			//            {
+			//                LoadingTips loadingTips = tipsGroup.transform.GetComponent<LoadingTips>();
+			//                if (loadingTips != null)
+			//                {
+			//                    isStartTips = true;
+			////                    loadingTips.StartLoadingTips();
+			//                }
+			//            }
+
+			ShowTip("正在准备游戏，不会消耗流量");
+
+			AssetbundleManager.Instance.StartLoad(LoadingAssets, ReadyBeginGame);
+			
+//			string updateMessage = "正在准备游戏，不会消耗流量 ";
+//			if (updateMessageLabel != null)
+//			{
+//				updateMessageLabel.gameObject.SetActive(true);
+//				updateMessageLabel.text = updateMessage;
+//			}
+		}
+		else
+		{
+			GameSetting.SetUpdateLocalPackageFlag();
+			ReadyBeginGame();
+		}
+	}
+
+	/// <summary>
+	/// 显示加载进度
+	/// </summary>
+	/// <param name="message"></param>
+	private void LoadingAssets( int downLoadBytes )
+	{
+		int totalSize = (int)(updateAssetsSize * 1024);
+		int percent = (int)(((float)downLoadBytes / totalSize ) * 100);
+
+		ShowTip(string.Format("正在准备游戏 {0}%", percent));
+		GameDebuger.Log("Percenet : " + percent);
+
+//		if (loadingLabel != null)
+//		{
+//			if (loadingProgress != null)
+//			{
+//				loadingProgress.sliderValue = ((float)(percent) / 100 );
+//			}
+//			
+//			
+//			if( _downLoadSpeed == 0 )
+//			{
+//				loadingLabel.text = string.Format("{0}/{1}KB ({2}%)  正在计算时间",
+//				                                  downLoadBytes,
+//				                                  totalSize,
+//				                                  percent.ToString()
+//				                                  );
+//				
+//			}
+//			else
+//			{
+//				int lastBytes = (totalSize - downLoadBytes );
+//				lastBytes =  lastBytes > 0 ? lastBytes : 0 ;
+//				
+//				int lastTime  = (int)((float)lastBytes / _downLoadSpeed );
+//				lastTime  = lastTime > 1 ? lastTime : 1;
+//				
+//				if( lastTime > 60 )
+//				{
+//					loadingLabel.text = string.Format("{0}/{1}KB ({2}%)  预计{3}分钟",
+//					                                  downLoadBytes,
+//					                                  totalSize,
+//					                                  percent.ToString(),
+//					                                  (lastTime / 60)
+//					                                  );
+//					
+//				}
+//				else
+//				{
+//					loadingLabel.text = string.Format("{0}/{1}KB ({2}%)  预计{3}秒",
+//					                                  downLoadBytes,
+//					                                  totalSize,
+//					                                  percent.ToString(),
+//					                                  lastTime
+//					                                  );
+//					
+//				}
+//				
+//			}
+			
+			
+//		}
+		
+		_endDownLoadBytes = downLoadBytes;
+		
+		if( !this.IsInvoking( "CountByteBySecond" ))
+		{
+			this.Invoke( "CountByteBySecond", 5.0f  );
+		}
+	}
+
+	private void CountByteBySecond()
+	{
+		_downLoadSpeed = (int)((_endDownLoadBytes - _beginDownLoadBytes) * 0.2f);
+		_beginDownLoadBytes = _endDownLoadBytes;
+		
+		GameDebuger.Log( "_downLoadSpeed : " +  _downLoadSpeed  );
+	}
+
+	/// 正在进入游戏的接口
+	/// </summary>
+	private void ReadyBeginGame()
+	{
+		GameDebuger.Log("ReadyBeginGame");
+//		if (initWord != null) initWord.SetActive(false);
+//		
+//		HideStartButton();
+		
+//		if (SystemSetting.IsMobileRuntime)
+//		{
+//			//判断是否有网络
+//			JudeNetExits();
+//		}
+//		else
+//		{
+//			//开始游戏
+//			GameStart();
+//		}
+
+		#if UNITY_ANDROID || UNITY_EDITOR || UNITY_IPHONE
+		if (GameSetting.IsLoadLocalAssets())
+		{
+			JudgePhoneMemory();
+		}
+		else
+		{
+			//loadingBgChang.Begin();
+			resDataVersion = 0;
+			GameDebuger.Log("AssetbundleManager.Instance.Initialize");
+			AssetbundleManager.Instance.Initialize( resDataVersion , UpdateAssetsMessage);
+		}
+		#else
+		JudgePhoneMemory();
+		#endif
+	}
+
+	/// <summary>
+	/// 版本检测后获得的结果
+	/// </summary>
+	/// <param name="isFirstDownload"></param>
+	/// <param name="updateNum"></param>
+	
+	private void UpdateAssetsMessage(bool isFirstDownload, int updateNum, uint totalSize, bool downLoadLoaclPackage = false)
+	{
+		GameDebuger.Log("UpdateAssetsMessage");
+		
+		//CloseLoadingTip();
+		
+		GameDebuger.Log("Load Assets Number : " + updateNum);
+		
+		isFirstLoad      = isFirstDownload;
+		updateAssetsNum  = updateNum;
+		updateAssetsSize = ((float)totalSize / 1024);
+		
+		_beginDownLoadBytes = 0;
+		_endDownLoadBytes 	= 0;
+		_downLoadSpeed    	= 0;	
+		
+		isDownLocalPackage = false;// downLoadLoaclPackage;
+		
+		//是否有资源进行更新
+		if ( updateNum > 0 )
+		{
+			if (SystemSetting.IsMobileRuntime)
+			{
+				//JudgeNetState();
+			}
+			else
+			{
+				UpdateGameResources();
+			}
+		}
+		else
+		{
+			//if (isDownLocalPackage)
+			//{
+			//    GameSetting.SetUpdateLocalPackageFlag();
+			//}
+			
+			JudgePhoneMemory();
+		}
+	}
+
+	//进入更新游戏的状态
+	public void UpdateGameResources()
+	{
+		GameDebuger.Log("UpdateGameResources");
+		
+		//if (initWord 		   != null) 	initWord.SetActive( false );	
+		//if (net_2G_3GTipsGroup != null) net_2G_3GTipsGroup.SetActive(false);
+		//if (noNetTipsGroup != null)     noNetTipsGroup.SetActive(false);
+		//if (lowMemoryTipsGroup != null) lowMemoryTipsGroup.SetActive(false);
+		
+		
+//		if (loadGroup != null) loadGroup.SetActive(true);
+//		if (tipsGroup != null) tipsGroup.SetActive(true);
+		
+		//        if (!isStartTips)
+		//        {
+		////            LoadingTips loadingTips = tipsGroup.transform.GetComponent<LoadingTips>();
+		////            if (loadingTips != null)
+		////            {
+		////                isStartTips = true;
+		//////                loadingTips.StartLoadingTips();
+		////            }
+		//        }
+		
+		AssetbundleManager.Instance.StartLoad(LoadingAssets, JudgePhoneMemory);
+		
+		string updateMessage;
+		if (isDownLocalPackage)
+		{
+			updateMessage = "";
+		}
+		else
+		{
+			updateMessage = "正在下载资源，请稍候 ";  //+ updateAssetsSize.ToString("F1") + "MB";
+		}
+		
+//		if (updateMessageLabel != null)
+//		{
+//			updateMessageLabel.gameObject.SetActive(true);
+//			updateMessageLabel.text = updateMessage;
+//		}
+
+		ShowTip(updateMessage);
+	}
+
+	//判断手机内存
+	private void JudgePhoneMemory()
+	{
+		GameDebuger.Log("JudgePhoneMemory");
+		
+		if (SystemSetting.IsMobileRuntime && !isDownLocalPackage)
+		{
+			long freeMemory = BaoyugameSdk.getFreeMemory() / 1024;
+			GameDebuger.Log("Free Memory : " + freeMemory.ToString());
+			
+			#if UNITY_ANDROID		
+//			if (SystemSetting.LowMemory)
+//			{
+//				SetLowMemoryState(freeMemory);
+//				return;
+//			}
+			#endif
+			
+		}
+		
+		LoadAssetFinish();
+	}
+
+	private void LoadAssetFinish()
+	{
+		GameDebuger.Log("LoadAssetFinish");
+		ShowTip("");
+
+		LoadingTipManager.Setup();
+		RequestLoadingTip.Setup();
+		TipManager.Setup();
+		BattleConfigManager.Instance.Setup();
+		SystemTimeManager.Instance.Setup();
+		ModelHelper.Setup();
+		VoiceRecognitionManager.Instance.Setup();
+		
+		AudioManager.Instance.PlayMusic ("music_world/music_wonderland_1");
+
+		AssetbundleManager.Instance.Clear();
+		AssetbundleManager.Instance.BeginGame();
+		AssetbundleManager.Instance.DownLoadCommonAtlas();
+		
+		ProxyLoginModule.Open();
+	}
+
+    public void OnPower(string power)
+    {
+        int intPower = 0;
+		int.TryParse(power,out intPower);
+		if (intPower == 9999)
+		{
+			BaoyugameSdk.batteryChargingOfAndroid = true;
+		}
+		else
+		{
+			BaoyugameSdk.batteryChargingOfAndroid = false;
+			BaoyugameSdk.batteryLevelOfAndroid = intPower;
+		}
+        //TipManager.AddTip("电池电量: " + power);
+    }
+
+    public void OnNetworkChange(string n)
+    {
+//        if (MainUIViewController.Instance != null)
+//        {
+//            MainUIViewController.Instance.OnNetworkChange();
+//        }
+    }
+
+    public void OnGsmSignalStrength(string signalStrength)
+    {
+        TipManager.AddTip(BaoyugameSdk.getNetworkType() + " 网络信号: " + signalStrength);
+    }
+}
+

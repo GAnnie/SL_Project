@@ -1,0 +1,1 @@
+{"resPath":"http://play.baoyugame.com/ts/static/xxwq/android/resources/","httpPath":"http://s.xy.baoyu.com/Assets/","gameType":0,"loadMode":0,"mobileMode":false,"clientMode":0,"unityDebugMode":false,"release":false,"collectDebugInfo":false}

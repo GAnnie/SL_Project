@@ -1,0 +1,79 @@
+﻿// **********************************************************************
+//	Copyright (C), 2011-2015, CILU Game Company Tech. Co., Ltd. All rights reserved
+//	Work:		For H1 Project With .cs
+//  FileName:	MissionCellController.cs
+//  Version:	Beat R&D
+
+//  CreatedBy:	_Alot
+//  Date:		2015.05.07
+//	Modify:		__
+
+//	Url:		http://www.cilugame.com/
+
+//	Description:
+//	This program files for detailed instructions to complete the main functions,
+//	or functions with other modules interface, the output value of the range,
+//	between meaning and parameter control, sequence, independence or dependence relations
+// **********************************************************************
+
+using UnityEngine;
+using System.Collections;
+using com.nucleus.h1.logic.core.modules.mission.data;
+using com.nucleus.h1.logic.core.modules.mission.dto;
+
+public class MissionCellController : MonoBehaviour {
+
+	private MissionCellView _view = null;
+
+	private Mission _mission = null;
+	private System.Action<MissionCellController> _onItemSelectCallback = null;
+
+	public void InitView() {
+		if (_view == null) {
+			_view = gameObject.GetMissingComponent<MissionCellView>();
+			_view.Setup(this.transform);	
+		}
+	}
+
+	public void RegisterEvent() {
+		EventDelegate.Set(_view.BgSprite_UIButton.onClick, OnBtnCellClick);
+	}
+
+	public void SetMissionCellData(Mission mission, System.Action<MissionCellController> onItemSelectCallback){
+		_mission = mission;
+		_onItemSelectCallback = onItemSelectCallback;
+
+		InitView();
+		RegisterEvent();
+
+		//	标题\描述\iconSprite
+		_view.TypeLabel_UILabel.text = MissionDataModel.Instance.GetMissionTitleName(mission, true, true);
+		_view.DescriptionLabel_UILabel.text = MissionDataModel.Instance.GetCurTargetContent(mission, true);
+
+		//	spriteIcon 处理
+		SubmitDto tSubmitDto = MissionDataModel.Instance.GetSubmitDtoByMission(mission);
+		//	该任务是否完成状态（true：finish false：判断是否战斗任务）
+		if (tSubmitDto == null || tSubmitDto.finish || tSubmitDto.count >= tSubmitDto.needCount) {
+			_view.BuoySprite_UISprite.gameObject.SetActive(true);
+			_view.BuoySprite_UISprite.spriteName = "mission_CellFinish";
+		} else {
+			//	是否暗雷或明雷类型任务
+			if (MissionDataModel.Instance.IsHiddenMonster(tSubmitDto) || MissionDataModel.Instance.IsShowMonster(tSubmitDto)) {
+				_view.BuoySprite_UISprite.gameObject.SetActive(true);
+				_view.BuoySprite_UISprite.spriteName = "mission_CellBattle";
+			} else {
+				_view.BuoySprite_UISprite.gameObject.SetActive(false);
+			}
+		}
+	}
+
+	public Mission GetMissionInMissionCell() {
+		return _mission;
+	}
+
+	private void OnBtnCellClick() {
+		if (_onItemSelectCallback != null) {
+			_onItemSelectCallback(this);
+		}
+	}
+}

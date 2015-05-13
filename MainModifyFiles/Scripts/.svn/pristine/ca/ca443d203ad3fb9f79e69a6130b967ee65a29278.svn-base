@@ -1,0 +1,71 @@
+﻿using com.nucleus.player.msg;
+using com.nucleus.h1.logic.core.modules.player.data;
+using com.nucleus.h1.logic.services;
+using com.nucleus.h1.logic.core.modules.equipment.dto;
+using System.Collections.Generic;
+
+public class AddPropertyUseLogic : IPropUseLogic 
+{
+	private PackItemDto _itemDto;
+
+    public AddPropertyUseLogic()
+	{
+	}
+	
+	public bool usePropByPos(PackItemDto packItem)
+	{
+        Props props = packItem.item as Props;
+        PackItemDto weapon = BackpackModel.Instance.GetCurrentWeapon();
+        if(weapon != null)
+        {
+            List<string> optionStrList = new List<string>(5);
+            EquipmentExtraDto extraDto = weapon.extra as EquipmentExtraDto;
+            if(extraDto.propertiesBuffList != null && extraDto.propertiesBuffList.Count >= 5)
+            {
+                PropsParam_11 param = props.propsParam as PropsParam_11;
+                
+                bool hasIt = false;
+                for (int index = 0; index < extraDto.propertiesBuffList.Count;index++)
+                {
+                    EquipmentBuffDto buffDto = extraDto.propertiesBuffList[index];
+                    if (buffDto.property.battleBasePropertyType == param.propertyType)
+                    {
+                        hasIt = true;
+                        break;
+                    }
+                    optionStrList.Add(string.Format("附魔：{0}+{1}", ItemHelper.BattleBasePropertyTypeName(buffDto.property.battleBasePropertyType), buffDto.property.value, DateUtil.getVipTime(buffDto.remainSeconds)));
+                }
+
+                if (hasIt)
+                {
+                    ServiceRequestAction.requestServer(BackpackService.apply(packItem.index, 1));
+                    return false;
+                }
+
+                optionStrList.Add("退出");
+
+                // 提示选择框
+                ProxyWorldMapModule.OpenCommonDialogue("武器附魔", "请选择你替换的附魔属性：", optionStrList, (selectIndex) =>
+                {
+                    if (selectIndex < extraDto.propertiesBuffList.Count)
+                    {
+                        ServiceRequestAction.requestServer(BackpackService.enchant(packItem.index, 1, extraDto.propertiesBuffList[selectIndex].property.battleBasePropertyType));
+                    }
+                    else
+                    {
+                        //GameDebuger.Log("退出~~~~~~~~~~~~~~~~~~~~~~~~~");
+                    }
+                });
+            }
+            else
+            {
+                ServiceRequestAction.requestServer(BackpackService.apply(packItem.index, 1));
+            }
+        }
+        else
+        {
+            TipManager.AddTip("你没有装备武器，无法附魔");
+        }
+        return false;
+	}
+}

@@ -1,0 +1,132 @@
+﻿// **********************************************************************
+// Copyright (c) 2013 Baoyugame. All rights reserved.
+// File     :  AssistSkillMakeWinUIController.cs
+// Author   : willson
+// Created  : 2015/4/8 
+// Porpuse  : 
+// **********************************************************************
+using com.nucleus.h1.logic.core.modules.assistskill.dto;
+using System.Collections.Generic;
+using com.nucleus.h1.logic.core.modules.assistskill.data;
+using com.nucleus.h1.logic.services;
+using UnityEngine;
+using com.nucleus.h1.logic.core.modules.player.dto;
+
+public class AssistSkillMakeWinUIController : MonoBehaviourBase,IViewController
+{
+	private const string AssistProductCellName = "Prefabs/Module/SkillModule/AssistProductCell";
+
+	private AssistSkillMakeWinUI _view;
+	private AssistSkillDto _dto;
+
+	private List<AssistSkillProduct> _products;
+	private int _currProductIndex;
+
+	private AssistProductCellController _productCell;
+
+	private int _vigourConsume;
+
+	public void InitView()
+	{
+		_view = gameObject.GetMissingComponent<AssistSkillMakeWinUI>();
+		_view.Setup(this.transform);
+
+		GameObject prefab = ResourcePoolManager.Instance.SpawnUIPrefab( AssistProductCellName ) as GameObject;
+		GameObject module = GameObjectExt.AddChild(_view.ItemPos,prefab);
+		_productCell = module.GetMissingComponent<AssistProductCellController>();
+		_productCell.InitView();
+
+		RegisterEvent();
+	}
+
+	public void RegisterEvent()
+	{
+		EventDelegate.Set(_view.CloseBtn.onClick,OnCloseBtn);
+		EventDelegate.Set(_view.LBtn.onClick,OnLBtn);
+		EventDelegate.Set(_view.RBtn.onClick,OnRBtn);
+		UIHelper.CreateBaseBtn(_view.OptBtnPos,"制符",OnOptBtn);
+
+		PlayerModel.Instance.OnSubWealthChanged += OnSubWealthChanged;
+	}
+
+	public void SetData(AssistSkillDto dto)
+	{
+		_dto = dto;
+
+		_products = DataCache.getArrayByClsWithoutSort<AssistSkillProduct>();
+		for(int index = _products.Count - 1;index >= 0;index--)
+		{
+			if(_products[index].assistSkillId != dto.id || _products[index].skillLevelLimit > dto.level)
+			{
+				_products.RemoveAt(index);
+			}
+		}
+
+		_currProductIndex = _products.Count - 1;
+
+		_view.UsageDescLabel.text = _dto.assistSkill.usageDesc;
+
+		ShowProduct();
+	}
+
+	private void ShowProduct()
+	{
+		AssistSkillProduct currProduct = _products[_currProductIndex];
+
+		_view.ItemNameLabel.text = currProduct.props.name;
+		_productCell.SetData(currProduct);
+
+		// 计算活力
+		//_dto.assistSkill.vigourConsumeFormula
+		_vigourConsume = LuaManager.Instance.DoVigourConsumeFormula(_dto,currProduct.level);
+		_view.VigourValLbl.text = PlayerModel.Instance.Vigour + "/" + _vigourConsume;
+
+		_view.LBtn.gameObject.SetActive(_currProductIndex > 0);
+		_view.RBtn.gameObject.SetActive(_currProductIndex < _products.Count - 1);
+	}
+
+	private void OnSubWealthChanged(SubWealthNotify notify)
+	{
+		_view.VigourValLbl.text = PlayerModel.Instance.Vigour + "/" + _vigourConsume;
+	}
+
+	private void OnLBtn()
+	{
+		if(_currProductIndex > 0)
+		{
+			_currProductIndex --;
+			ShowProduct();
+		}
+	}
+
+	private void OnRBtn()
+	{
+		if(_currProductIndex < _products.Count - 1)
+		{
+			_currProductIndex ++;
+			ShowProduct();
+		}
+	}
+
+	private void OnOptBtn()
+	{
+		if(PlayerModel.Instance.isEnoughVigour(_vigourConsume,true))
+		{
+			ServiceRequestAction.requestServer(AssistSkillService.make(_products[_currProductIndex].id),"make",(e)=>{
+				AssistSkillProductResultDto dto = e as AssistSkillProductResultDto;
+				//GameLogicHelper.HandlerItemTipDto(dto.item,false);
+				TipManager.AddTip("获得"+dto.item.item.name);
+			});
+		}
+	}
+
+	private void OnCloseBtn()
+	{
+		ProxySkillModule.CloseAssistSkillMakeWin();
+	}
+
+	public void Dispose()
+	{
+		PlayerModel.Instance.OnSubWealthChanged -= OnSubWealthChanged;
+	}
+}

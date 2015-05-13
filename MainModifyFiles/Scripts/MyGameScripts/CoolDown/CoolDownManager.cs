@@ -1,0 +1,211 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+public class CoolDownManager : MonoBehaviour
+{
+	public class Task
+	{
+		public System.Action<float> onUpdate;
+		public System.Action onFinished;
+		public float updateFrequence = 0.1f;    	//onUpdate回调频率，默认为每0.1秒回调一次
+		public float timeSpane;
+
+		public float remainTime { get; set; } 		//以秒为单位进行计算
+		public bool isPause { get; set; }
+
+		public Task (float remainTime, System.Action<float> onUpdate, System.Action onFinished, float updateFrequence)
+		{
+			Reset (remainTime, onUpdate, onFinished, updateFrequence);
+		}
+
+		public void Reset (float remainTime, System.Action<float> onUpdate, System.Action onFinished, float updateFrequence)
+		{
+			this.remainTime = remainTime;
+			this.onUpdate = onUpdate;
+			this.onFinished = onFinished;
+
+			this.updateFrequence = updateFrequence;
+			this.timeSpane = 0f;
+			this.isPause = false;
+		}
+
+		public void OnFinish ()
+		{
+			if (onFinished != null)
+				onFinished ();
+		}
+
+		public void OnUpdate ()
+		{
+			if (onUpdate != null)
+				onUpdate (remainTime);
+		}
+	}
+	
+	private static bool _exitGame = false;
+	private static CoolDownManager _instance = null;
+
+	public static CoolDownManager Instance {
+		get {
+			CreateInstance ();
+			return _instance;
+		}
+	}
+	
+	static void CreateInstance ()
+	{
+		if (_instance == null && !_exitGame) {
+			_instance = GameObject.FindObjectOfType (typeof(CoolDownManager)) as CoolDownManager;
+
+			if (_instance == null && Application.isPlaying) {
+				GameObject go = new GameObject ("_CoolDownManager");
+				go.hideFlags = HideFlags.DontSave;
+				_instance = go.AddComponent<CoolDownManager> ();
+			}
+		}
+	}
+	
+	void OnApplicationQuit ()
+	{ 
+		DestroyImmediate (gameObject); 
+		_exitGame = true; 
+	}
+	
+	private Dictionary < string , Task > mCoolDownDict = new Dictionary<string, Task> ();
+#if UNITY_EDITOR
+	public Dictionary < string , Task > DictOnlyOnInspector
+	{
+		get
+		{
+			return mCoolDownDict;
+		}
+	}
+#endif
+	
+	public bool SetupCoolDown (string taskName, float remainTime, System.Action<float> onUpdate, System.Action onFinished, float updateFrequence = 0.1f)
+	{
+		if (string.IsNullOrEmpty (taskName))
+			return false;
+
+		if (remainTime <= 0)
+			return false;
+
+		if (IsCoolDownExist (taskName)) {
+			mCoolDownDict [taskName].Reset (remainTime, onUpdate, onFinished, updateFrequence);
+			return true;
+		}
+
+		Task task = new Task (remainTime, onUpdate, onFinished, updateFrequence);
+		mCoolDownDict.Add (taskName, task);
+		return true;
+	}
+	
+	public bool PauseCoolDown (string taskName)
+	{
+		if (!IsCoolDownExist (taskName))
+			return false;
+		
+		Task task = mCoolDownDict [taskName];
+		task.isPause = true;
+		return true;
+	}
+	
+	public bool ResumeCoolDown (string taskName)
+	{
+		if (! IsCoolDownExist (taskName))
+			return false;
+		
+		Task task = mCoolDownDict [taskName];
+		task.isPause = false;
+		return true;
+	}
+	
+	public void CancelCoolDown (string taskName)
+	{
+		if (IsCoolDownExist (taskName)) {
+			mCoolDownDict.Remove (taskName);
+		}
+	}
+	
+	public float GetRemainTime (string taskName)
+	{
+		if (! IsCoolDownExist (taskName))
+			return 0f;
+		
+		Task task = mCoolDownDict [taskName];
+		return task.remainTime;
+	}
+	
+	public bool IsCoolDownExist (string taskName)
+	{
+		return mCoolDownDict.ContainsKey (taskName);
+	}
+	
+	public void AddUpdateHandler (string taskName, System.Action<float> onUpdate)
+	{
+		if (! IsCoolDownExist (taskName))
+			return;
+		Task task = mCoolDownDict [taskName];
+		task.onUpdate -= onUpdate;
+		task.onUpdate += onUpdate;
+	}
+	
+	public void AddFinishedHandler (string taskName, System.Action onFinished)
+	{
+		if (! IsCoolDownExist (taskName))
+			return;
+		Task task = mCoolDownDict [taskName];
+		task.onFinished -= onFinished;
+		task.onFinished += onFinished;
+	}
+	
+	public void RemoveUpdateHandler (string taskName, System.Action<float> onUpdate)
+	{
+		if (!IsCoolDownExist (taskName))
+			return;
+		Task task = mCoolDownDict [taskName];
+		task.onUpdate -= onUpdate;
+	}
+	
+	public void RemoveFinishedHandler (string taskName, System.Action onFinished)
+	{
+		if (!IsCoolDownExist (taskName))
+			return;
+		Task task = mCoolDownDict [taskName];
+		task.onFinished -= onFinished;
+	}
+	
+	void Update ()
+	{
+		//字典在foreach时不能对字典中的元素做CRUD操作,这可能会导致死循环
+		var keyList = new List<string> (mCoolDownDict.Keys);
+		for (int i=0; i<keyList.Count; ++i) {
+			Task task = mCoolDownDict [keyList [i]];
+			if (task.isPause)
+				continue;
+
+			task.remainTime -= Time.unscaledDeltaTime;
+			if (task.remainTime <= 0f) {
+				task.remainTime = 0f;
+
+				mCoolDownDict.Remove (keyList [i]);
+				keyList.RemoveAt (i);
+
+				task.OnUpdate ();
+				task.OnFinish ();
+			} else {
+				task.timeSpane += Time.unscaledDeltaTime;
+				if (task.timeSpane >= task.updateFrequence) {
+					task.timeSpane = 0f;
+					task.OnUpdate ();
+				}
+			}
+		}
+	}
+
+	public void Clear ()
+	{
+		mCoolDownDict.Clear ();
+	}
+}

@@ -1,0 +1,1269 @@
+﻿// **********************************************************************
+// Copyright (c) 2013 Baoyugame. All rights reserved.
+// File     :  BackpackModel.cs
+// Author   : willson
+// Created  : 2015/1/12 
+// Porpuse  : 
+// **********************************************************************
+using System.Collections.Generic;
+using UnityEngine;
+using com.nucleus.h1.logic.core.modules;
+using com.nucleus.h1.logic.core.modules.equipment.data;
+using com.nucleus.h1.logic.core.modules.equipment.dto;
+using com.nucleus.h1.logic.core.modules.player.data;
+using com.nucleus.h1.logic.services;
+using com.nucleus.player.msg;
+using com.nucleus.h1.logic.core.modules.player.dto;
+using com.nucleus.player.data;
+using com.nucleus.commons.dispatcher;
+
+public class BackpackModel
+{
+	private static readonly BackpackModel _instance = new BackpackModel ();
+	
+	public static BackpackModel Instance {
+		get {
+			return _instance;
+		}
+	}
+
+	public event System.Action<PackItemDto> OnUpdateItem;
+	public event System.Action<int> OnDeleteItem;
+	public event System.Action<int> OnAddCapability;
+	public event System.Action<PackItemDto> OnWearEquip;
+	public event System.Action<PackItemDto> OnTakeOffEquip;
+	public event System.Action< List<PackItemDto> > OnEquipDurationOver;
+	public event System.Action<int> OnWeaponModelChange;
+
+	private BackpackDto _backpackDto;
+	private PackDto _dto;
+	private Dictionary<int, PackItemDto> _itemsDic;
+
+	// BackpackDto.wearEquipmentIds 身上穿戴的装备
+	private Dictionary<long, PackItemDto> _equipDic;
+
+
+	private Dictionary<int, IPropUseLogic> _useLogics;
+	private PackItemUserLogicDef _defPropUseLogic;
+	private PackEquipmentUserLogicDef _defEquipmentUseLogic;
+
+	private BackpackModel()
+	{
+		_itemsDic = new Dictionary<int, PackItemDto>();
+		_equipDic = new Dictionary<long, PackItemDto>();
+
+		_useLogics = new Dictionary<int, IPropUseLogic>();
+		_defPropUseLogic = new PackItemUserLogicDef();
+		_defEquipmentUseLogic = new PackEquipmentUserLogicDef();
+
+		_useLogics.Add(Props.PropsLogicEnum_PLAYER_WASH,new PlayerResetApItemLogicDef());
+		_useLogics.Add(Props.PropsLogicEnum_IDENTIFICATION, new IdentifyItemUseLogic());
+		_useLogics.Add(Props.PropsLogicEnum_EIGHT_DIAGRAMS, new FormationItemUseLogic());
+		_useLogics.Add(Props.PropsLogicEnum_GainItem, new UseAndAddItemLogic());
+        _useLogics.Add(Props.PropsLogicEnum_Flower, new OpenFlowerPropsModule());
+        _useLogics.Add(Props.PropsLogicEnum_AddProperty,new AddPropertyUseLogic());
+
+        OpenEquipModule openEquipModule = new OpenEquipModule();
+        _useLogics.Add(Props.PropsLogicEnum_EMBED, openEquipModule);
+        _useLogics.Add(Props.PropsLogicEnum_WishJade, openEquipModule);
+        _useLogics.Add(Props.PropsLogicEnum_EquipmentSpirit, openEquipModule);
+        _useLogics.Add(Props.PropsLogicEnum_Smith, openEquipModule);
+	}
+
+	public void Setup()
+	{
+		if(_dto == null)
+		{
+			Update();
+		}
+	}
+
+	public void Destroy()
+	{
+		_dto = null;
+		_backpackDto = null;
+		_itemsDic.Clear ();
+		_equipDic.Clear ();
+	}
+
+	public void Update()
+	{
+		long version = GameDataManager.Instance.GetDataVersion (GameDataManager.Data_Self_PackDto_Backpack);
+		ServiceRequestAction.requestServer(BackpackService.backpack(version),"", 
+		(e) => {
+			_backpackDto = e as BackpackDto;
+			if (_backpackDto == null)
+			{
+                _backpackDto = GameDataManager.Instance.GetDataObj<BackpackDto>(GameDataManager.Data_Self_PackDto_Backpack);
+			}
+			else
+			{
+                GameDataManager.Instance.PushData(GameDataManager.Data_Self_PackDto_Backpack, _backpackDto);
+			}
+			_dto = _backpackDto.packDto;
+
+			if(_dto != null)
+			{
+				_itemsDic.Clear();
+				_equipDic.Clear();
+				for(int index = 0;index < _dto.items.Count;index++)
+				{
+					if(_dto.items[index].index >= 0)
+					{
+						_itemsDic[_dto.items[index].index] = _dto.items[index];
+					}
+				}
+
+				List<long> wearEquipmentIds = _backpackDto.wearEquipmentIds;
+				if(wearEquipmentIds != null && wearEquipmentIds.Count > 0)
+				{
+					for(int index = 0;index < wearEquipmentIds.Count;index++)
+					{
+						for(int i = 0;i < _dto.items.Count;i++)
+						{
+							if(wearEquipmentIds[index] == _dto.items[i].uniqueId)
+							{
+								_equipDic[wearEquipmentIds[index]] = _dto.items[i];
+								break;
+							}
+						}
+					}
+
+					CheckOutBreakdownEquipment();
+				}
+
+                HandleEquipBuffCoolDown();
+			}
+		});
+	}
+
+	public PackDto GetDto()
+	{
+		return _dto;
+	}
+
+	public bool IsFull()
+	{
+		return _itemsDic.Count >= _dto.capability;
+	}
+
+	public PackItemDto GetItemByIndex(int index)
+	{
+		if(_itemsDic.ContainsKey(index))
+		{
+			return _itemsDic[index];
+		}
+		return null;
+	}
+
+	public PackItemDto GetItemByItemId(int itemId)
+	{
+		for(int index = 0;index < _dto.items.Count;index ++)
+		{
+			if(_dto.items[index].itemId == itemId)
+			{
+				return _dto.items[index];
+			}
+		}
+		return null;
+	}
+
+	public PackItemDto GetItemByItemUID(long itemUID){
+		for(int index = 0;index < _dto.items.Count;index ++)
+		{
+			if(_dto.items[index].uniqueId == itemUID)
+			{
+				return _dto.items[index];
+			}
+		}
+		return null;
+	}
+
+	public List<PackItemDto> GetItemsByItemIds(List<int> itemIds)
+	{
+		List<PackItemDto> items = new List<PackItemDto>();
+		for(int i = 0;i < itemIds.Count;i++)
+		{
+			int itemId = itemIds[i];
+			for(int index = 0;index < _dto.items.Count;index ++)
+			{
+				if(_dto.items[index].index >= 0 && _dto.items[index].itemId == itemId)
+				{
+					items.Add(_dto.items[index]);
+				}
+			}
+		}
+		return items;
+	}
+
+	public void UpdateItem(PackItemDto newItemDto,bool needTip=true)
+	{
+		if(newItemDto.index >= 0)
+		{
+			for(int index = 0;index < _dto.items.Count;index++)
+			{
+				if(_dto.items[index].index == newItemDto.index)
+				{
+					// update
+					if(needTip){
+						int changeCount = newItemDto.count - _dto.items[index].count;
+						string countStr = Mathf.Abs(changeCount)>1?"x"+Mathf.Abs(changeCount):"";
+						if (changeCount < 0) {
+							TipManager.AddTip(string.Format("消耗 " + "{0}{1}".WrapColor(ColorConstant.Color_Tip_Item),newItemDto.item.name,countStr));
+						} else if(changeCount > 0) {
+							TipManager.AddTip(string.Format("获得 " + "{0}{1}".WrapColor(ColorConstant.Color_Tip_Item),newItemDto.item.name,countStr));
+						}
+					}
+					_dto.items[index] = newItemDto;
+
+					// 装备系统中,客户端自己更新数据时候需要
+					if(newItemDto.index >= 0)
+					{
+						_itemsDic[newItemDto.index] = newItemDto;
+					}
+					else if(newItemDto.item is Equipment && _equipDic.ContainsKey(newItemDto.uniqueId))
+					{
+						_equipDic[newItemDto.uniqueId] = newItemDto;
+						PlayerModel.Instance.CalculatePlayerBp();
+					}
+					/*
+					else if(_dto.items[index].index < 0 && !(_dto.items[index].item is Equipment))
+					{
+						string errorStr = string.Format("物品id:{0} name:{1} uuid:{2}, index:{3} 处于非正常index区间,新号遇到该报错,请连续满洪,并且说明操作情况",
+						                                _dto.items[index].itemId,_dto.items[index].item.name,
+						                                _dto.items[index].uniqueId,_dto.items[index].index);
+						Debug.LogError(errorStr);
+					}
+					*/
+					if(OnUpdateItem != null)
+						OnUpdateItem(newItemDto);
+
+					return;
+				}
+			}
+
+			// add
+			if(needTip){
+				if(newItemDto.count > 1)
+					TipManager.AddTip (string.Format("获得 " + "{0}x{1}".WrapColor(ColorConstant.Color_Tip_Item), newItemDto.item.name,newItemDto.count));
+				else
+					TipManager.AddTip (string.Format("获得 " + "{0}".WrapColor(ColorConstant.Color_Tip_Item), newItemDto.item.name));
+			}
+			_dto.items.Add(newItemDto);
+			_itemsDic[newItemDto.index] = newItemDto;
+
+			if(OnUpdateItem != null)
+				OnUpdateItem(newItemDto);
+		}
+		else //if (newItemDto.index < 0)
+		{
+			for(int index = 0;index < _dto.items.Count;index++)
+			{
+				if(_dto.items[index].uniqueId == newItemDto.uniqueId)
+				{
+					_dto.items[index] = newItemDto;
+
+					if ((newItemDto.item as Equipment).equipPartType == Equipment.EquipPartType_Weapon)
+					{
+						SetCurrentWeaponModel(GetCurrentWeaponModel());
+					}
+
+					return;
+				}
+			}
+			_dto.items.Add(newItemDto);
+			if ((newItemDto.item as Equipment).equipPartType == Equipment.EquipPartType_Weapon)
+			{
+				SetCurrentWeaponModel(GetCurrentWeaponModel());
+			}
+		}
+	}
+	
+	public void DeleteItem(int index)
+	{
+		for(int i = 0;i < _dto.items.Count;i++)
+		{
+			if(_dto.items[i].index == index)
+			{
+				_dto.items.RemoveAt(i);
+				break;
+			}
+		}
+
+		if(_itemsDic.ContainsKey(index))
+		{
+			_itemsDic.Remove(index);
+		}
+
+		if(OnDeleteItem != null)
+			OnDeleteItem(index);
+	}
+
+	
+	public void DeleteHideItem(long uniqueId)
+	{
+		for (int index = 0; index < _dto.items.Count; index++) 
+		{
+			if(_dto.items[index].index < 0 && uniqueId== _dto.items[index].uniqueId)
+			{
+				_dto.items.RemoveAt(index);
+				break;
+			}
+		}
+	}
+
+	public bool UseProp(PackItemDto packItem)
+	{
+		if (packItem.item is Props)
+		{
+			int logicId = (packItem.item as Props).logicId;
+			if (_useLogics.ContainsKey(logicId))
+			{
+				IPropUseLogic propUseItemLogic = _useLogics[logicId];
+				return propUseItemLogic.usePropByPos(packItem);
+			}
+			else
+			{
+				return _defPropUseLogic.usePropByPos(packItem);
+			}
+		}
+		else if (packItem.item is Equipment)
+		{
+			return _defEquipmentUseLogic.usePropByPos(packItem);
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	public bool ContainItemWithItemId(int itemId)
+	{
+		for(int index = 0;index < _dto.items.Count;index++)
+		{
+			if(_dto.items[index].itemId == itemId)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public int GetItemCount(int itemId)
+	{
+		int count = 0;
+		for(int index = 0;index < _dto.items.Count;index ++)
+		{
+			if(_dto.items[index].itemId == itemId)
+			{
+				count += _dto.items[index].count;
+			}
+		}
+		return count;
+	}
+
+	public int GetExpandTime()
+	{
+		int time = (_dto.capability - 40)/DataHelper.GetStaticConfigValue(H1StaticConfigs.PACK_EXPAND_SIZE,5) + 1;
+		return time > 0 ? time:1;
+	}
+
+	public void AddCapability(int add)
+	{
+		_dto.capability += add;
+		if(OnAddCapability != null)
+		{
+			OnAddCapability(_dto.capability);
+		}
+	}
+
+	public void Sort()
+	{
+		if(_itemsDic.Count < 1)
+			return;
+
+		ServiceRequestAction.requestServer(BackpackService.sort(),"sort",
+		(e) => {
+			List<PackItemDto> items = new List<PackItemDto>();
+			for(int index = 0;index < _dto.items.Count;index++)
+			{
+				if(_dto.items[index].index >= 0)
+				{
+					items.Add(_dto.items[index]);
+				}
+			}
+			items.Sort(ItemsContainerConst.SortPackItemDto);
+			_itemsDic.Clear();
+
+			for(int index = 0;index < items.Count;index++)
+			{
+				if(items[index].index != index)
+				{
+					int removeIndex = items[index].index;
+
+					items[index].index = index;
+					_itemsDic[items[index].index] = items[index];
+
+					if(OnDeleteItem != null)
+						OnDeleteItem(removeIndex);
+					if(OnUpdateItem != null)
+						OnUpdateItem(items[index]);
+				}
+				else
+				{
+					_itemsDic[items[index].index] = items[index];
+				}
+			}
+		});
+	}
+
+	public void MoveToWarehouse(PackItemDto dto)
+	{
+		int page = WarehouseModel.Instance.CurrentPage;
+		// 搜索仓库当前页空位index
+		int indexBegin = ItemsContainerConst.PageCapability * page;
+		int indexEnd = indexBegin + ItemsContainerConst.PageCapability - 1;
+
+		int result = -1;
+		for(int index = indexBegin;index <= indexEnd;index++)
+		{
+			if(WarehouseModel.Instance.GetItemByIndex(index) == null)
+			{
+				result = index;
+				break;
+			}
+		}
+
+		if(result != -1)
+		{
+			ServiceRequestAction.requestServer(BackpackService.moveTo(dto.index,result));
+		}
+		else
+		{
+			for(int index = 0;index <= WarehouseModel.Instance.GetDto().capability;index++)
+			{
+				if(WarehouseModel.Instance.GetItemByIndex(index) == null)
+				{
+					result = index;
+					break;
+				}
+			}
+
+			if(result != -1)
+			{
+				ServiceRequestAction.requestServer(BackpackService.moveTo(dto.index,result));
+				// 计算 page
+				int newPage = result % ItemsContainerConst.PageCapability;
+				WarehouseModel.Instance.SetNewPage(newPage);
+			}
+			else
+			{
+				TipManager.AddTip("仓库已满");
+			}
+		}
+	}
+
+	#region 装备相关
+
+	public void EquipWear(PackItemDto dto)
+	{
+		ServiceRequestAction.requestServer(EquipmentService.wear(dto.uniqueId),"wear",
+		(e)=>{
+			PackVersionDto v = e as PackVersionDto;
+			//Debug.Log("<color=yellow> ############### Begin ############## </color>");
+
+			dto.circulationType = RealItem.CirculationType_Bind;
+			Equipment equip = dto.item as Equipment;
+			PackItemDto oldEquip = GetEquipByPartType(equip.equipPartType);
+			if(oldEquip != null)
+			{
+				_backpackDto.wearEquipmentIds.Remove(oldEquip.uniqueId);
+
+				//Debug.Log(string.Format("<color=orange> 1.1 脱下装备 wearEquipmentIds change: -> ## {0} ## </color>", oldEquip.item.name));
+			}
+
+			_backpackDto.wearEquipmentIds.Add(dto.uniqueId);
+			//Debug.Log(string.Format("<color=orange> 1.2 穿上装备 wearEquipmentIds change: -> ## {0} ## </color>", dto.item.name));
+
+			// 
+			int index = dto.index;
+			EquipDelete(dto.index);
+
+			if(oldEquip != null)
+			{
+				oldEquip.index = index;
+				EquipUpdate(oldEquip);
+			}
+
+			// 修改数据版本
+            BackpackDto packDto = GameDataManager.Instance.GetDataObj<BackpackDto>(GameDataManager.Data_Self_PackDto_Backpack);
+			if (packDto != null && packDto.packDto != null)
+			{
+				packDto.packDto.version = v.version;
+			}
+		});
+	}
+
+	/**
+	 * 装备从 index >= 0 -> -1 (背包中删除),有2种情况:
+	 * 1.穿装备
+	 * 2.装备炼化
+	 */
+	public void EquipDelete(int index)
+	{
+		PackItemDto dto = null;
+		for(int i = 0;i < _dto.items.Count;i++)
+		{
+			if(_dto.items[i].index == index)
+			{
+				_dto.items[i].index = -1;
+				dto = _dto.items[i];
+				break;
+			}
+		}
+		
+		if(_itemsDic.ContainsKey(index))
+		{
+			_itemsDic.Remove(index);
+		}
+
+		//Debug.Log("<color=teal> 2.1 ################################### </color>");
+		if(dto != null)
+		{
+			// 判断是穿戴装备还是炼化隐藏
+			if(_backpackDto.wearEquipmentIds.IndexOf(dto.uniqueId) != -1)
+			{
+				// 穿戴装备,如果身上有这个装备,则先删除
+				if(dto.item is Equipment)
+				{
+					PackItemDto oldEquip = GetEquipByPartType((dto.item as Equipment).equipPartType);
+					if(oldEquip != null && _equipDic.ContainsKey(oldEquip.uniqueId))
+					{
+						_equipDic.Remove(oldEquip.uniqueId);
+					}
+					
+					_equipDic[dto.uniqueId] = dto;
+				}
+				//Debug.Log(string.Format("<color=teal> 2.2 穿上装备: -> ## {0} ## </color>", dto.item.name));
+
+				PlayerModel.Instance.CalculatePlayerBp();
+				CheckOutBreakdownEquipment();
+				
+				if(OnWearEquip != null)
+					OnWearEquip(dto);
+
+				if ((dto.item as Equipment).equipPartType == Equipment.EquipPartType_Weapon)
+				{
+					SetCurrentWeaponModel( GetCurrentWeaponModel() );
+				}
+			}
+			else
+			{
+				// 炼化隐藏,index = -1 即可,无需其他处理
+				//Debug.Log(string.Format("<color=teal> 2.2 穿上装备 wearEquipmentIds 没有找到: -> ## {0} ## </color>", dto.item.name));
+			}
+		}
+		//Debug.Log("<color=yellow> ############### End ############## </color>");
+
+
+		if(OnDeleteItem != null)
+			OnDeleteItem(index);
+	}
+
+	public void EquipTakeoff(PackItemDto dto,int toIndex = -1)
+	{
+		GeneralRequestInfo request = null;
+		if(toIndex < 0)
+			request = EquipmentService.takeoff(dto.uniqueId);
+		else
+			request = EquipmentService.dragoff(dto.uniqueId,toIndex);
+
+		ServiceRequestAction.requestServer(request,"takeoff", 
+		(e) => {
+			_backpackDto.wearEquipmentIds.Remove(dto.uniqueId);
+		});
+	}
+
+	/**
+	 * 装备从 index < 0 -> >=0 (恢复到背包中),有2种情况:
+	 * 1.脱装备
+	 * 2.装备找回
+	 */
+	public void EquipUpdate(PackItemDto dto)
+	{
+		if(_equipDic.ContainsKey(dto.uniqueId))
+		{
+			_equipDic.Remove(dto.uniqueId);
+			PlayerModel.Instance.CalculatePlayerBp();
+			CheckOutBreakdownEquipment();
+
+			if(OnTakeOffEquip != null)
+				OnTakeOffEquip(dto);
+
+			if ((dto.item as Equipment).equipPartType == Equipment.EquipPartType_Weapon)
+			{
+				SetCurrentWeaponModel(0);
+			}
+		}
+
+		for (int index = 0; index < _dto.items.Count; index++) 
+		{
+			if(_dto.items[index].index < 0 && dto.uniqueId == _dto.items[index].uniqueId)
+			{
+				//Debug.Log(string.Format("<color=orange> 脱掉装备: -> ## {0} ## </color>", dto.item.name));
+				_dto.items.RemoveAt(index);
+				break;
+			}
+		}
+
+		UpdateItem(dto,false);
+	}
+
+	public PackItemDto GetEquipByPartType(int partType)
+	{
+		Dictionary<long, PackItemDto>.ValueCollection valueColl = _equipDic.Values;
+		
+		foreach( PackItemDto dto in valueColl )
+		{
+			if((dto.item as Equipment).equipPartType == partType)
+			{
+				return dto;
+			}
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * 获得身上的装备
+	 */ 
+	public Dictionary<long, PackItemDto> GetBodyEquip()
+	{
+		return _equipDic;
+	}
+
+	/**
+	 * 获取身上的武器
+	 */ 
+	public PackItemDto GetCurrentWeapon()
+	{
+		return GetEquipByPartType (Equipment.EquipPartType_Weapon);
+	}
+
+	/**
+	 * 获取身上的武器外形(耐久为0则返回0)
+	 */ 
+	public int GetCurrentWeaponModel()
+	{
+		int weaponModel = 0;
+
+		PackItemDto itemDto = GetCurrentWeapon ();
+		if (itemDto != null)
+		{
+			EquipmentExtraDto extraDto = itemDto.extra as EquipmentExtraDto;
+			
+			if(extraDto != null && extraDto.duration > 0)
+			{
+				weaponModel = (itemDto.item as Equipment).wpmodel;
+			}
+		}
+
+		return weaponModel;
+	}
+	
+	/**
+	 * 获得身上,背包所有鉴定过的装备
+	 */ 
+	public List<PackItemDto> GetAllIdentifiedEquip(int equipLv = 0,bool isGemTransfer = false)
+	{
+		List<PackItemDto> equips = new List<PackItemDto>();
+		
+		// 武器
+		PackItemDto dto = GetEquipByPartType(Equipment.EquipPartType_Weapon);
+		if(dto != null && (dto.item as Equipment).equipLevel >= equipLv)
+			equips.Add(dto);
+		// 铠甲
+		dto = GetEquipByPartType(Equipment.EquipPartType_Armor);
+		if(dto != null && (dto.item as Equipment).equipLevel >= equipLv)
+			equips.Add(dto);
+		// 项链
+		dto = GetEquipByPartType(Equipment.EquipPartType_Necklace);
+		if(dto != null && (dto.item as Equipment).equipLevel >= equipLv)
+			equips.Add(dto);
+		// 头盔
+		dto = GetEquipByPartType(Equipment.EquipPartType_Helmet);
+		if(dto != null && (dto.item as Equipment).equipLevel >= equipLv)
+			equips.Add(dto);
+		// 腰带
+		dto = GetEquipByPartType(Equipment.EquipPartType_Girdle);
+		if(dto != null && (dto.item as Equipment).equipLevel >= equipLv)
+			equips.Add(dto);
+		// 鞋子
+		dto = GetEquipByPartType(Equipment.EquipPartType_Shoe);
+		if(dto != null && (dto.item as Equipment).equipLevel >= equipLv)
+			equips.Add(dto);
+
+		for(int index = 0;index < _dto.items.Count;index++)
+		{
+			if(_dto.items[index].index >= 0 
+			   && _dto.items[index].extra is EquipmentExtraDto 
+			   && (_dto.items[index].extra as EquipmentExtraDto).hasIdentified
+			   && (_dto.items[index].item as Equipment).equipLevel >= equipLv)
+			{
+				if(isGemTransfer)
+				{
+					int gemLv = 0;
+					EquipmentEmbedInfo equipmentEmbedInfo = (_dto.items[index].extra as EquipmentExtraDto).equipmentEmbedInfo;
+					if(equipmentEmbedInfo != null && equipmentEmbedInfo.embedLevels != null && equipmentEmbedInfo.embedLevels.Count > 0)
+					{
+						for(int i = 0;i < equipmentEmbedInfo.embedLevels.Count;i++)
+						{
+							gemLv += equipmentEmbedInfo.embedLevels[i];
+						}
+					}
+
+					if(gemLv >= 5)
+					{
+						equips.Add(_dto.items[index]);
+					}
+				}
+				else
+				{
+					equips.Add(_dto.items[index]);
+				}
+			}
+		}
+		return equips;
+	}
+
+	public List<PackItemDto> GetGemTransferEquip(PackItemDto dto)
+	{
+		List<PackItemDto> equips = new List<PackItemDto>();
+		equips.Add(dto);
+
+		int gemLv = ItemHelper.GetEquipGemLv(dto);
+		if(dto.index >= 0)
+		{
+			// 背包装备,需要获取身上装备
+			PackItemDto equipDto = GetEquipByPartType((dto.item as Equipment).equipPartType);
+			if(equipDto != null && gemLv > ItemHelper.GetEquipGemLv(equipDto))
+				equips.Add(equipDto);
+		}
+	
+		// 身上装备,获取背包符合要求的装备
+		for(int index = 0;index < _dto.items.Count;index++)
+		{
+			if(_dto.items[index].index >= 0 
+			   && _dto.items[index].extra is EquipmentExtraDto // 装备
+			   && (_dto.items[index].extra as EquipmentExtraDto).hasIdentified // 已经鉴定
+			   && _dto.items[index].uniqueId != dto.uniqueId // 不是同一件
+			   && (_dto.items[index].item as Equipment).equipPartType == (dto.item as Equipment).equipPartType // 是相同部位
+			   && ((_dto.items[index].item as Equipment).equipLevel == (dto.item as Equipment).equipLevel || (_dto.items[index].item as Equipment).equipLevel == (dto.item as Equipment).equipLevel + 10) // 装备等级相等or大10级
+			   && gemLv > ItemHelper.GetEquipGemLv(_dto.items[index])) // 转移方的镶嵌等级 > 受益方
+			{
+				equips.Add(_dto.items[index]);
+			}
+		}
+		return equips;
+	}
+
+	/**
+	 * 战斗失败扣除装备耐久
+	 */
+	public void BattleFail()
+	{
+		List<PackItemDto> equips = new List<PackItemDto>();
+
+		bool isDurationOver = false;
+		bool isWeaponDurationOver = false;
+		StateBar stateBar = DataCache.getDtoByCls<StateBar>(607);
+
+		foreach( PackItemDto dto in _equipDic.Values )
+		{
+			EquipmentExtraDto extraDto = dto.extra as EquipmentExtraDto;
+
+			if(extraDto != null)
+			{
+				int duration = extraDto.duration - DataHelper.GetStaticConfigValue(H1StaticConfigs.EQUIPMENT_DURATION_DEDUCT_POINT,50);
+				if(duration < stateBar.condition){
+					PlayerBuffModel.Instance.ToggleEqBreakdownBuffTip(true);
+				}
+
+				if(duration > 0)
+				{
+					extraDto.duration = duration;
+				}
+				else
+				{
+					extraDto.duration = 0;
+					isDurationOver = true;
+					if ((dto.item as Equipment).equipPartType == Equipment.EquipPartType_Weapon)
+					{
+						isWeaponDurationOver = true;
+					}
+
+					equips.Add(dto);
+				}
+			}
+		}
+
+
+		if(isDurationOver)
+		{
+			// 装备损坏属性重新计算
+			PlayerModel.Instance.CalculatePlayerBp();
+			if(OnEquipDurationOver != null)
+				OnEquipDurationOver(equips);
+
+			if (isWeaponDurationOver)
+			{
+				SetCurrentWeaponModel(0);
+			}
+		}
+	}
+
+	public bool CheckOutBreakdownEquipment(){
+		StateBar stateBar = DataCache.getDtoByCls<StateBar>(607);
+		foreach(PackItemDto itemDto in _equipDic.Values){
+			EquipmentExtraDto extraDto = itemDto.extra as EquipmentExtraDto;
+			if(extraDto.duration < stateBar.condition){
+				PlayerBuffModel.Instance.ToggleEqBreakdownBuffTip(true);
+				return true;
+			}
+		}
+
+		PlayerBuffModel.Instance.ToggleEqBreakdownBuffTip(false);
+		return false;
+	}
+	#endregion
+
+	private void SetCurrentWeaponModel(int model)
+	{
+		if (OnWeaponModelChange != null)
+		{
+			OnWeaponModelChange(model);
+		}
+	}
+
+    public void UpDateEquipmentBuff(EquipmentBuffUpdateNotify dto)
+    {
+        for (int index = 0; index < _dto.items.Count;index++)
+        {
+            if(_dto.items[index].uniqueId == dto.equipmentId)
+            {
+                EquipmentExtraDto extraDto = _dto.items[index].extra as EquipmentExtraDto;
+                if(extraDto != null)
+                {
+                    if(extraDto.propertiesBuffList == null)
+                        extraDto.propertiesBuffList = new List<EquipmentBuffDto>();
+
+                    /** 移除buff列表 */
+                    if(dto.removed != null && dto.removed.Count > 0)
+                    {
+                        for(int i = 0;i < dto.removed.Count;i++)
+                        {
+                            for(int j = extraDto.propertiesBuffList.Count - 1;j >= 0;j--)
+                            {
+                                if (extraDto.propertiesBuffList[j].property.battleBasePropertyType == dto.removed[i].property.battleBasePropertyType)
+                                    extraDto.propertiesBuffList.RemoveAt(j);
+                            }
+                        }
+                    }
+
+                    // 寻找最长时间的buff
+                    float timer = 0;
+
+                    /** 变更列表 */
+                    if (dto.updated != null && dto.updated.Count > 0)
+                    {
+                        for (int i = 0; i < dto.updated.Count; i++)
+                        {
+                            TipManager.AddTip(string.Format("附魔成功（{0}+{1}）", ItemHelper.BattleBasePropertyTypeName(dto.updated[i].property.battleBasePropertyType), dto.updated[i].property.value));
+                            bool hasIt = false;
+                            for(int j = 0;j < extraDto.propertiesBuffList.Count;j++)
+                            {
+                                if (extraDto.propertiesBuffList[j].property.battleBasePropertyType == dto.updated[i].property.battleBasePropertyType)
+                                {
+                                    hasIt = true;
+                                    extraDto.propertiesBuffList[j] = dto.updated[i];
+                                }
+
+                                if (timer < extraDto.propertiesBuffList[j].remainSeconds)
+                                    timer = (float)extraDto.propertiesBuffList[j].remainSeconds;
+                            }
+
+                            if(!hasIt)
+                            {
+                                extraDto.propertiesBuffList.Add(dto.updated[i]);
+                                if (timer < dto.updated[i].remainSeconds)
+                                    timer = (float)dto.updated[i].remainSeconds;
+                            }
+                        }
+                    }
+
+
+                    if (_dto.items[index].index < 0)
+                    {
+                        // buf变化重新计算人物属性
+                        PlayerModel.Instance.CalculatePlayerBp();
+                    }
+
+                    string tName = "_EquipBuff_" + dto.equipmentId;
+                    // 处理buff倒计时
+                    if (extraDto.propertiesBuffList.Count > 0 && timer > 0)
+                    {
+						CoolDownManager.Instance.SetupCoolDown(tName, timer, (floatTime) =>
+                        {
+							for (int i = 0; i < extraDto.propertiesBuffList.Count; i++)
+							{
+								extraDto.propertiesBuffList[i].remainSeconds -= 1;
+								if (extraDto.propertiesBuffList[i].remainSeconds < 0)
+									extraDto.propertiesBuffList[i].remainSeconds = 0;
+							}
+						},null,1f);
+                    }
+                    else
+                    {
+                        CoolDownManager.Instance.CancelCoolDown(tName);
+                    }
+                }
+            }
+        }
+    }
+
+    private void HandleEquipBuffCoolDown()
+    {
+        for(int index = 0;index < _dto.items.Count;index++)
+        {
+            if(_dto.items[index].item.itemType == H1Item.ItemTypeEnum_Equipment
+                && (_dto.items[index].item as Equipment).equipPartType == Equipment.EquipPartType_Weapon)
+            {
+                EquipmentExtraDto extraDto = _dto.items[index].extra as EquipmentExtraDto;
+                if (extraDto != null)
+                {
+                    // 寻找最长时间的buff
+                    float timer = 0;
+
+                    for (int i = 0; i < extraDto.propertiesBuffList.Count; i++)
+                    {
+                        if (timer < extraDto.propertiesBuffList[i].remainSeconds)
+                            timer = (float)extraDto.propertiesBuffList[i].remainSeconds;
+                    }
+
+                    string tName = "_EquipBuff_" + _dto.items[index].uniqueId;
+                    // 处理buff倒计时
+                    if (extraDto.propertiesBuffList.Count > 0 && timer > 0)
+                    {
+                        CoolDownManager.Instance.SetupCoolDown(tName, timer, (floatTime) =>
+                        {
+                            for (int i = 0; i < extraDto.propertiesBuffList.Count; i++)
+                            {
+                                extraDto.propertiesBuffList[i].remainSeconds -= 1;
+                                if (extraDto.propertiesBuffList[i].remainSeconds < 0)
+                                    extraDto.propertiesBuffList[i].remainSeconds = 0;
+                            }
+                        }, null, 1f);
+                    }
+                    else
+                    {
+                        CoolDownManager.Instance.CancelCoolDown(tName);
+                    }
+                }
+            }
+        }
+    }
+
+	#region 宠物相关道具信息
+	public bool isPetExchangeProps(PackItemDto packItemDto){
+		if(packItemDto.item is Props){
+			Props props = packItemDto.item as Props;
+			if(props.logicId == Props.PropsLogicEnum_ExchangePet){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	//获取背包中源生之灵道具
+	public PackItemDto getPetExchangeProps(){
+		for(int index = 0;index < _dto.items.Count;index ++)
+		{
+			PackItemDto packItem = _dto.items[index];
+			if(packItem.itemId != DataHelper.GetStaticConfigValue(H1StaticConfigs.PET_EXCHANGE_PRECIOUS_PROP_ID,10022)
+			   && packItem.itemId != DataHelper.GetStaticConfigValue(H1StaticConfigs.PET_EXCHANGE_MYTH_PROP_ID,10023)){
+
+				Props props = packItem.item as Props;
+				if(props != null && props.logicId == Props.PropsLogicEnum_ExchangePet)
+				{
+					return packItem;
+				}
+			}
+		}
+		
+		return null;
+	}
+
+	public bool isPetProps(PackItemDto packItemDto){
+		int increaseBasePetApPropsId = DataHelper.GetStaticConfigValue(H1StaticConfigs.PET_INCREASE_BASE_APTITUDE_ITEM_ID,10034);
+//		int resetPetApPropsId = DataHelper.GetStaticConfigValue(H1StaticConfigs.PET_RESET_APTITUDE_ITEM_ID,10004);
+		int petExpBookId = DataHelper.GetStaticConfigValue(H1StaticConfigs.PET_EXP_BOOK_ITEM_ID,10013);
+
+		if(packItemDto.item is Props)
+		{
+			Props props = packItemDto.item as Props;
+			if(props.logicId == Props.PropsLogicEnum_PET_WASH  
+			   || props.logicId == Props.PropsLogicEnum_PET_LIFE)
+				return true;
+		}
+
+		if(packItemDto.itemId == increaseBasePetApPropsId
+		   || packItemDto.itemId == petExpBookId 
+		   || packItemDto.item.itemType == H1Item.ItemTypeEnum_PetSkillBook
+		   || packItemDto.item.itemType == H1Item.ItemTypeEnum_PetEquipment)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	public List<PackItemDto> GetPetPropsList(){
+		List<PackItemDto> result = new List<PackItemDto>(10);
+
+		for(int index = 0;index < _dto.items.Count;index ++)
+		{
+			if(isPetProps(_dto.items[index]))
+			{
+				result.Add(_dto.items[index]);
+			}
+		}
+
+		return result;
+	}
+
+	public List<PackItemDto> GetPetEquipmentList(){
+		List<PackItemDto> result = new List<PackItemDto>();
+		
+		for(int index = 0;index < _dto.items.Count;index ++)
+		{
+			int itemId = _dto.items[index].itemId;
+			int itemType = _dto.items[index].item.itemType;
+			if(itemType == H1Item.ItemTypeEnum_PetEquipment)
+			{
+				result.Add(_dto.items[index]);
+			}
+		}
+
+		return result;
+	}
+
+	#endregion
+
+	#region 获取所有背包物品
+	public List<PackItemDto> GetBackPackPropsList(){
+		List <PackItemDto> tPackItemDtoList = new List<PackItemDto> ();
+		foreach (PackItemDto dto in _itemsDic.Values) {
+			if(dto.index >=0 ){
+				tPackItemDtoList.Add(dto);
+			}	
+		}
+		return tPackItemDtoList;
+	}
+
+	public List < PackItemDto> GetBodyEquipList()
+	{
+		List <PackItemDto> tPackItemDtoList = new List<PackItemDto> ();
+		foreach (PackItemDto dto in _equipDic.Values) {
+			tPackItemDtoList.Add(dto);
+		}
+		return tPackItemDtoList;
+		
+	}
+
+	#endregion
+
+
+	#region 伙伴相关道具信息
+	public List<PackItemDto> GetCrewPropsList(){
+		List<PackItemDto> result = new List<PackItemDto>(10);
+
+		return result;
+	}
+	#endregion
+
+	#region 获取可赠送的道具列表
+	public List<PackItemDto> GetGiftPropsList(){
+		List<PackItemDto> _giftPropsList = new List<PackItemDto> ();
+		for (int i = 0; i < _dto.items.Count; i++) {
+			if(_dto.items[i].index >= 0 && _dto.items[i].giftable && _dto.items[i].circulationType != PackItemDto.CirculationType_Bind){
+				_giftPropsList.Add(_dto.items[i]);
+			}
+		}
+		return _giftPropsList;
+	}
+	#endregion
+
+	#region 检测背包是否还有藏宝图
+	public void HaveTreasureMap(){
+		bool haveTreasureMap = false;
+		for(int i = 0; i < _dto.items.Count; i++){
+			if(_dto.items[i].index >= 0){
+				if((_dto.items[i].item as Props).logicId != null && (_dto.items[i].item as Props).logicId == Props.PropsLogicEnum_Treasure){
+					haveTreasureMap = true;
+					
+					ProxyBackpackModule.ShowItemTips(_dto.items[i].index);
+					
+					break;
+				}
+			}
+
+		}
+	}
+	#endregion
+
+	#region 获取鲜花
+	public List<PackItemDto> GetFlowersList(){
+		List<PackItemDto> _flowerPropsList = new List<PackItemDto> ();
+		for (int i = 0; i < _dto.items.Count; i++) {
+            if (_dto.items[i].index >= 0 
+                && _dto.items[i].item.itemType == H1Item.ItemTypeEnum_Props 
+                && ((_dto.items[i].item) as Props).logicId == 14)
+            {
+				_flowerPropsList.Add(_dto.items[i]);
+			}
+		}
+		return _flowerPropsList;
+	}
+	#endregion
+
+	#region 获取可摆摊物品数据
+	public List<PackItemDto> GetSellItemList(){
+		List<PackItemDto> _sellItemList = new List<PackItemDto> ();
+		for (int i = 0, len = _dto.items.Count; i < len; i++) {
+			if(_dto.items[i].index >= 0 && _dto.items[i].stallable){
+				_sellItemList.Add(_dto.items[i]);
+			}
+		}
+		return _sellItemList;
+	}
+	#endregion
+
+	#region 获得鉴定符可以鉴定的数据
+	public List<PackItemDto> GetIdentifyList(int identifyItemId){
+		List<PackItemDto> _equipItemList = new List<PackItemDto> ();
+		for (int i = 0, len = _dto.items.Count; i < len; i++) {
+			if(_dto.items[i].index >= 0 && _dto.items[i].item.itemType == H1Item.ItemTypeEnum_Equipment)
+			{
+				EquipmentExtraDto dto = _dto.items[i].extra as EquipmentExtraDto;
+				Equipment equip = _dto.items[i].item as Equipment;
+				if(!dto.hasIdentified && equip.identifyMaterials[0].selectionItemIds.IndexOf(identifyItemId) != -1)
+				{
+					_equipItemList.Add(_dto.items[i]);
+				}
+			}
+		}
+		return _equipItemList;
+	}
+	#endregion
+
+
+	#region 获得战斗中可以使用的物品数据
+	public List<PackItemDto> GetBattleItemList(int charactorType)
+	{
+		List<PackItemDto> battleItemList = new List<PackItemDto> ();
+		for (int i = 0, len = _dto.items.Count; i < len; i++) {
+			PackItemDto packItem = _dto.items[i];
+			if (packItem.item is Props && (packItem.item as Props).scopeId == Props.ScopeEnum_Battle)
+			{
+				int triggerType = (packItem.item as Props).triggerType;
+				if (triggerType == 0 || triggerType == charactorType)
+				{
+					battleItemList.Add(packItem);
+				}
+			}
+		}
+		return battleItemList;
+	}
+	#endregion
+
+	#region 炼化
+	public bool Refine(PackItemDto dto,int itemCount = 1)
+	{
+		if(PlayerModel.Instance.GetPlayerLevel() < DataHelper.GetStaticConfigValue(H1StaticConfigs.REFINE_NEED_PLAYER_GRADE))
+		{
+			TipManager.AddTip(string.Format("炼化需要人物等级达到{0}级",DataHelper.GetStaticConfigValue(H1StaticConfigs.REFINE_NEED_PLAYER_GRADE)));
+			return false;
+		}
+		if(dto.index >= 0 && dto.count > 0)
+		{
+			int nimbus = dto.item.nimbus;
+			if(dto.circulationType == RealItem.CirculationType_Bind)
+			{
+				nimbus = (int)(nimbus * DataHelper.GetStaticConfigValuef(H1StaticConfigs.REFINE_TO_BIND_NIMBUS_FACTOR));
+				nimbus = nimbus != 0 ? nimbus : 1;
+			}
+
+			//int nimbus
+			ProxyWindowModule.OpenConfirmWindow(string.Format("炼化{0}可获得{1}点灵气，确定要炼化吗？",dto.item.name,nimbus),"",
+			()=>{
+				ServiceRequestAction.requestServer(BackpackService.refine(dto.index,itemCount),"refine", 
+				(e) => {
+					TipManager.AddTip(string.Format("炼化了{0}，获得{1}点灵气",(dto.item.name + "x1").WrapColor(ColorConstant.Color_Tip_LostCurrency),nimbus.ToString().WrapColor(ColorConstant.Color_Tip_GainCurrency)));
+				});
+			});
+		}
+
+		return false;
+	}
+	#endregion
+
+	#region 获得背包中可以找回的装备
+	public List<PackItemDto> GetResumeItems()
+	{
+		List<PackItemDto> _equipItemList = new List<PackItemDto> ();
+		for (int i = 0, len = _dto.items.Count; i < len; i++) {
+			if(_dto.items[i].index == -1
+			   && _dto.items[i].item.itemType == H1Item.ItemTypeEnum_Equipment
+			   && _equipDic.ContainsKey(_dto.items[i].uniqueId) == false)
+			{
+				EquipmentExtraDto extraDto = _dto.items[i].extra as EquipmentExtraDto;
+				if(extraDto != null && extraDto.discardTime > 0)
+				{
+					_equipItemList.Add(_dto.items[i]);
+				}
+			}
+		}
+		if(_equipItemList.Count > 1)
+		{
+			_equipItemList.Sort(delegate(PackItemDto lhs,PackItemDto rhs) {
+				return (rhs.extra as EquipmentExtraDto).discardTime.CompareTo((lhs.extra as EquipmentExtraDto).discardTime);
+			});
+		}
+
+		return _equipItemList;
+	}
+	#endregion
+
+	#region 饱食度相关道具信息
+	public List<PackItemDto> GetSatiationProps(){
+		List<PackItemDto> result = new List<PackItemDto>();
+		
+		for(int index = 0;index < _dto.items.Count;index ++)
+		{
+//			if(result.Count < maxCount)
+//			{
+				PackItemDto itemDto = _dto.items[index];
+				if(itemDto.item is Props)
+				{
+					Props props = itemDto.item as Props;
+					if(props.logicId == 16)
+						result.Add(itemDto);
+				}
+//			}else
+//				break;
+		}
+		
+		return result;
+	}
+	#endregion
+}

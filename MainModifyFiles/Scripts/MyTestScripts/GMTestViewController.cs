@@ -1,0 +1,398 @@
+﻿using UnityEngine;
+using System.Collections;
+using com.nucleus.h1.logic.services;
+using System.Collections.Generic;
+using System.IO;
+using com.nucleus.h1.logic.core.modules.question.data;
+using com.nucleus.player.msg;
+using com.nucleus.h1.logic.core.modules.equipment.dto;
+using com.nucleus.h1.logic.core.modules.battle.data;
+
+public class  ProxyGMTestModule
+{
+
+	private const string NAME = "Prefabs/Module/GMTestModule/GMTestView";
+
+	public static void Open ()
+	{
+		UIModuleManager.Instance.OpenFunModule (NAME,UILayerType.DefaultModule, true);
+	}
+
+	public static void Close ()
+	{
+		UIModuleManager.Instance.HideModule (NAME);
+	}
+}
+
+public class GMTestViewController : MonoBehaviour
+{
+	public UIInput commandInput;
+	public UIPopupList commandPopList;
+	public UIButton commandBtn;
+	public UIButton closeBtn;
+	public UITable buttonTable;
+	public UILabel tipLabel;
+
+	public UIInput getWalkPathInput;
+	public UIButton getWalkBtn;
+
+	public UIInput storyIdInput;
+	public UIButton storyPlayBtn;
+
+    public UISlider brightnessSlider;
+    public UILabel brightnessLbl;
+
+	private static Dictionary< string, string> commandDics; //数据关键字
+
+	// Use this for initialization
+	void Start ()
+	{
+		string path = PlayerPrefs.GetString("dev_walkPath");
+		if(string.IsNullOrEmpty(path))
+		{
+			path = Application.dataPath + "/Docs/NavigationArea/";
+		}
+		getWalkPathInput.value = path;
+
+		commandDics = new Dictionary<string, string> ();
+
+		AddGMCommand ("#add_main_char_exp amount", "增加主角色经验");
+
+		AddGMCommand ("#add_ingot amount", "增加元宝");
+		AddGMCommand ("#add_silver amount", "增加银币");
+		AddGMCommand ("#add_copper amount", "增加铜币");
+		AddGMCommand ("#add_score amount", "增加积分");
+		AddGMCommand ("#add_contribute amount", "增加贡献度");
+		AddGMCommand ("#add_vigour amount", "增加活力");
+		AddGMCommand ("#add_item id amount", "增加物品");
+        AddGMCommand ("#add_potential amount", "增加潜力");
+		AddGMCommand ("#clear_backpack", "清空背包"); 
+
+		//宠物GM指令
+		AddGMCommand("#add_battle_pet_exp expAmount","增加出战宠物经验");
+		AddGMCommand("#add_battle_pet_skill skillId","增加出战宠物技能");
+		AddGMCommand("#clear_battle_pet_skills","清空出战宠物所有技能");
+		AddGMCommand("#add_pet petId level baby mutate","增加宝宝类型宠物 baby 0/1 mutate 0/1");
+		AddGMCommand("#restore_soldier", "战斗中gm指令重置"); 
+		AddGMCommand("#equip_skill part skillId", "装备增加特技指令"); 
+
+		//阵法GM指令
+		AddGMCommand("#add_formation formationId","增加阵法");
+
+		//聊天GM指令
+		AddGMCommand("#send_chatnotify type content","聊天通知type 0:传闻1:系统2:帮助3:提示");
+		AddGMCommand("#gain_title titleId","增加玩家称号");
+//		EventDelegate.Set (commandInput.onSubmit, SendGMCommand);
+		EventDelegate.Set (commandPopList.onChange, OnSelectionChange);
+		EventDelegate.Set (commandBtn.onClick, SendGMCommand);
+		EventDelegate.Set (getWalkBtn.onClick, OnGetWalkBtn);
+		EventDelegate.Set (closeBtn.onClick, CloseView);
+		EventDelegate.Set (storyPlayBtn.onClick, OnStoryPlayBtnClick);
+
+		AddButton("Debug开关", "OnDebugBtnClick");
+		AddButton("模型动作", "OnPetActionClick");
+		AddButton("重载战斗", "OnReloadBattleConfig");
+		AddButton("战斗测试", "OnBattleTestClick");
+		AddButton ("退出战斗", "OnExitBattle");
+		AddButton ("地图测试", "OnMapTestClick");
+		AddButton ("断开网络", "OnTestSocketClose");
+		AddButton ("钱钱钱", "OnShowMeTheMoney");
+		AddButton ("重新登录", "OnReLogin");
+		AddButton ("机器人", "OnOpenRobot");
+		AddButton ("朝向", "OnRotation");
+
+		//AddButton ("语音", "OnHzamr");
+		//AddButton ("语音2", "OnHzamr2");
+
+        AddButton("科举", "OnQuestion");
+        AddButton("殿试", "OnQuestion2");
+
+		AddButton("染色测试", "OnDyeTest");
+
+        //	亮度 Slider
+        EventDelegate.Add(brightnessSlider.onChange, () =>
+        {
+            int tVoiceValue = Mathf.CeilToInt(brightnessSlider.value * 100);
+
+            tVoiceValue = 255 * tVoiceValue / 100;
+            brightnessLbl.text = string.Format("{0}{1}", "[6f3e1a]", tVoiceValue);
+        });
+        brightnessSlider.onDragFinished = () =>
+        {
+            int tVoiceValue = Mathf.CeilToInt(brightnessSlider.value * 100);
+            //SystemDataModel.Instance.SetValueVoice(tVoiceValue);
+           
+            tVoiceValue = 255 * tVoiceValue / 100;
+            brightnessLbl.text = string.Format("{0}{1}", "[6f3e1a]", tVoiceValue);
+
+            TipManager.AddTip("亮度设置: " + tVoiceValue);
+            BaoyugameSdk.setBrightness(tVoiceValue);
+        };
+
+        int voiceValue = BaoyugameSdk.getScreenBrightness();
+        //brightnessLbl.text = string.Format("{0}{1}", "[6f3e1a]", tData.voiceValue);
+        brightnessSlider.value = voiceValue / 255.0f;
+	}
+
+	void AddGMCommand (string str, string tip)
+	{
+		commandPopList.AddItem (str);
+		commandDics.Add (str, tip);
+	}
+
+	void OnSelectionChange ()
+	{
+		commandInput.value = commandPopList.value;
+		tipLabel.text = "说明:" + commandDics [commandPopList.value];
+	}
+
+	public GameObject DoAddButton(GameObject parent, string label, string goName="Button"){
+		GameObject go = NGUITools.AddChild(parent, (GameObject)ResourcePoolManager.Instance.SpawnUIPrefab("Prefabs/BaseUI/BaseButton"));
+		go.name = goName;
+		go.GetComponentInChildren< UILabel >().text = label;
+		go.transform.localPosition = new Vector3(0.5f,-1*(parent.transform.GetChildCount()-1)*25,0);
+		//NGUITools.AdjustDepth(go,20);
+		return go;
+	}
+
+	private void AddButton(string btnName, string handlerName){
+		GameObject btn = DoAddButton(this.buttonTable.gameObject, btnName);
+		UIButtonMessage btnMsg = btn.AddMissingComponent<UIButtonMessage> ();
+		btnMsg.target = this.gameObject;
+		btnMsg.functionName = handlerName;
+	}
+
+	void SendGMCommand ()
+	{
+		GameDebuger.Log ("GmService: " + commandInput.value);
+		ServiceRequestAction.requestServer (GmService.execute (commandInput.value), "GM Command", (e) =>
+		{
+			string gmCommand = commandInput.value;
+			string gmParam = gmCommand.Substring(gmCommand.IndexOf(" ")+1);
+			if(gmCommand.StartsWith("#clear_battle_pet_skills "))
+			{
+				PetPropertyInfo battlePetInfo = PetModel.Instance.GetBattlePetInfo();
+				if(battlePetInfo != null)
+					battlePetInfo.petDto.skillIds.Clear();
+
+			}else if(gmCommand.StartsWith("#add_battle_pet_skill ")){
+				int newSkillId = int.Parse(gmParam);
+				PetPropertyInfo battlePetInfo = PetModel.Instance.GetBattlePetInfo();
+				if(battlePetInfo != null)
+					battlePetInfo.petDto.skillIds.Add(newSkillId);
+			}else if(gmCommand.StartsWith("#add_formation ")){
+				int newFormationId = int.Parse(gmParam);
+				PlayerModel.Instance.AddNewAcquiredFormation(newFormationId);
+			}else if(gmCommand.StartsWith("#add_potential ")){
+				int potentialCount = int.Parse(gmParam);
+				PlayerModel.Instance.GetPlayerPropertyInfo().playerDto.potential +=potentialCount;
+			}else if (gmCommand.StartsWith("#equip_skill ")){
+				string[] paramStrs = gmParam.Split(' ');
+				int part = int.Parse(paramStrs[0]);
+				int skillId = int.Parse(paramStrs[1]);
+				PackItemDto itemDto = BackpackModel.Instance.GetEquipByPartType(part);
+				if (itemDto != null)
+				{
+					EquipmentExtraDto extraDto = itemDto.extra as EquipmentExtraDto;
+					if (extraDto != null)
+					{
+						if (extraDto.activeSkillIds == null)
+						{
+							extraDto.activeSkillIds = new List<int>();
+						}
+						extraDto.activeSkillIds.Clear();
+						extraDto.activeSkillIds.Add(skillId);
+					}
+				}
+				Skill skill = DataCache.getDtoByCls<Skill>(skillId);
+				TipManager.AddTip("装备部位" + part + " 增加特技 " + skill.name);
+			}
+		});
+	}
+
+	void OnDebugBtnClick()
+	{
+		GameDebuger.debugIsOn = !GameDebuger.debugIsOn;
+		ProxyGMTestModule.Close ();
+	}
+
+	void OnWorldMapBtnClick()
+	{
+		ProxyGMTestModule.Close();
+		ProxyWorldMapModule.Open();
+	}
+
+	void OnPetActionClick()
+	{
+		ProxyGMTestModule.Close ();
+		ProxyAnimatorTestModule.Open();
+	}
+
+	void OnReloadBattleConfig()
+	{
+		BattleConfigManager.Instance.Setup ();
+	}
+
+	void OnBattleTestClick()
+	{
+		ProxyGMTestModule.Close ();
+		ProxyBattleDemo.Open ();
+	}
+
+	void OnMapTestClick()
+	{
+		ProxyGMTestModule.Close ();
+		ProxyWorldMapModule.Open ();
+	}
+
+	void OnTestSocketClose()
+	{
+		SocketManager.Instance.Close(true);
+		CloseView ();
+	}
+
+	void OnShowMeTheMoney()
+	{
+		ServiceRequestAction.requestServer (GmService.execute ("#add_ingot 1000000"));
+		ServiceRequestAction.requestServer (GmService.execute ("#add_silver 1000000"));
+		ServiceRequestAction.requestServer (GmService.execute ("#add_copper 10000000"));
+		ServiceRequestAction.requestServer (GmService.execute ("#add_score 100000"));
+		ServiceRequestAction.requestServer (GmService.execute ("#add_contribute 100000"));
+
+		CloseView ();
+	}
+
+	void OnReLogin()
+	{
+		ExitGameScript.Instance.HanderRelogin();
+		CloseView ();
+	}
+
+	void OnHzamr()
+	{
+		HzamrPlugin.TestDll();
+		//a.TestGet();
+		//VoiceRecognitionManager.Instance.DelTalkCache();
+
+		//VoiceRecognitionManager.Instance.PlayTest1();
+
+		//AudioManager.Instance.StopVolumeWhenRecordVoice();
+
+		//CloseView ();
+		//ProxyTradePetModule.Open();
+	}
+
+	void OnHzamr2()
+	{
+		//HzamrPlugin.TestGet("test1");
+		//AudioManager.Instance.PlayVoiceWhenFinishRecord();
+        VoiceRecognitionManager.Instance.GetVoiceInQiniu("864970f7-3b7b-43ed-83b7-55cfbf680c49",null);
+	}
+
+    void OnQuestion()
+    {
+        ProxyQuestionModule.Open(QuestionType.TYPE_KJ);
+    }
+
+    void OnQuestion2()
+    {
+        //ProxyQuestionModule.Open(QuestionType.TYPE_DS);
+        ProxyBackpackModule.ShowItemTips(55);
+    }
+
+	void OnDyeTest()
+	{
+		CloseView ();
+		ProxyPlayerPropertyModule.SelectDyeOption(1);
+	}
+
+	void OnGetWalkBtn()
+	{
+		string path = getWalkPathInput.value;
+		if(!string.IsNullOrEmpty(path))
+		{
+			if (Directory.Exists(path))
+			{
+				PlayerPrefs.SetString("dev_walkPath",path);
+				NavigationArea area = new NavigationArea();
+				area.CreateMoveNavigation();
+				area.OutputFile(path);
+			}
+			else
+			{
+				TipManager.AddTip("目录不存在");
+			}
+		}
+		else
+		{
+			TipManager.AddTip("目录不能为空");
+		}
+	}
+
+	void OnStoryPlayBtnClick()
+	{
+		if (string.IsNullOrEmpty(storyIdInput.value))
+		{
+			return;
+		}
+
+		int storyId = int.Parse(storyIdInput.value);
+		if (storyId > 0)
+		{
+			StoryManager.Instance.PlayStory(storyId,true);
+			CloseView ();
+		}
+	}
+
+	void CloseView ()
+	{
+		ProxyGMTestModule.Close ();
+	}
+	GameObject go;
+	void OnOpenRobot(){
+
+		if (RobotInfo.Instance.IsOPen()) {
+			GameObject.Destroy(go);
+			RobotInfo.Instance.SetGo(null);
+			RobotInfo.Instance.SetOpen(false);
+		}
+
+		else if (RobotInfo.Instance.AddNew ()) {
+			go = new GameObject();
+			go.name = "tool";
+			go.GetMissingComponent<RobotTool>();
+			go.GetMissingComponent<DontDestroyObject>();
+//			go.GetMissingComponent<GameMemoryDisplay>();
+			RobotInfo.Instance.SetGo(go);
+			RobotInfo.Instance.SetOpen(true);
+		}
+	}
+	//显示当前人物朝向
+	GameObject rotGO;
+	void OnRotation(){
+
+		if (ShowRotationModel.Instance.IsOPen()) {
+			GameObject.Destroy(rotGO);
+			ShowRotationModel.Instance.SetGo(null);
+			ShowRotationModel.Instance.SetOpen(false);
+		}
+		else if (ShowRotationModel.Instance.AddNew ()) {
+			rotGO = new GameObject();
+			rotGO.name = "ShowRotationGo";
+			rotGO.GetMissingComponent<ShowRotation>();
+			rotGO.GetMissingComponent<DontDestroyObject>();
+			ShowRotationModel.Instance.SetGo(rotGO);
+			ShowRotationModel.Instance.SetOpen(true);
+		}
+	}
+
+
+
+	void OnExitBattle()
+	{
+		if (BattleController.Instance != null)
+		{
+			BattleController.Instance.OnExitButtonClick ();
+		}
+	}
+}

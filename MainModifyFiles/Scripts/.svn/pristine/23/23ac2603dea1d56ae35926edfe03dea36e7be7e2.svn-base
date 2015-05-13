@@ -1,0 +1,125 @@
+﻿// **********************************************************************
+// Copyright (c) 2013 Baoyugame. All rights reserved.
+// File     :  SystemTimeManager.cs
+// Author   : SK
+// Created  : 2013/8/29
+// Purpose  : 
+// **********************************************************************
+using UnityEngine;
+using System.Collections;
+using System;
+using System.Timers;
+
+public class SystemTimeManager
+{
+    private static readonly SystemTimeManager instance = new SystemTimeManager();
+    public static SystemTimeManager Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+	
+	private long _unixTimeStamp;	//unix时间戳以毫秒为单位
+
+#if UNITY_EDITOR || UNITY_STANDALONE
+	private const float FREETIME_LIMIT = 30f;
+#else
+	private const float FREETIME_LIMIT = 60f;
+#endif
+    private bool _isIdle;
+    public event System.Action<bool> OnIdleChange;
+	public event System.Action OnSystemWeatherChange;	//系统天气变化事件
+	public event System.Action<long> OnSystemTimeChange;
+	public event System.Action OnChangeNextDay;
+
+	public bool night = false;
+
+	public void Setup(){
+
+		_unixTimeStamp = DateUtil.DateTimeToUnixTimestamp(DateTime.Now);
+//		Debug.LogError(DateUtil.UnixTimeStampToDateTime(_unixTimeStamp));
+
+		CoolDownManager.Instance.SetupCoolDown("SystemCheckTimer",FREETIME_LIMIT,OnTimerUpdate,OnTimerFinish,1f);
+
+        _isIdle = false;
+        UICamera.onClick += ResetIdleTimer;
+	}
+
+	public void Stop(){
+		UICamera.onClick -= ResetIdleTimer;
+	}
+
+	#region Getter
+	public DateTime GetDateTime(){
+		return DateUtil.UnixTimeStampToDateTime(_unixTimeStamp);
+	}
+	
+	public long GetUTCTimeStamp()
+	{
+		return _unixTimeStamp;
+	}
+	#endregion
+
+    void ResetIdleTimer(GameObject go)
+    {
+		if (_isIdle)
+		{
+			// 恢复为激活状态
+			_isIdle = false;
+			if (OnIdleChange != null)
+				OnIdleChange(_isIdle);
+		}
+		CoolDownManager.Instance.SetupCoolDown("SystemCheckTimer",FREETIME_LIMIT,OnTimerUpdate,OnTimerFinish,1f);
+    }
+
+	private void OnTimerUpdate(float remainTime){
+		_unixTimeStamp += 1000;
+		int hourMinute = GetDateTime ().Minute;
+		if (hourMinute >= 30)
+		{
+			hourMinute /= 2;
+		}
+		
+		bool newNight = (hourMinute >= 15) ? true : false;
+		if (night != newNight)
+		{
+			night = newNight;
+			if (OnSystemWeatherChange != null)
+			{
+				OnSystemWeatherChange();
+			}
+		}
+		
+		if (OnSystemTimeChange != null)
+		{
+			OnSystemTimeChange(_unixTimeStamp);
+		}
+	}
+
+	private void OnTimerFinish(){
+		if(!_isIdle){
+			//倒计时结束，进入省电状态
+			_isIdle = true;
+			if (OnIdleChange != null)
+				OnIdleChange(_isIdle);
+		}
+
+		CoolDownManager.Instance.SetupCoolDown("SystemCheckTimer",FREETIME_LIMIT,OnTimerUpdate,OnTimerFinish,1f);
+	}
+
+	public void SyncServerTime(long newTime){
+		DateTime lastDateTime = GetDateTime();
+		_unixTimeStamp = newTime;
+		DateTime newDateTime = GetDateTime();
+
+		if(lastDateTime.Date != newDateTime.Date){
+			//跨日事件处理
+			if(OnChangeNextDay != null)
+				OnChangeNextDay();
+		}
+//		Debug.LogError(DateUtil.UnixTimeStampToDateTime(_unixTimeStamp));
+	}
+}
+

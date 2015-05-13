@@ -1,0 +1,693 @@
+﻿using UnityEngine;
+using System.Collections;
+using com.nucleus.h1.logic.services;
+using System.Collections.Generic;
+using com.nucleus.h1.logic.core.modules.friend.dto;
+using com.nucleus.h1.logic.chat.modules.dto;
+using com.nucleus.h1.logic.core.modules.player.dto;
+using System.IO;
+using LITJson;
+using com.nucleus.h1.logic.core.modules;
+
+public class FriendModel : MonoBehaviour {
+
+
+	private static readonly FriendModel instance = new FriendModel();
+	public static FriendModel Instance
+	{
+		get{
+			return instance;
+		}
+	}
+
+	//新消息来了
+	public event System.Action<long> OnNewNotifyUpdateView;
+
+	//mainui显示红点
+	public event System.Action<bool> ShowMainUiRedPoint;
+
+	//开始聊天
+	public event System.Action<int> BeginChatEvt;
+
+	//更新好友列表
+	public event System.Action<int> UpdateFriendView;
+
+	private long _curTalkFriend = -1;    //我现在和谁聊天
+
+	private FriendViewController friendViewController;
+
+	List<FriendDto> friendList = new List<FriendDto>();
+
+	public Dictionary<long, List<ChatNotify> > friendMsgDic = new Dictionary<long, List<ChatNotify>>();   //聊天内容
+
+	#region 添加好友
+	public void AddFriend(long id){
+
+		ServiceRequestAction.requestServer (FriendService.addFriend(id),"Add Friend",(e)=>{
+
+			for(int i =0; i < friendList.Count ;i++){
+				if(friendList[i].shortPlayerDto.id == (e as FriendDto).shortPlayerDto.id){
+					friendList.RemoveAt(i);
+					friendList.Insert(0,e as FriendDto);
+					TipManager.AddTip("添加好友成功");
+					ProxyMainUIModule.ClosePlayerInfoView ();
+
+					if(UpdateFriendView != null)
+						UpdateFriendView(0);
+
+					if(BeginChatEvt != null){
+						BeginChatEvt(0);
+					}
+
+					return;
+				}
+			}
+
+			friendList.Insert(0,e as FriendDto);
+			TipManager.AddTip("添加好友成功");
+			ProxyMainUIModule.ClosePlayerInfoView ();
+			
+			List<ChatNotify> _tList = new List<ChatNotify>();
+			friendMsgDic.Add(id,_tList);
+
+		
+		});
+	}
+	#endregion
+
+	#region 好友列表
+	public List<FriendDto> GetFriendList(){
+		List<FriendDto> tList = new List<FriendDto>();
+		tList = friendList;
+		return tList;
+	}
+	public List<FriendDto> GetDegreeMoreThanOneFriendList(){
+		List<FriendDto> tList = new List<FriendDto>();
+		for(int i = 0; i <friendList.Count ; i++){
+			if(friendList[i].degree >0 && friendList[i].connected){
+				tList.Add(friendList[i]);
+			}
+		}
+		return tList;
+	}
+	#endregion
+
+
+
+
+	#region 例如A账号切换B账号了， 把原来A账号相关的数据做一下清理
+	public void ClearData(){
+		friendList.Clear();
+		_curTalkFriend = -1;
+		first = true;
+		friendMsgDic.Clear();
+	}
+
+	#endregion
+
+	#region 好友上下线
+	public event System.Action<long> OnOFFLineEVT;
+	public void FriendOnOFFLine(FriendOnlineNotify notify){
+
+		for(int i = 0 ; i < friendList.Count; i++){
+
+			if(friendList[i].shortPlayerDto.id == notify.id){
+				if(_redPointCount.Contains(notify.id)){
+					friendList[i].connected = notify.online;
+					if(OnOFFLineEVT != null){
+						OnOFFLineEVT(_curTalkFriend);
+					}
+					return;
+				}
+				Behind(i,notify.online);
+			}
+		}
+	}
+	#endregion
+
+	#region 上/下线的放到在线的最后面
+	public void Behind(int index,bool b){
+
+		FriendDto tDto = friendList[index];
+		tDto.connected = b;
+		friendList.RemoveAt(index);
+		for(int i = 0; i < friendList.Count; i++){
+			if(friendList[i].connected){
+				continue;
+			}else{
+				friendList.Insert(i,tDto);
+				if(OnOFFLineEVT != null){
+					OnOFFLineEVT(_curTalkFriend);
+				}
+				break;
+			}
+		}
+	}
+	#endregion
+
+
+	#region 从服务器得到好友列表
+	public void GetFriends(){
+
+		ServiceRequestAction.requestServer (FriendService.friendList(),"Get FriendList",delegate(com.nucleus.commons.message.GeneralResponse e) {
+			friendList = (e as FriendListDto).items;
+			friendList.Sort((a,b)=>b.connected.CompareTo(a.connected));
+
+			for(int i = 0 ; i <friendList.Count; i++){
+				List<ChatNotify> _tList = new List<ChatNotify>();
+				friendMsgDic.Add(friendList[i].shortPlayerDto.id,_tList);
+			}
+			LoadMsg();
+			ThirtyMinutes();
+	});
+	}
+
+
+	public void GetFriendsFromServerEveryThirtyMinutes(){
+		ServiceRequestAction.requestServer (FriendService.friendList(),"Get FriendList",delegate(com.nucleus.commons.message.GeneralResponse e) {
+			List<FriendDto> tList = (e as FriendListDto).items;
+
+			for(int i = 0 ; i < tList.Count;i++){
+				for(int j = 0 ; j < friendList.Count; j++){
+					if(friendList[j].shortPlayerDto.id == tList[i].shortPlayerDto.id){
+						friendList[j] = tList[i];
+					}
+				}
+			}
+			ThirtyMinutes();
+
+		});
+	}
+
+	//每隔30分钟向服务器重新拿好友数据           1800s
+	private void ThirtyMinutes(){
+
+		CoolDownManager.Instance.SetupCoolDown("GetFriendsFromServerEveryThirtyMinutes",1800f,null,TimeToThirtyMinutes);
+	}
+
+	public void  TimeToThirtyMinutes(){
+		GetFriendsFromServerEveryThirtyMinutes();
+	}
+	#endregion
+
+
+	#region 更新好友度
+	public void UpdateDegree(FriendDegreeNotify notify){
+
+		ShortPlayerDto player = new ShortPlayerDto();
+		int pos = 0;
+
+		for(int i =0; i < friendList.Count; i++){
+			if(friendList[i].shortPlayerDto.id == notify.friendPlayerId){
+				player = friendList[i].shortPlayerDto;
+				friendList[i].degree += notify.amount;
+				pos = i;
+			}
+		}
+
+		switch(notify.rule){
+		case FriendDegreeNotify.FriendDegreeRuleEnum_GiftingFlowers:   //鲜花
+
+			//送给谁
+			if( PlayerModel.Instance.GetPlayerId() == notify.fromPlayerId){
+				TipManager.AddTip(string.Format("{0}收到了你的鲜花，你们的友好度提高了{1}点",player.nickname,notify.amount));
+			}
+			//谁收到了
+			else{
+				TipManager.AddTip(string.Format("你收到了{0}赠送的鲜花，你们的友好度提高了{1}点",player.nickname,notify.amount) );
+			}
+			break;
+		case FriendDegreeNotify.FriendDegreeRuleEnum_GiftingItems:   //道具
+			break;
+
+		case FriendDegreeNotify.FriendDegreeRuleEnum_WinBattle:   //战斗
+			break;
+
+		case FriendDegreeNotify.FriendDegreeRuleEnum_Delete: //删除
+			friendList[pos].degree = 0;
+			break;
+
+		case FriendDegreeNotify.FriendDegreeRuleEnum_Together:   //互为好友
+			friendList[pos].degree = notify.amount;
+			break;
+
+		default:
+			break;
+		}
+
+	
+	}
+
+	public void GiftFlower(long friendId,string friendName,string str){
+		ServiceRequestAction.requestServer(FriendService.giftFlowers(friendId,str),"GiftFlower",null,(e)=>{
+			TipManager.AddTip(e.message);
+		});
+	}
+	#endregion
+
+
+
+
+	public void Talk(string msg){
+		ServiceRequestAction.requestServer (FriendService.talk(_curTalkFriend,msg),"friend talk");
+	}
+
+
+	#region 新消息
+	public void AddMsg(ChatNotify notify){
+
+		//我说的
+		if(notify.fromPlayer.id == PlayerModel.Instance.GetPlayerId()){
+			//自动播放
+			if(SystemDataModel.Instance.friendsToggle)
+				ChatModel.Instance. AutoPlayMatch(notify.content);
+
+			//判断存不存在
+			//TODO
+			if(!JudgeExist(notify)){
+				//添加
+				friendMsgDic[_curTalkFriend].Add(notify);
+			}
+
+			//更新好友聊天内容
+			if(OnNewNotifyUpdateView != null){
+				OnNewNotifyUpdateView(_curTalkFriend);
+			}
+
+			return;
+		}
+
+		//是好友。
+		if(friendMsgDic.ContainsKey(notify.fromPlayer.id)){
+			//自动播放
+			if(SystemDataModel.Instance.friendsToggle)
+				ChatModel.Instance. AutoPlayMatch(notify.content);
+
+			foreach(long id in friendMsgDic.Keys){
+				if(id == notify.fromPlayer.id){
+
+					//判断存不存在
+					//TODO
+					//对于语音的
+					if(!JudgeExist(notify)){
+						friendMsgDic[id].Add(notify);
+					}
+
+
+					//如果当前好友信息不是我正在聊天这个的话，加入到小红点 并放到最上面
+					if(notify.fromPlayer.id != _curTalkFriend){
+						AddRedPointCount(notify.fromPlayer.id);
+					}
+
+
+					//更新头像
+					if(OnOFFLineEVT != null)
+						OnOFFLineEVT(_curTalkFriend);
+
+					//更新好友聊天内容
+					if(OnNewNotifyUpdateView != null){
+						OnNewNotifyUpdateView(notify.fromPlayer.id);
+					}
+
+				}
+			}
+			//如果MianUI需要显示小红点的话
+			if(ShowMainUiRedPoint != null && _redPointCount.Count >0){
+				ShowMainUiRedPoint(true);
+			}
+			return;
+		}
+
+		//不是好友
+		else{
+
+			//如果没有拒绝陌生人消息
+			if(!SystemDataModel.Instance.strangerToggle){
+	
+//				//自动播放
+//				if(SystemDataModel.Instance.friendsToggle)
+//					ChatModel.Instance. AutoPlayMatch(notify.content);
+
+				FriendDto strangerDto = new FriendDto();
+				strangerDto.friend = false;
+				strangerDto.shortPlayerDto = new ShortPlayerDto();
+				strangerDto.shortPlayerDto.grade = notify.fromPlayer.grade;
+				strangerDto.shortPlayerDto.id = notify.fromPlayer.id;
+				strangerDto.shortPlayerDto.nickname = notify.fromPlayer.nickname;
+				strangerDto.shortPlayerDto.factionId = notify.fromPlayer.factionId;
+				strangerDto.degree = 0;
+				strangerDto.connected = true;
+				friendList.Add(strangerDto);        //把上面设置的内容加入好友列表
+				List<ChatNotify> _tList = new List<ChatNotify>();       
+				friendMsgDic.Add(strangerDto.shortPlayerDto.id,_tList);            //当前好友聊天内容容器
+				
+				AddMsg(notify);
+			}
+
+		}
+	}
+	#endregion
+
+	#region 语音的判断存不存在
+	public bool JudgeExist(ChatNotify notify){
+
+		foreach(long id in friendMsgDic.Keys){	
+			for(int i =0;i < friendMsgDic[id].Count;i++){
+				
+				List<string> old = ChatModel.Instance.match(friendMsgDic[id][i].content);
+				List<string > News = ChatModel.Instance.match (notify.content);
+				if(old.Count >3 && News.Count >3){
+					if(old[3] == News[3] && old.Count >10 && News.Count >10){
+						friendMsgDic[id][i].content = notify.content;
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+
+	}
+	#endregion
+
+	#region 点击好友出现的菜单里的开始聊天
+	public void BeginChat(SimplePlayerDto playerDto){
+
+		//如果不在我的好友列表
+		if(!IsInMyFriendList(playerDto.id)){
+
+			FriendDto strangerDto = new FriendDto();
+			strangerDto.friend = false;
+			strangerDto.shortPlayerDto = new ShortPlayerDto();
+			strangerDto.shortPlayerDto.grade = playerDto.grade;
+			strangerDto.shortPlayerDto.id = playerDto.id;
+			strangerDto.shortPlayerDto.nickname = playerDto.nickname;
+			strangerDto.shortPlayerDto.factionId = playerDto.factionId;
+			strangerDto.degree = 0;
+			strangerDto.connected = true;
+			friendList.Insert(0,strangerDto);
+			List<ChatNotify> _tList = new List<ChatNotify>();
+			friendMsgDic.Add(strangerDto.shortPlayerDto.id,_tList);
+		}
+		else{
+//			Top(playerDto.id);
+		}
+		ProxyMainUIModule.ClosePlayerInfoView();
+		ProxyFriendModule.Close();
+		ProxyFriendModule.Open();
+
+		if(BeginChatEvt != null){
+			BeginChatEvt(0);
+		}
+
+	}
+	#endregion
+
+
+	#region 未读的小红点
+	public List<long> _redPointCount = new List<long>();
+    private void AddRedPointCount(long id){
+		if(!_redPointCount.Contains(id)){
+			_redPointCount.Add(id);
+			Top(id);
+		}
+	}
+
+	public List<long> GetRedPointCount(){
+		return _redPointCount;
+	} 
+
+	public void RemoveRedPoint(long id){
+		if(_redPointCount.Contains(id))
+		_redPointCount.Remove(id);
+
+
+		if(_redPointCount.Count > 0){
+			if(ShowMainUiRedPoint != null){
+				ShowMainUiRedPoint(true);
+			}
+		}
+		else{
+			if(ShowMainUiRedPoint != null){
+				ShowMainUiRedPoint(false);
+			}
+		}
+
+	}
+	#endregion
+
+
+	#region 排序
+	bool shouldSort = false;
+	public void FriendSort(){
+
+		List<FriendDto> tList = friendList;
+		tList.Sort( SortByConnect);//(a,b) => b.connected.CompareTo(a.connected) );
+
+		for(int i = 0; i < _redPointCount.Count ; i++){
+			for(int j = 0; j <tList.Count; j++){
+				if(tList[j].shortPlayerDto.id == _redPointCount[i]){
+					FriendDto tDto = tList[j];
+					tList.RemoveAt(j);
+					tList.Insert(0,tDto);
+					break;
+				}
+			}
+		}
+	}
+
+	public int SortByConnect(FriendDto a, FriendDto b){
+		if(a.connected == b.connected){
+			return a.shortPlayerDto.id.CompareTo(b.shortPlayerDto.id);
+		}else
+			return -a.connected.CompareTo(b.connected);
+	}
+	#endregion
+
+
+
+
+
+	#region 新消息来了要排最前面
+	public void Top(long id){
+		for(int i =0;i<friendList.Count;i++){
+			if(friendList[i].shortPlayerDto.id == id){
+				FriendDto dto = friendList[i];
+
+				friendList.RemoveAt(i);
+				friendList.Insert(0,dto);
+
+				break;
+			}
+		}
+	}
+	#endregion
+
+
+
+	#region 得到我当前聊天的人的所有聊天数据
+	public List<ChatNotify> GetChatFriendMsg(long playerId){
+		List<ChatNotify> _tList = new List<ChatNotify>();
+
+
+		foreach(long id in friendMsgDic.Keys){
+			if(id == playerId){
+				_tList = friendMsgDic[id];
+			}
+		}
+		return _tList;
+
+	}
+	#endregion
+
+
+	//who
+	public void SetTalkToWho(long id){
+		_curTalkFriend = id;
+	}
+	public long GetTalkToWho(){
+		return _curTalkFriend;
+	}
+
+	#region 删除好友
+	public void DelFriend(long id){
+		ServiceRequestAction.requestServer (FriendService.removeFriend(id),"removeFriend",(e)=>{
+			TipManager.AddTip("删除好友成功");
+			ProxyMainUIModule.ClosePlayerInfoView ();
+			RemoveRedPoint(id);
+			UpdateFriendList(id);
+			UpdateFriendMsgDic(id);
+		});
+	}
+
+	//更新好友列表
+	public void UpdateFriendList(long id){
+		for(int i = 0 ; i < friendList.Count;i++){
+			if(friendList[i].shortPlayerDto.id == id){
+				friendList.Remove(friendList[i]);
+				_curTalkFriend = -1;
+			}
+		}
+		//通知界面更新
+		if(friendViewController != null){
+
+			friendViewController.UpdateFriendInfoItemView(0);
+			friendViewController.ClearInfo();
+		}
+	}
+
+	//更新好友信息列表
+	public void UpdateFriendMsgDic(long id){
+		if(friendMsgDic.ContainsKey(id)){
+			friendMsgDic.Remove(id);
+		}
+	}
+	#endregion
+
+
+	public void SetCon(FriendViewController Controller){
+		friendViewController = Controller;
+	}
+
+
+	#region 这个人是否在我的好友列表
+	public bool IsInMyFriendList(long id){
+		return friendMsgDic.ContainsKey(id) ? true  :false;
+	}
+
+	//是否是我的好友
+	public bool IsMyFriend(long playerId){
+		for(int i =0;i < friendList.Count;i++){
+			if(friendList[i].shortPlayerDto.id == playerId && friendList[i].friend){
+				return true;
+			}
+		}
+
+		return false;
+	}
+	#endregion
+
+
+	#region 获取离线消息
+	public void loadOfflineMessage(){
+		if(first){
+			first = false;
+//			Debug.LogError("获取离线消息");
+			ServiceRequestAction.requestServer (FriendService.loadOfflineMessage(),"loadOfflineMessage",(e)=>{
+				List<ChatNotify> notifyList = new List<ChatNotify>();
+				for(int i = 0 ; i <(e as DataList).items.Count;i++){
+					notifyList.Add((e as DataList).items[i] as ChatNotify);
+				}
+//				Debug.LogError("离线消息:" + notifyList.Count + "条");
+				for(int i = 0; i <notifyList.Count; i++){
+					AddMsg(notifyList[i]);
+//					Debug.LogError("离线内容:" + i.ToString() + ":"+notifyList[i].content);
+				}
+			});
+		}
+
+	}
+	#endregion
+
+
+
+	#region 从本地加载聊天记录
+
+	bool first = true;
+	public void LoadMsg(){
+		if(first){
+//			Directory.GetFiles(Application.persistentDataPath + "/" + PlayerModel.Instance.GetPlayerId() +"/");
+			DirectoryInfo di = new DirectoryInfo (Application.persistentDataPath + "/" + PlayerModel.Instance.GetPlayerId() +"/");
+			if(di.Exists){
+				FileInfo []files =  di.GetFiles ("*.bytes");
+				for (int i =0; i < files.Length; i++) {
+					
+					byte[] byteArray = DataHelper.GetFileBytes(Application.persistentDataPath + "/" +PlayerModel.Instance.GetPlayerId()+"/"+files[i].Name);
+					string str = System.Text.Encoding.Default.GetString ( byteArray );
+					JsonFriendMsgInfo msgInfo = JsonMapper.ToObject<JsonFriendMsgInfo>(str);
+
+					
+					FriendMsgInfo friendMsgInfo = new FriendMsgInfo();
+					friendMsgInfo.playerId = msgInfo.playerId;
+					friendMsgInfo.id = new List<long>();
+					friendMsgInfo.str = new List<string>();
+
+					if (msgInfo != null)
+					{
+						for(int index=0; index <msgInfo.id.Count;index++){
+							ChatNotify notify = new ChatNotify();
+							notify.fromPlayer = new ShortPlayerDto();
+							notify.fromPlayer.id = msgInfo.id[index];
+							notify.content = msgInfo.str[index];
+							
+							if(friendMsgDic.ContainsKey(msgInfo.playerId))
+								friendMsgDic[msgInfo.playerId].Add(notify);
+						}
+					}
+					
+				}
+			}
+		}
+		loadOfflineMessage();
+	}
+	#endregion
+
+
+	#region 保存聊天内容
+
+
+	public  void Save(){
+
+		if(PlayerModel.Instance.GetPlayer() == null ) return;
+
+		//保存好友聊天内容
+		Dictionary<long, List<ChatNotify> > friendMsgDic = FriendModel.Instance.friendMsgDic;
+
+		Directory.CreateDirectory(Application.persistentDataPath + "/" + PlayerModel.Instance.GetPlayerId() + "/");
+		
+		DirectoryInfo di = new DirectoryInfo (Application.persistentDataPath + "/" + PlayerModel.Instance.GetPlayerId() + "/");
+		FileInfo []files =  di.GetFiles ();
+		foreach(FileInfo file in files){
+			file.Delete();
+		}
+		
+		foreach(long id in friendMsgDic.Keys){
+			
+			FriendMsgInfo friendMsgInfo = new FriendMsgInfo();
+			friendMsgInfo.str = new List<string>();
+			friendMsgInfo.id = new List<long>();
+			friendMsgInfo.playerId = id;
+			
+			for(int i = 0 ; i <friendMsgDic[id].Count; i++){
+
+				if(i >20) break;
+				friendMsgInfo.id.Add(friendMsgDic[id][i].fromPlayer.id);
+				friendMsgInfo.str.Add(friendMsgDic[id][i].content);
+				
+			}
+			
+			string json = JsonMapper.ToJson (friendMsgInfo);
+			
+			byte[] buff = System.Text.UTF8Encoding.UTF8.GetBytes (json);
+			
+			if (json.Length > 0) {
+				DataHelper.SaveFile (Application.persistentDataPath + "/" + PlayerModel.Instance.GetPlayerId()  +"/chat_history_"+id+".bytes", buff);
+			}
+		}
+	}
+	#endregion
+	public string GetUrlInfo( string name, int itemIdm,long uniqueId )
+	{
+		int index = name.IndexOf("%#%");
+		if(index != -1){
+			int lastIndex= name.LastIndexOf("%#%");
+			//说的话,物品id,名字,
+			return string.Format("{0}[3eff00][url={1}][{2}][/url][-]" ,name.Substring(0,index),itemIdm,name.Substring(index+3,lastIndex-index-3));
+		}
+		else{
+			return string.Format("{0}" ,name);
+		}
+	}
+
+
+}

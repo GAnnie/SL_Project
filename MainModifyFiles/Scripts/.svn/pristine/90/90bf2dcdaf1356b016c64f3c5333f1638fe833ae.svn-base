@@ -1,0 +1,379 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System;
+
+public class StoryPlayer : MonoBehaviour
+{
+	private StoryInfo _currentStory;
+
+	public float timer;    //计时器
+
+	private CameraController _cameraController;
+	private GameObject _cameraTargetGO = null;
+
+	Dictionary<int ,StoryNpcView> npcPlayerViewDic = null;
+	Dictionary<string ,Action<BaseStoryInst>> _instHanderDic = null;
+
+	private void Setup()
+	{
+		if (_instHanderDic == null)
+		{
+			_instHanderDic = new Dictionary<string, Action<BaseStoryInst>>();
+
+			_instHanderDic.Add (NpcAppearInst.TYPE, PlayNPCAppear);
+			_instHanderDic.Add (NpcTalkInst.TYPE, PlayNPCTalk);
+			_instHanderDic.Add (NpcMoveInst.TYPE, PlayNPCMove);
+			_instHanderDic.Add (NpcDeleteInst.TYPE, PlayNpcDel);
+			_instHanderDic.Add (NpcActionInst.TYPE, playNpcAnim);
+			_instHanderDic.Add(NpcTurnaroundInst.TYPE,PlayNpcTurn);
+			_instHanderDic.Add(NpcEffInst.TYPE,playNpcEff);
+
+			_instHanderDic.Add (EffAppearInst.TYPE, PlayEffInst);
+
+			_instHanderDic.Add (ScreenMaskInst.TYPE, PlayScreenMaskInst);
+			_instHanderDic.Add (ScreenPresureInst.TYPE, PlayScreenPresureInst);
+			_instHanderDic.Add (ScreenShockInst.TYPE, PlayScreenShockInst);
+
+			_instHanderDic.Add (CameraTranslationInst.TYPE, PlayCameraInst);
+
+			npcPlayerViewDic = new Dictionary<int, StoryNpcView>();
+		}
+
+		if (_cameraController == null)
+		{
+			_cameraController = LayerManager.Instance.GameCameraGo.GetComponentInChildren<CameraController> ();
+			_cameraController.setCamera(LayerManager.Instance.GameCamera.gameObject);
+		}
+	}
+	private int tStoryId = -1;
+	public void PlayStory(int storyId,bool check)
+	{
+		Setup ();
+
+		NGUIFadeInOut.FadeIn ();
+
+		string storyPath = string.Format("ConfigFiles/StoryConfig/StoryConfig{0}", storyId);
+		JsonStoryInfo configInfo = DataHelper.GetJsonFile<JsonStoryInfo>(storyPath, "bytes", false);
+
+		StoryInfo storyInfo = configInfo.ToStoryInfo ();
+
+		if(!check){
+			tStoryId = storyInfo.id;
+			TipManager.AddTip("剧情已播放");
+			Debug.LogError("剧情已播放");
+			StopStory();
+			DoStopStory();
+			return;
+		}
+
+
+		//如果当前场景与剧情场景不符 跳出
+//		if(PlayerModel.Instance.GetPlayer().sceneId != storyInfo.sceneid){
+//			TipManager.AddTip("当前场景与剧情场景不符");
+//			Debug.LogError("当前场景与剧情场景不符");
+//			StopStory();
+//			DoStopStory();
+//			return;
+//		}
+//		else
+		_currentStory = storyInfo;
+
+		timer = 0;
+		LayerManager.Instance.SwitchLayerMode (UIMode.Mode_Story);
+
+		if (_cameraTargetGO == null)
+		{
+			_cameraTargetGO = new GameObject("StoryCameraTargetGO");
+			_cameraTargetGO = GameObjectExt.AddPoolChild (LayerManager.Instance.StoryActors, _cameraTargetGO);
+			_cameraController.cameraMove.target = _cameraTargetGO.transform;
+			_cameraController.cameraMove.SyncTargetPos ();
+		}
+	}
+	
+	void Update(){
+		if (_currentStory == null)
+		{
+			return;
+		}
+
+		timer += Time.unscaledDeltaTime;
+
+		if (timer > _currentStory.delayTime) 
+		{
+			StopStory();
+			return;
+		}
+
+		List<BaseStoryInst> removeInst = null;
+
+		for (int i = 0,len = _currentStory.instList.Count; i < len; i++) {           //遍历所有指令
+			BaseStoryInst inst = _currentStory.instList[i];
+
+			if(timer >= inst.startTime)  //如果当前时间大于指令开始时间就
+			{
+				if (removeInst == null)
+				{
+					removeInst = new List<BaseStoryInst>();
+				}
+
+				removeInst.Add(inst);
+
+				if (_instHanderDic.ContainsKey(inst.type))
+				{
+					Action<BaseStoryInst> handler = _instHanderDic[inst.type];
+					handler(inst);
+				}
+			}
+		}
+
+		if (removeInst != null)
+		{
+			foreach(BaseStoryInst inst in removeInst)
+			{
+				_currentStory.instList.Remove(inst);
+			}
+		}
+	}
+	
+	#region 播放NPC 的指令
+	
+	//出现
+	public void PlayNPCAppear(BaseStoryInst baseInst){
+		NpcAppearInst inst = baseInst as NpcAppearInst;
+		GameObject storyNpcGO = new GameObject ("StoryNpc" + inst.npcid);
+		GameObjectExt.AddPoolChild (LayerManager.Instance.StoryActors, storyNpcGO);
+		
+		CharacterController characterController = storyNpcGO.GetMissingComponent<CharacterController> ();
+		characterController.center = new Vector3 (0f, 0.75f, 0f);
+		characterController.radius = 0.4f;
+		characterController.height = 2f;
+		
+		storyNpcGO.tag = GameTag.Tag_Player;
+		Vector3 position = SceneHelper.GetRobotSceneStandPosition (new Vector3 (inst.posX,0f, inst.posZ), Vector3.zero);
+		storyNpcGO.transform.position = new Vector3 (inst.posX/10.0f, 0, inst.posZ/10.0f);
+		storyNpcGO.transform.rotation = Quaternion.Euler( new Vector3 (0,inst.rotY, 0));            //朝向
+
+		StoryNpcView storyNpcView = storyNpcGO.GetMissingComponent<StoryNpcView>();
+
+
+		storyNpcView.Load (inst);
+
+		npcPlayerViewDic.Add (inst.npcid, storyNpcView);
+		if(!string.IsNullOrEmpty(inst.defaultAnim))
+		storyNpcView.PlayAnimation (inst.defaultAnim);
+	}
+
+	//说话
+	public void PlayNPCTalk(BaseStoryInst baseInst){
+		NpcTalkInst inst = baseInst as NpcTalkInst;
+
+		ProxyActorPopoModule.Close (inst.npcid);
+
+		if (npcPlayerViewDic.ContainsKey(inst.npcid))
+		{
+			StoryNpcView view = npcPlayerViewDic[inst.npcid];
+			ProxyActorPopoModule.Open (inst.npcid, view.transform, inst.talkStr, LayerManager.Instance.GameCamera, inst.offY);
+			if(inst.existTime > 0){
+				CoolDownManager.Instance.SetupCoolDown(inst.npcid.ToString()+"talk",inst.existTime,null,delegate {
+					ProxyActorPopoModule.Close(inst.npcid);
+				});
+			}
+	
+		}
+	}
+	
+	
+	//移动
+	public void PlayNPCMove(BaseStoryInst baseInst){
+		NpcMoveInst inst = baseInst as NpcMoveInst;
+
+		if (npcPlayerViewDic.ContainsKey(inst.npcid))
+		{
+			StoryNpcView view = npcPlayerViewDic[inst.npcid];
+			view.SetGoPosition(new Vector3(inst.goPosX/10.0f,0,inst.goPosZ/10.0f));	
+		}
+	}
+	
+	//删除Npc
+	public void PlayNpcDel(BaseStoryInst baseInst){
+		NpcDeleteInst inst = baseInst as NpcDeleteInst;
+
+		GameObject go = null;
+
+		ProxyActorPopoModule.Close (inst.npcid);
+
+		if (npcPlayerViewDic.ContainsKey(inst.npcid))
+		{
+			StoryNpcView view = npcPlayerViewDic[inst.npcid];
+			view.DestroyMe();
+
+			npcPlayerViewDic.Remove(inst.npcid);
+		}
+	}
+	
+	// 动作
+	public void playNpcAnim(BaseStoryInst baseInst){
+		NpcActionInst inst = baseInst as NpcActionInst;
+
+		if (npcPlayerViewDic.ContainsKey(inst.npcid))
+		{
+			StoryNpcView view = npcPlayerViewDic[inst.npcid];
+			view.PlayAnimation(inst.anim);
+		}
+	}
+	
+	//转向
+	public void PlayNpcTurn(BaseStoryInst baseInst){
+
+		NpcTurnaroundInst inst = baseInst as NpcTurnaroundInst;
+
+		if (npcPlayerViewDic.ContainsKey(inst.npcid))
+		{
+			StoryNpcView view = npcPlayerViewDic[inst.npcid];
+			view.TurnAround(inst);
+		}
+	}
+
+	//npc eff
+	public void playNpcEff(BaseStoryInst baseInst){
+		NpcEffInst inst = baseInst as NpcEffInst;
+
+		string path = PathHelper.GetEffectPath (inst.NpcEffPath);
+//		TipManager.AddTip("特效"+inst.NpcEffPath);
+
+		if (npcPlayerViewDic.ContainsKey(inst.npcid))
+		{
+			StoryNpcView view = npcPlayerViewDic[inst.npcid];
+			OneShotSceneEffect.BeginFollowEffect (path,view.gameObject.transform,inst.delayTime,1,null);
+		}
+
+
+	}
+	
+	#endregion
+	
+	
+	#region 播放特效
+	public void PlayEffInst(BaseStoryInst baseInst){
+		EffAppearInst inst = baseInst as EffAppearInst;
+
+		string path = PathHelper.GetEffectPath (inst.effPath);
+
+
+
+		if (inst.isFullScreen) {
+			
+		}
+		else{
+//			TipManager.AddTip("特效"+inst.effPath);
+			OneShotSceneEffect.Begin(path,new Vector3(inst.posX,inst.posY,inst.posZ),inst.delayTime,1,null);
+		}
+		
+	}
+	
+	#endregion
+	
+	
+	#region 镜头
+	public void PlayCameraInst(BaseStoryInst baseInst){
+		CameraTranslationInst inst = baseInst as CameraTranslationInst;
+
+		Vector3 position = SceneHelper.GetRobotSceneStandPosition (new Vector3 (inst.posX/10.0f, 0f, inst.posZ/10.0f), Vector3.zero);
+		_cameraTargetGO.transform.localPosition = position;
+
+		_cameraController.cameraMove.isSmooth = (inst.delayTime > 0);
+	}
+	#endregion
+	
+	#region 屏幕
+	
+	//蒙版
+	MaskController maskCon;
+	public void PlayScreenMaskInst(BaseStoryInst baseInst){
+		ScreenMaskInst inst = baseInst as ScreenMaskInst;
+
+		maskCon = ProxyScreenMaskModule.Open (inst);
+	}
+	
+	//压屏
+	public void PlayScreenPresureInst(BaseStoryInst baseInst){
+		ScreenPresureInst inst = baseInst as ScreenPresureInst;
+
+		ProxyScreenPresureModule.Open (inst);
+	}
+	
+	//震屏
+	
+	public void PlayScreenShockInst(BaseStoryInst baseInst){
+		ScreenShockInst inst = baseInst as ScreenShockInst;
+
+		CameraShake.Instance.Launch(inst.delayTime,inst.sensitive);
+//		TipManager.AddTip("震屏");
+	}
+	
+	#endregion
+	
+	#region 音乐
+	public void PlayMusicInst(){
+		
+	}
+	#endregion
+	
+	#region 音效
+	public void PlayAudioInst(){
+		
+	}
+	#endregion
+
+
+	#region 剧情播放完删除
+	public void StopStory()
+	{
+		if(tStoryId != -1)
+		StoryManager.Instance.HaveBeenPlayed(tStoryId);
+		EndPlayCallBack();
+		_currentStory = null;
+		NGUIFadeInOut.FadeOut(delegate {
+			DoStopStory();
+		});
+	}
+
+	private void DoStopStory()
+	{
+		ProxyScreenMaskModule.Close();
+		ProxyScreenPresureModule.Close ();
+		
+		foreach (StoryNpcView view in npcPlayerViewDic.Values) 
+		{
+			ProxyActorPopoModule.Close (view.GetNpcId());
+			view.DestroyMe();
+		}
+		npcPlayerViewDic.Clear ();
+
+		LayerManager.Instance.StoryActors.RemoveChildren ();
+
+		GameObject.Destroy (this.gameObject);
+
+		_cameraController.cameraMove.target = _cameraController.heroGO.transform;
+		_cameraController.cameraMove.isSmooth = true;
+		_cameraController.cameraMove.SyncTargetPos ();
+		_cameraTargetGO = null;
+		_cameraController = null;
+
+		LayerManager.Instance.SwitchLayerMode (UIMode.Mode_Game);
+		
+		NGUIFadeInOut.FadeIn ();
+	}
+	#endregion
+
+	#region 剧情播放完的相关回调
+	private void EndPlayCallBack(){
+		if(_currentStory != null)
+		StoryManager.Instance.HaveBeenPlayed(_currentStory.id);
+	}
+	#endregion
+
+}
+

@@ -1,0 +1,139 @@
+﻿// **********************************************************************
+// Copyright (c) 2013 Baoyugame. All rights reserved.
+// File     :  DateUtil.cs
+// Author   : willson
+// Created  : 2013/3/15 
+// Porpuse  : 
+// **********************************************************************
+using System;
+using UnityEngine;
+
+public class DateUtil
+{
+	
+	private static string toTwoWei(long n) 
+	{
+		if (n < 10) 
+		{
+			return "0" + n;
+		} 
+		else 
+		{
+			return n + "";
+		}
+	}
+	
+	/**
+	 * 返回minute:second格式的时间字符串
+	 * @param time 秒为单位
+	 */
+	public static string getTimeString(long time, bool withHour=true)
+	{
+		if (time <= 0) 
+		{
+			return withHour?"00:00:00":"00:00";
+		} 
+		else 
+		{
+			if (withHour)
+			{
+				return toTwoWei(time / 60 / 60) + ":" + toTwoWei(time / 60 % 60) + ":" + toTwoWei(time % 60);
+			}
+			else
+			{
+				return toTwoWei(time / 60) + ":" + toTwoWei(time % 60);
+			}
+		}
+	}
+
+    public static string getDayTime(long time)
+    {
+        if (time < 86400)
+        {
+            return getTimeString(time);
+        }
+        else
+        {
+            long day = time / 86400;
+            return day + "天" + getTimeString(time % 86400);
+        }
+    }
+
+	public static string getVipTime(float time){
+		return getVipTime(Convert.ToInt64(time));
+	}
+    /**
+     * Ch = 中文
+     * DD = 天
+     * HH = 时
+     * MM = 分
+     * @param time 秒为单位
+     */
+    public static string getVipTime(long time)
+    {
+        long d = time / 86400;
+        time = time % 86400;
+        long h = time / 60 / 60 % 24;
+        long m = time / 60 % 60;
+        long s = time % 60;
+        //1、当前剩余时间超过1天，即大于等于24小时，则显示:xx天xx小时
+        if (d >= 1)
+        {
+            if (h == 0) h = 1;
+            return d + "天" + h + "小时";
+        }
+        //2、当前剩余时间少于1天，即小于24小时并大于等于60分钟。 则显示：XX小时xx分钟
+        if (h >= 1)
+        {
+            return h + "小时" + m + "分钟";
+        }
+        //3、当前剩余时间少于60分钟小时并且大于60秒。 则显示：xx分钟
+        if (m >= 1)
+        {
+            return m + "分钟";
+        }
+        //4、当前剩余时间少于1分钟。 则显示：xx秒
+
+        return s + "秒";
+    }
+
+	public static string getVipDate(long time)
+	{
+		DateTime dt = UnixTimeStampToDateTime(time);
+		
+		// yyyy-MM-dd HH:mm:ss
+		return string.Format("{0:yyyy-MM-dd  HH:mm}", dt);
+	}
+
+    public static string getDate(long time)
+    {
+        DateTime dt = UnixTimeStampToDateTime(time);
+
+        // yyyy-MM-dd HH:mm:ss
+        return string.Format("{0:yyyy-MM-dd}", dt);
+    }
+
+	public static string getServerTime(long time)
+	{
+		DateTime dt = UnixTimeStampToDateTime (time);
+
+		return string.Format ("{0:HH:mm}", dt);
+	}
+
+    public static DateTime UnixTimeStampToDateTime(long unixTimestamp)
+    {
+		DateTime dateTime = new DateTime(1970,1,1,0,0,0,0);
+		return dateTime.AddTicks(unixTimestamp * 10000).ToLocalTime();
+    }
+
+	public static long DateTimeToUnixTimestamp(DateTime dateTime)
+	{
+		return (dateTime - new DateTime(1970,1,1,0,0,0,0).ToLocalTime()).Ticks / 10000;
+	}
+
+    public static string getActivityDate(long time)
+    {
+        DateTime dt = UnixTimeStampToDateTime(time);
+        return string.Format("{0:MM月dd日 HH:mm}", dt);
+    }
+}
