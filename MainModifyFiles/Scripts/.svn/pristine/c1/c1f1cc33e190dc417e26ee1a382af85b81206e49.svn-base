@@ -1,0 +1,213 @@
+﻿using UnityEngine;
+using System.Collections;
+using com.nucleus.player.msg;
+using System.Threading;
+using System.Collections.Generic;
+using com.nucleus.h1.logic.core.modules.player.data;
+using System.IO;
+using System;
+using com.nucleus.h1.logic.core.modules.player.dto;
+
+public class GameDataManager
+{
+	private static readonly GameDataManager instance = new GameDataManager();
+	public static GameDataManager Instance
+	{
+		get
+		{
+			return instance;
+		}
+	}
+
+    private const string Data_PackDto_Backpack = "Data_PackDto_Backpack";
+    public static string Data_Self_PackDto_Backpack
+    {
+        get
+        {
+            return Data_PackDto_Backpack + "_" + PlayerModel.Instance.GetPlayerId();
+        }
+    }
+
+    private const string Data_PackDto_Warehouse = "Data_PackDto_Warehouse";
+    public static string Data_Self_PackDto_Warehouse
+    {
+        get
+        {
+            return Data_PackDto_Warehouse + "_" + PlayerModel.Instance.GetPlayerId();
+        }
+    }
+
+	private Dictionary< string, object > _dataDic;
+	private List<string> _dataNameList;
+
+	private string _dataPath;
+    private System.Action _cacheDataSuccess;
+
+    /// <summary>
+    /// 数据缓存初始化 在 AfterLogin 里面处理
+    /// </summary>
+    /// <param name="playerId">The player identifier.</param>
+    public void Setup(System.Action cacheDataSuccess)
+	{
+		_dataDic = new Dictionary<string, object> ();
+		_dataNameList = new List<string> ();
+
+        _dataNameList.Add(GameDataManager.Data_Self_PackDto_Backpack);
+        _dataNameList.Add(GameDataManager.Data_Self_PackDto_Warehouse);
+
+        _cacheDataSuccess = cacheDataSuccess;
+
+		LoadNextData ();
+	}
+
+	private void LoadNextData()
+	{
+		if (_dataNameList.Count > 0)
+		{
+			string dataName = _dataNameList[0];
+			_dataNameList.RemoveAt(0);
+			LoadData (GetDataPath(dataName));
+		}
+        else
+        {
+            if (_cacheDataSuccess != null)
+                _cacheDataSuccess();
+        }
+	}
+
+	private string GetDataPath(string dataType)
+	{
+		return string.Format (Application.persistentDataPath + "/gamedata/{0}.dataInfo.bytes", dataType);
+	}
+
+	private void LoadData(string path)
+	{
+		_dataPath = path;
+
+		GameObject go = GameObject.Find("DataManagerThread2");
+		
+		if (go == null)
+		{
+			go = new GameObject("DataManagerThread2");
+		}
+		DataManagerThread thread = GameObjectExt.GetMissingComponent<DataManagerThread>(go);
+		thread.loadDataFinish = OnLoadDataFinish;
+		thread.ReadDataCache(_dataPath);	
+	}
+
+	private void OnLoadDataFinish(object obj)
+	{
+		if (obj != null)
+		{
+			_dataDic[_dataPath] = obj;
+		}
+		LoadNextData ();
+	}
+
+	public T GetDataObj<T>(string dataName)
+	{
+		string key = GetDataPath (dataName);
+		object obj = null;
+		if (_dataDic.ContainsKey(key))
+		{
+			return (T)_dataDic[key];
+		}
+		else
+		{
+			return default(T);
+		}
+	}
+
+	public void SaveData()
+	{
+		Debug.Log ("GameDataMaanger SaveData");
+		return;
+		if (_dataDic != null)
+		{
+			Thread thread = new Thread(new ThreadStart(DoSaveObjFile));
+			thread.Start();
+		}
+	}
+
+	private void DoSaveObjFile()
+	{
+		if (_dataDic == null) return;
+		foreach (KeyValuePair< string, object > keyValue in _dataDic) 
+		{
+			string key = keyValue.Key;
+			DoSaveObjFile(keyValue.Key, keyValue.Value);
+		}
+	}
+	
+	private void DoSaveObjFile(string path, object obj)
+	{
+		Debug.Log ("GameDataMaanger SaveData path=" + path);
+		string filePath = path;
+		byte[] bytes = com.nucleus.h1.logic.core.modules.proto.ProtobufUtilsNet.packIntoData (obj);
+		
+		FileStream file;
+		try
+		{
+			string dirPath = filePath.Substring(0, filePath.LastIndexOf('/')+1);
+			if (!Directory.Exists(dirPath))
+			{
+				Directory.CreateDirectory(dirPath);
+			}
+			if (File.Exists(filePath))
+			{
+				file = new FileStream(filePath, FileMode.Truncate);
+			}
+			else
+			{
+				file = new FileStream(filePath, FileMode.CreateNew);
+			}
+			
+			BinaryWriter bw = new BinaryWriter(file);
+			bw.Write(bytes);
+			bw.Close();
+			file.Close();
+		}
+		catch (Exception ex)
+		{
+			Debug.LogException(ex);
+			return;
+		}
+	}	
+
+	public void PushData(string dataName, object obj)
+	{
+		string key = GetDataPath (dataName);
+		if (_dataDic.ContainsKey(key))
+		{
+			_dataDic[key] = obj;
+		}
+		else
+		{
+			_dataDic.Add(key, obj);
+		}
+	}
+
+	public long GetDataVersion(string dataName)
+	{
+		string key = GetDataPath (dataName);
+		if (_dataDic.ContainsKey(key))
+		{
+			object obj = _dataDic[key];
+			switch (dataName)
+			{
+			case Data_PackDto_Backpack:
+				BackpackDto packDto = obj as BackpackDto;
+				return packDto.packDto.version;
+			case Data_PackDto_Warehouse:
+				PackDto warehouseDto = obj as PackDto;
+				return warehouseDto.version;
+			}
+			return -1;
+		}
+		else
+		{
+			return -1;
+		}
+	}
+}
+

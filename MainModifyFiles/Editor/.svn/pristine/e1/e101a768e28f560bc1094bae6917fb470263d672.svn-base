@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: ServerListItem
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: ae5944a5a4626621649d5aa482698fbf
+    comType: UILabel
+    memberName: NameLabel_UILabel
+    path: NameLabel
+  - uid: 67c3f339702345583cbdbbb8d57aed81
+    comType: UISprite
+    memberName: StateSprite_UISprite
+    path: StateSprite
+  - uid: 25c0ac83abb286a0aaf9663c35f4545d
+    comType: GameObject
+    memberName: NewSprite
+    path: NewSprite
+  - uid: ddac8050af261d548196d655dfa66e3c
+    comType: GameObject
+    memberName: RoleSprite
+    path: RoleSprite
+  - uid: d8133cd5a26efec710ac5e113a3ff734
+    comType: UILabel
+    memberName: RoleCountLabel_UILabel
+    path: RoleCountLabel
+  - uid: e6a013f9e6387c561ebb6c98de4bbc68
+    comType: UISprite
+    memberName: BgSprite_UISprite
+    path: BgSprite
+  - uid: c2d695598c890e5fb8788487e5a32ddc
+    comType: UIButton
+    memberName: ServerListItem_UIButton
+    path: 
+  codePath: 
+  codeLuaPath: 
