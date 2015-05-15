@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: RankingWinUI
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 96f724f1d3be59003a3b4e899e6cd141
+    comType: UIButton
+    memberName: CloseBtn
+    path: bgGroup/CloseBtn
+  - uid: aa93db6a359285c233a5117c6130ba7c
+    comType: UIGrid
+    memberName: RankingGrid
+    path: LeftGroup/RankingGrid
+  - uid: 89e5d3ce2a6858783ca7928015683ff2
+    comType: UILabel
+    memberName: RankingTipsLabel
+    path: RightGroup/BgSprite/RankingTipsLabel
+  codePath: /Scripts/MyGameScripts/Module/RankingModule/view/RankingWinUI.cs
+  codeLuaPath: 

@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: GuildsInfoWinUI
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 477c3ae147edb2c9c6329b6fdc0674e1
+    comType: UIButton
+    memberName: CloseBtn
+    path: bgGroup/CloseBtn
+  - uid: df3c082c4b6c90f1b0c3ff47e6721adb
+    comType: GameObject
+    memberName: GuildsInfoGroup
+    path: GuildsInfoGroup
+  - uid: 9353b30f746c81cc43ac4f1e7a268ed7
+    comType: GameObject
+    memberName: GuildCreateGroup
+    path: GuildCreateGroup
+  - uid: 99ede32f43d5316211107a4af23a7ae2
+    comType: UIGrid
+    memberName: GuildListGrid
+    path: GuildsInfoGroup/LeftGroup/GuildListScrollView/GuildListGrid
+  - uid: 14a8d9425d78c90b1c638414667e1e2f
+    comType: UILabel
+    memberName: PurposeLabel
+    path: GuildsInfoGroup/RightGroup/PurposeGroup/PurposeLabel
+  - uid: 2ddb332d9c8e36d62ee1d9a8c8e4cfa5
+    comType: UIButton
+    memberName: AllApplyJoinButton
+    path: GuildsInfoGroup/RightGroup/AllApplyJoinButton
+  - uid: 0db801ad492fe7d6663afd82dde8931d
+    comType: UIButton
+    memberName: ApplyJoinButton
+    path: GuildsInfoGroup/RightGroup/ApplyJoinButton
+  - uid: 6b8b0fa5330192346c78d3f2365ab4f4
+    comType: UIButton
+    memberName: CallBossButton
+    path: GuildsInfoGroup/RightGroup/CallBossButton
+  - uid: 4dee538352954c7a65b831acf487c778
+    comType: UIButton
+    memberName: CreateButton
+    path: GuildsInfoGroup/RightGroup/CreateButton
+  - uid: 4e271dacdaa96226240cc95dd8cda80a
+    comType: UIInput
+    memberName: GuildIDInput
+    path: GuildsInfoGroup/BottomGroup/GuildIDInput
+  - uid: febe37f9be651cf838af223573e1b690
+    comType: UIButton
+    memberName: SearchGulidButton
+    path: GuildsInfoGroup/BottomGroup/SearchGulidButton
+  - uid: 1ed026e12fd1c0e9b8250ce63838a93c
+    comType: UIButton
+    memberName: ApprenticeTipsButton
+    path: GuildsInfoGroup/BottomGroup/ApprenticeTipsButton
+  - uid: 921707e39f7ffefcf8fb8a04d003a392
+    comType: UIInput
+    memberName: GuildNameInput
+    path: GuildCreateGroup/GuildNameInput
+  - uid: 1a10f13b2ce8c56605d143b497504406
+    comType: UILabel
+    memberName: GuildNameLabel
+    path: GuildCreateGroup/GuildNameInput/GuildNameLabel
+  - uid: b55f9b82c2e548ff9806f4ea98cfc1c9
+    comType: UIInput
+    memberName: GuildPurposeInput
+    path: GuildCreateGroup/GuildPurposeInput
+  - uid: 1e0d227a9199bbf3b2b1ae92f2324b9c
+    comType: UILabel
+    memberName: GuildPurposeLabel
+    path: GuildCreateGroup/GuildPurposeInput/GuildPurposeLabel
+  - uid: ce252b31ed3af78b74d718d2e6598fe6
+    comType: UILabel
+    memberName: TooMuchTipsLabel
+    path: GuildCreateGroup/TooMuchTipsLabel
+  - uid: 96ed27ba4b44a8f28c34adf2fc3b3f58
+    comType: UILabel
+    memberName: CostLabel
+    path: GuildCreateGroup/CostLabel
+  - uid: 1b06f12fb272e7d241ce2625f90facc8
+    comType: GameObject
+    memberName: OkBtnPos
+    path: GuildCreateGroup/OkBtnPos
+  - uid: f5e0fb843dc3878133389ff0221c6414
+    comType: GameObject
+    memberName: CancelBtnPos
+    path: GuildCreateGroup/CancelBtnPos
+  codePath: 
+  codeLuaPath: 

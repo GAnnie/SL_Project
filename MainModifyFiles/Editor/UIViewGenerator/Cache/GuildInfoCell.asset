@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c41f8809812244d9b1e510dd25c019, type: 3}
+  m_Name: GuildInfoCell
+  m_EditorClassIdentifier: 
+  componentInfoList:
+  - uid: 9a94eceb2f5f9050109e187082728641
+    comType: UILabel
+    memberName: IdLabel
+    path: IdLabel
+  - uid: 82d64a63f2daf18c5e78a777fd499e16
+    comType: UILabel
+    memberName: NameLabel
+    path: NameLabel
+  - uid: 9eab6d8e791aa49d2c2433b577d27d2c
+    comType: UILabel
+    memberName: LvLabel
+    path: LvLabel
+  - uid: dbace9f7db233e165d081c093a4d6097
+    comType: UILabel
+    memberName: CountLabel
+    path: CountLabel
+  - uid: abff87ec8d9634c08b7614d24320d74a
+    comType: UILabel
+    memberName: BossLabel
+    path: BossLabel
+  - uid: a188167b2903cb71aaec3314d854e739
+    comType: UISprite
+    memberName: SelectSprite
+    path: SelectSprite
+  codePath: /Scripts/MyGameScripts/Module/GuildModule/view/GuildInfoCell.cs
+  codeLuaPath: 

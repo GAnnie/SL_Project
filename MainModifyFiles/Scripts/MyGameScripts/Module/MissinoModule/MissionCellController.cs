@@ -47,7 +47,7 @@ public class MissionCellController : MonoBehaviour {
 		RegisterEvent();
 
 		//	标题\描述\iconSprite
-		_view.TypeLabel_UILabel.text = MissionDataModel.Instance.GetMissionTitleName(mission, true, true, false);
+		_view.TypeLabel_UILabel.text = MissionDataModel.Instance.GetMissionTitleName(mission, true, true);
 		_view.DescriptionLabel_UILabel.text = MissionDataModel.Instance.GetCurTargetContent(mission, true);
 
 		//	spriteIcon 处理
