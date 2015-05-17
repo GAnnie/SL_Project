@@ -40,39 +40,6 @@ public class NpcDialogueController : MonoBehaviour,IViewController {
 	}
 	private DialogueProcess _dialogueProcess = DialogueProcess.Wait;
 
-	//	一个对话选项的枚举
-	private enum DialogueOption {
-		/// <summary>
-		/// 不存在选项菜单（初始状态）:0 -- The nothing option.
-		/// </summary>
-		NothingOption = 0,
-		/// <summary>
-		/// 只存在功能选项:1 -- The only function.
-		/// </summary>
-		OnlyFunction = 1,
-		/// <summary>
-		/// 存在功能选项和任务一级菜单:2 -- The function and main mission menu.
-		/// </summary>
-		FunctionAndMainMissionMenu = 2,
-		/// <summary>
-		/// 存在功能选项和任务二级菜单（隐含表示拥有一个或多个NPC功能和有且仅有一个任务）:3 -- The function and sub mission menu.
-		/// </summary>
-		FunctionAndSubMissionMenu = 3,
-		/// <summary>
-		/// 只存在任务一级菜单:4 -- The only main mission menu.
-		/// </summary>
-		OnlyMainMissionMenu = 4,
-		/// <summary>
-		/// 只存在二级菜单（有且仅有一个任务）:5 -- The only sub mission menu.
-		/// </summary>
-		OnlySubMissionMenu = 5,
-		/// <summary>
-		/// 快速地 -- The quickly menu.
-		/// </summary>
-		QuicklyMenu = 6
-	}
-	private DialogueOption _dialogueOption = DialogueOption.NothingOption;
-
 	/// <summary>
 	/// 从DataModel中取得相关数据对界面进行初始化
 	/// </summary>
@@ -137,8 +104,13 @@ public class NpcDialogueController : MonoBehaviour,IViewController {
 
 		//	任务相关	###############################	任务相关	###############################
 		List<MissionOption> tMissonOptionList = MissionDataModel.Instance.GetMissionOptionListByNpcInternal(npc);
-		int tOptionCount = npc.dialogFunctionId.Count + tMissonOptionList.Count;
+
+		int tFunctionCount = npc.dialogFunctionId.Count;
+		int tOptionCount = tFunctionCount + tMissonOptionList.Count;
 		bool tIsShowOption = tOptionCount > 0;
+		
+		MissionDataModel.DialogueOption _dialogueOption = MissionDataModel.DialogueOption.NothingOption;
+			//MissionDataModel.Instance.GetDialogueOptionByMissionOptionList(tMissonOptionList, npc);
 
 		_view.OptionBg.gameObject.SetActive(tIsShowOption);
 
@@ -150,7 +122,7 @@ public class NpcDialogueController : MonoBehaviour,IViewController {
 			HidderLastOption();
 
 			//	Option 功能选项按钮实例一下
-			for(int i = 0, len = npc.dialogFunctionId.Count; i < len; ++i){
+			for(int i = 0, len = tFunctionCount; i < len; ++i){
 				DialogFunction dialogFunction = DataCache.getDtoByCls<DialogFunction>(npc.dialogFunctionId[i]);
 				GameObject tInherentOptionGo = i == 0?
 					_view.FunctionCellPrefab : NGUITools.AddChild(_view.FunctionGrid.gameObject, _view.FunctionCellPrefab);
@@ -166,13 +138,13 @@ public class NpcDialogueController : MonoBehaviour,IViewController {
 
 
 			//	Alot 任务对话相关测试版代码，与主线版本互不干涉 ********************************* Begin *********************************
-			if (!GameDebuger.openDebugLogOrange) {
-				
+			if (GameDebuger.openDebugLogOrange) {
+
 				//	任务选项数据枚举
-				_dialogueOption = DialogueOption.NothingOption;
+				_dialogueOption = MissionDataModel.DialogueOption.NothingOption;
 				
 				//	当NPC绑定功能（既是该NPC挂有多个功能选项 -> 任务选项需要一级分类）
-				if (npc.dialogFunctionId.Count > 0) {
+				if (tFunctionCount > 0) {
 					//	当NPC绑定任务
 					if (tMissonOptionList.Count > 0) {
 
@@ -180,27 +152,28 @@ public class NpcDialogueController : MonoBehaviour,IViewController {
 							//	获取列表第一个任务 和 任务当前目标提交项
 							Mission tMission = tMissonOptionList[0].mission;
 							SubmitDto tSubmitDto = MissionDataModel.Instance.GetSubmitDtoByMission(tMission);
+
 							if (tSubmitDto is ShowMonsterSubmitDto) {
 								//	当前只有一个任务且任务类型是冥雷闲人战斗任务（变更对话选项为功能和一级菜单方式）=========================
-								_dialogueOption = DialogueOption.FunctionAndMainMissionMenu;
+								_dialogueOption = MissionDataModel.DialogueOption.FunctionAndMonster;
 
 								CreateDialogueMonsterOption(tMission, npc);
 							} else {
 								//	判断是否任务数量为1 （变更对话选项为功能和（根据任务类型判断具体显示 一\二 级菜单））====================
-								_dialogueOption = DialogueOption.FunctionAndSubMissionMenu;
+								_dialogueOption = MissionDataModel.DialogueOption.FunctionAndSubMissionMenu;
 
-								CreateDialogueOptionByList(tMissonOptionList, npc.dialogFunctionId.Count);
+								CreateDialogueOptionByList(tMissonOptionList, tFunctionCount);
 							}
 						} else if (tMissonOptionList.Count > 1) {
 							//	任务数量大于1（变更对话选项为功能和一级菜单方式）========================================================
-							_dialogueOption = DialogueOption.FunctionAndMainMissionMenu;
+							_dialogueOption = MissionDataModel.DialogueOption.FunctionAndMainMissionMenu;
 
 							//	这里是要处理的，还没弄好
-							CreateDialogueOptionByList(tMissonOptionList, npc.dialogFunctionId.Count);
+							CreateDialogueOptionByList(tMissonOptionList, tFunctionCount);
 						}
 					} else {
 						//	仅有NPC功能选项 不做处理===================================================================================
-						_dialogueOption = DialogueOption.OnlyFunction;
+						_dialogueOption = MissionDataModel.DialogueOption.OnlyFunction;
 					}
 				} else {
 					if (tMissonOptionList.Count > 0) {
@@ -213,20 +186,20 @@ public class NpcDialogueController : MonoBehaviour,IViewController {
 							if (tMissionOption.optionType) {
 								if (tMission.missionType.submitConfirm) {
 									if (tSubmitDto is ShowMonsterSubmitDto) {
-										//	当前只有一个任务且任务类型是冥雷闲人战斗任务（变更对话选项为功能和一级菜单方式）=========================
-										_dialogueOption = DialogueOption.FunctionAndMainMissionMenu;
+										//	当前只有一个任务且任务类型是冥雷闲人战斗任务（变更对话选项为一级菜单方式）=========================
+										_dialogueOption = MissionDataModel.DialogueOption.OnlyMonsterMenu;
 										
 										//	调用冥雷对话方法
 										CreateDialogueMonsterOption(tMission, npc);
 										return;
 									} else {
 										//	仅生成二级对话选项（既是没有选项，直接提交做改任务逻辑）===============================================
-										_dialogueOption = DialogueOption.OnlySubMissionMenu;
+										_dialogueOption = MissionDataModel.DialogueOption.OnlySubMissionMenu;
 										
-										CreateDialogueOptionByList(tMissonOptionList, npc.dialogFunctionId.Count);
+										CreateDialogueOptionByList(tMissonOptionList, tFunctionCount);
 									}
 								} else {
-									_dialogueOption = DialogueOption.QuicklyMenu;
+									_dialogueOption = MissionDataModel.DialogueOption.OnlyQuicklyMenu;
 									if (tSubmitDto is ShowMonsterSubmitDto) {
 										ShowMonsterSubmitDto tShowMonsterSubmitDto = tSubmitDto as ShowMonsterSubmitDto;
 										SetMonsterSubOption(tMission, npc);
@@ -238,21 +211,22 @@ public class NpcDialogueController : MonoBehaviour,IViewController {
 									}
 								}
 							} else {
-								_dialogueOption = DialogueOption.FunctionAndMainMissionMenu;
+								//	仅有一级对话选项 ======================================================================================
+								_dialogueOption = MissionDataModel.DialogueOption.OnlyMainMissionMenu;
 								//	接任务列表不用做这个处理的
-								CreateDialogueOptionByList(tMissonOptionList, npc.dialogFunctionId.Count);
+								CreateDialogueOptionByList(tMissonOptionList, tFunctionCount);
 							}
 						} else {
 							//	仅有一级对话选项 ======================================================================================
-							_dialogueOption = DialogueOption.OnlyMainMissionMenu;
+							_dialogueOption = MissionDataModel.DialogueOption.OnlyMainMissionMenu;
 							
 							//	这里是要处理的，还没弄好
-							CreateDialogueOptionByList(tMissonOptionList, npc.dialogFunctionId.Count);
+							CreateDialogueOptionByList(tMissonOptionList, tFunctionCount);
 						}
 					} else {
 						//	当执行到这里表示没有菜单选项 不做处理=========================================================================
 						GameDebuger.OrangeDebugLog(string.Format("{0}", "1）NPC没有功能选项 2）且该时刻没有对应NPC任务绑定 3）"));
-						_dialogueOption = DialogueOption.NothingOption;
+						_dialogueOption = MissionDataModel.DialogueOption.NothingOption;
 					}
 				}
 				GameDebuger.AquaDebugLog(string.Format("NPC对话选项分类:{0}", _dialogueOption));
@@ -267,12 +241,12 @@ public class NpcDialogueController : MonoBehaviour,IViewController {
 					Mission tMission = tOption.mission;
 					SubmitDto tSubmitDto = MissionDataModel.Instance.GetSubmitDtoByMission(tMission);
 
-					GameObject tMissionOptionGo = (i == 0 && npc.dialogFunctionId.Count <= 0)?
+					GameObject tMissionOptionGo = (i == 0 && tFunctionCount <= 0)?
 						_view.FunctionCellPrefab : NGUITools.AddChild(_view.FunctionGrid.gameObject, _view.FunctionCellPrefab);
 					_optionGo.Add(tMissionOptionGo);
 
 					UILabel tUILabel = tMissionOptionGo.GetComponentInChildren<UILabel>();
-					tUILabel.text = MissionDataModel.Instance.GetMissionTitleNameInDialogue(tOption.mission, tOption.optionType);
+					tUILabel.text = MissionDataModel.Instance.GetMissionTitleNameInDialogue(tMission, tOption.optionType);
 						//string.Format("{0}|{1}-{2}", tOption.optionType? "提交" : "可接", tOption.mission.missionType.name, tOption.mission.name);
 
 					UIButton button = tMissionOptionGo.GetComponentInChildren<UIButton>();
@@ -285,7 +259,7 @@ public class NpcDialogueController : MonoBehaviour,IViewController {
 			_view.FunctionGrid.Reposition();
 		}
 
-		if (_dialogueOption != DialogueOption.QuicklyMenu) {
+		if (_dialogueOption != MissionDataModel.DialogueOption.OnlyQuicklyMenu) {
 			string tShowDialogMsg = npc.dialogContent[Random.Range(0, npc.dialogContent.Count)];
 			SetLabelContent(npc.name, tShowDialogMsg);
 		}
@@ -792,7 +766,7 @@ public class NpcDialogueController : MonoBehaviour,IViewController {
 		_dialogMagCount = 0;
 		_closeClickCallback = null;
 		_dialogueProcess = DialogueProcess.Wait;
-		_dialogueOption = DialogueOption.NothingOption;
+		//_dialogueOption = MissionDataModel.DialogueOption.NothingOption;
 
 		_optionGo.Clear();
 	}

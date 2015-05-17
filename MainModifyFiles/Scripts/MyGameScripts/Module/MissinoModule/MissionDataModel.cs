@@ -157,6 +157,51 @@ public class MissionDataModel {
 	*/
 	#endregion
 
+	#region 一个对话选项的枚举
+	public enum DialogueOption {
+		/// <summary>
+		/// 不存在选项菜单（初始状态）:0 -- The nothing option.
+		/// </summary>
+		NothingOption = 0,
+		/// <summary>
+		/// 只存在功能选项:1 -- The only function.
+		/// </summary>
+		OnlyFunction = 1,
+		/// <summary>
+		/// 存在功能选项和任务一级菜单:2 -- The function and main mission menu.
+		/// </summary>
+		FunctionAndMainMissionMenu = 2,
+		/// <summary>
+		/// 存在功能选项和任务一级菜单:3 -- The function and monster.
+		/// </summary>
+		FunctionAndMonster = 3,
+		/// <summary>
+		/// 存在功能选项和任务二级菜单（隐含表示拥有一个或多个NPC功能和有且仅有一个任务）:4 -- The function and sub mission menu.
+		/// </summary>
+		FunctionAndSubMissionMenu = 4,
+		/// <summary>
+		/// 只存在任务一级菜单:5 -- The only main mission menu.
+		/// </summary>
+		OnlyMainMissionMenu = 5,
+		/// <summary>
+		/// 只存在二级菜单（有且仅有一个任务）:6 -- The only sub mission menu.
+		/// </summary>
+		OnlySubMissionMenu = 6,
+		/// <summary>
+		/// 只存在二级菜单(有且仅有一个冥雷任务)：7 -- The only monster menu.
+		/// </summary>
+		OnlyMonsterMenu = 7,
+		/// <summary>
+		/// 快速地任务快捷选项：8 -- The quickly menu.
+		/// </summary>
+		OnlyQuicklyMenu = 8
+	}
+	private DialogueOption _dialogueOption = DialogueOption.NothingOption;
+	public DialogueOption dialogueOption {
+		get { return _dialogueOption; }
+	}
+	#endregion
+
 	#region -----------------------	callback about -----------------------
 	public System.Action refreshUICallback = null;
 	public System.Action talkCallback = null;
@@ -189,6 +234,12 @@ public class MissionDataModel {
 
 	//	使用物品倒计时间
 	private readonly float _popupUseMissionWaitTime = 3.0f;
+
+	//	环数
+	private readonly int _missionRingNum = 10;
+
+	//	地图玩家坐标比例
+	private readonly int _mapScaleNum = 10;
 
 	//	提示文字
 	private readonly string _endDailyFinishStr = "今日已经做满20次师门任务，继续完成只能获得少量奖励，是否继续？";
@@ -362,16 +413,6 @@ public class MissionDataModel {
 		}
 
 		//	排除当前因等级不足、暂未开放、VIP等原因导致的不显示数据
-		/*
-		 *  |-- 主线
-		 *  |-- 支线
-		 *  |-- 日常
-		 *      |-- 师门
-		 * 		|-- 宝图
-		 * 		|-- 封妖
-		 * 		|-- 星宿
-		 * 		|-- ......
-		 */
 		foreach (Mission tMission in tAllMissionDic.Values) {
 			if (FunctionOpenHelper.JudgeFunctionOpen(tMission.missionType.functionOpenId, false)) {
 				//	过滤 主线/支线 中前置任务因数的数据
@@ -385,12 +426,12 @@ public class MissionDataModel {
 			}
 		}
 
-		GameDebuger.AquaDebugLog("==================== Begin ====================");
+		GameDebuger.AquaDebugLog("=============  获取可接任务二级菜单数据信息 Begin =============");
 		foreach (Mission tMission in tMissionMenuList) {
 			GameDebuger.AquaDebugLog(string.Format("ID:{0} | Type:{1} | Name:{2}-{3}",
 			                                       tMission.id, tMission.type, tMission.missionType.name, tMission.name));
 		}
-		GameDebuger.AquaDebugLog("==================== End ====================");
+		GameDebuger.AquaDebugLog("============= 获取可接任务二级菜单数据信息 End =============");
 
 		return tMissionMenuList;
 	}
@@ -404,6 +445,17 @@ public class MissionDataModel {
 	/// <returns>The main mission menu list.</returns>
 	/// <param name="existSta">If set to <c>true</c> exist sta.</param>
 	public List<MissionType> GetMainMissionMenuList(bool existSta) {
+		/*
+		 *  |-- 主线
+		 *  |-- 支线
+		 *  |-- 日常
+		 *      |-- 师门
+		 * 		|--	捉鬼
+		 * 		|-- 宝图
+		 * 		|-- 封妖
+		 * 		|-- 星宿
+		 * 		|-- ......
+		 */
 		List<Mission> subMissionMenuList = GetSubMissionMenuList(existSta);
 		List<MissionType> tMainMissionMenuList = new List<MissionType>();
 
@@ -427,7 +479,7 @@ public class MissionDataModel {
 					}
 				} else if (tMission.type > 2) {
 					//	IsExistBindMissionByTypeID(id)
-					if (!tExistDailyType) {
+					if (!tExistDailyType && tMainMissionMenuList[j].id <= 2) {
 						tExistDailyType = true;
 					} else {
 						tExistInList = true;
@@ -452,7 +504,8 @@ public class MissionDataModel {
 		
 		GameDebuger.OrangeDebugLog(string.Format("开始一级任务分类菜单 -> {0} 数据信息List", existSta? "已接" : "可接"));
 		foreach (MissionType tMissionType in tMainMissionMenuList) {
-			GameDebuger.OrangeDebugLog(string.Format("Main Menu ======== ID -> {0} | Name -> {1} ========", tMissionType.id, tMissionType.name));
+			GameDebuger.OrangeDebugLog(string.Format("Main Menu ======== ID -> {0} | Name -> {1} ========",
+			                                         tMissionType.id, tMissionType.id > 2? "日常任务" : tMissionType.name));
 		}
 
 		return tMainMissionMenuList;
@@ -473,10 +526,18 @@ public class MissionDataModel {
 		for (int i = 0, len = tSubMissionMenuList.Count; i < len; i++) {
 			Mission tMission = tSubMissionMenuList[i];
 
-			if (existSta && tMission.type == mainMenuId) {
-				tSubdivisionMenuList.Add(tMission);
-			} else if (!existSta && tMission.type > 2 || tMission.type <= 2 && tMission.type == mainMenuId) {
-				tSubdivisionMenuList.Add(tMission);
+			if (existSta) {
+				if (tMission.type == mainMenuId) {
+					tSubdivisionMenuList.Add(tMission);
+				}
+			} else {
+				if (mainMenuId <= 2) {
+					if (tMission.type == mainMenuId) {
+						tSubdivisionMenuList.Add(tMission);
+					}
+				} else if (tMission.type > 2) {
+					tSubdivisionMenuList.Add(tMission);
+				}
 			}
 		}
 
@@ -640,11 +701,11 @@ public class MissionDataModel {
 					if (tApplyItemSubmitDto.item == null) {
 						tDebugStr += string.Format("| 到达某地任务：到达 -> {0}的坐标{1}-{2}\n",
 						                           tApplyItemSubmitDto.acceptScene.sceneMap.name,
-						                           tApplyItemSubmitDto.acceptScene.x/10, tApplyItemSubmitDto.acceptScene.z/10);
+						                           tApplyItemSubmitDto.acceptScene.x/_mapScaleNum, tApplyItemSubmitDto.acceptScene.z/_mapScaleNum);
 					} else {
 						tDebugStr += string.Format("| 使用物品任务：到达 -> {0}的坐标{1}-{2}\n 使用 {3}\n",
 						                           tApplyItemSubmitDto.acceptScene.sceneMap.name,
-						                           tApplyItemSubmitDto.acceptScene.x/10, tApplyItemSubmitDto.acceptScene.z/10,
+						                           tApplyItemSubmitDto.acceptScene.x/_mapScaleNum, tApplyItemSubmitDto.acceptScene.z/_mapScaleNum,
 						                           tApplyItemSubmitDto.item.name);
 					}
 					break;
@@ -891,7 +952,7 @@ public class MissionDataModel {
 	public bool FinishTargetSubmitDto(Mission mission, Npc npc) {
 		bool tReturnState = true;
 
-		SubmitDto tSubmitDto = MissionDataModel.Instance.GetSubmitDtoByMission(mission);
+		SubmitDto tSubmitDto = GetSubmitDtoByMission(mission);
 		SubmitDtoType submitDtoType = GetSubmitDtoTypeBySubmitDto(tSubmitDto);
 		bool tIsFinishCountState = tSubmitDto.count >= tSubmitDto.needCount;
 
@@ -1067,7 +1128,7 @@ public class MissionDataModel {
 		}
 
 		Vector3 tPlayerPosition = _heroView.transform.position;
-		Vector2 tPlayerV2 = new Vector2(tPlayerPosition.x*10, tPlayerPosition.z*10);
+		Vector2 tPlayerV2 = new Vector2(tPlayerPosition.x*_mapScaleNum, tPlayerPosition.z*_mapScaleNum);
 
 		foreach (int missionID in _applyItemSubmitDtoDic.Keys) {
 			ApplyItemSubmitDto tApplyItemSubmitDto = _applyItemSubmitDtoDic[missionID];
@@ -1217,6 +1278,107 @@ public class MissionDataModel {
 	}
 	#endregion
 
+	#region 获取当前对话选项模式 return _dialogueOption
+	public DialogueOption GetDialogueOptionByMissionOptionList(List<MissionOption> missonOptionList, NpcGeneral npc) {
+		//	任务选项数据枚举
+		_dialogueOption = DialogueOption.NothingOption;
+
+		int tMissionOptionCount = missonOptionList.Count;
+		int tFunctionCount = npc.dialogFunctionId.Count;
+		
+		//	当NPC绑定功能（既是该NPC挂有多个功能选项 -> 任务选项需要一级分类）
+		if (tFunctionCount > 0) {
+			//	当NPC绑定任务
+			if (tMissionOptionCount > 0) {
+				
+				if (tMissionOptionCount == 1) {
+					//	获取列表第一个任务 和 任务当前目标提交项
+					Mission tMission = missonOptionList[0].mission;
+					SubmitDto tSubmitDto = GetSubmitDtoByMission(tMission);
+					if (tSubmitDto is ShowMonsterSubmitDto) {
+						//	当前只有一个任务且任务类型是冥雷闲人战斗任务（变更对话选项为功能和一级菜单方式）=========================
+						_dialogueOption = MissionDataModel.DialogueOption.FunctionAndMainMissionMenu;
+						
+						//CreateDialogueMonsterOption(tMission, npc);
+					} else {
+						//	判断是否任务数量为1 （变更对话选项为功能和（根据任务类型判断具体显示 一\二 级菜单））====================
+						_dialogueOption = MissionDataModel.DialogueOption.FunctionAndSubMissionMenu;
+						
+						//CreateDialogueOptionByList(tMissonOptionList, tFunctionCount);
+					}
+				} else if (tMissionOptionCount > 1) {
+					//	任务数量大于1（变更对话选项为功能和一级菜单方式）========================================================
+					_dialogueOption = MissionDataModel.DialogueOption.FunctionAndMainMissionMenu;
+					
+					//	这里是要处理的，还没弄好
+					//CreateDialogueOptionByList(tMissonOptionList, tFunctionCount);
+				}
+			} else {
+				//	仅有NPC功能选项 不做处理===================================================================================
+				_dialogueOption = MissionDataModel.DialogueOption.OnlyFunction;
+			}
+		} else {
+			if (tMissionOptionCount > 0) {
+				if (tMissionOptionCount == 1) {
+					//	获取列表第一个任务 和 任务当前目标提交项
+					MissionOption tMissionOption = missonOptionList[0];
+					Mission tMission = missonOptionList[0].mission;
+					SubmitDto tSubmitDto = GetSubmitDtoByMission(tMission);
+					
+					if (tMissionOption.optionType) {
+						if (tMission.missionType.submitConfirm) {
+							if (tSubmitDto is ShowMonsterSubmitDto) {
+								//	当前只有一个任务且任务类型是冥雷闲人战斗任务（变更对话选项为一级菜单方式）=========================
+								_dialogueOption = MissionDataModel.DialogueOption.OnlyMonsterMenu;
+								
+								//	调用冥雷对话方法
+								//CreateDialogueMonsterOption(tMission, npc);
+								//return;
+							} else {
+								//	仅生成二级对话选项（既是没有选项，直接提交做改任务逻辑）===============================================
+								_dialogueOption = MissionDataModel.DialogueOption.OnlySubMissionMenu;
+								
+								//CreateDialogueOptionByList(tMissonOptionList, tFunctionCount);
+							}
+						} else {
+							_dialogueOption = MissionDataModel.DialogueOption.OnlyQuicklyMenu;
+							if (tSubmitDto is ShowMonsterSubmitDto) {
+								ShowMonsterSubmitDto tShowMonsterSubmitDto = tSubmitDto as ShowMonsterSubmitDto;
+								//SetMonsterSubOption(tMission, npc);
+							} else {
+								//	任务提交项（明雷任务回调处理）
+								/*
+								if (FinishTargetSubmitDto(tMission, npc)) {
+									ProxyWorldMapModule.CloseNpcDialogue();
+								}
+								*/
+							}
+						}
+					} else {
+						_dialogueOption = MissionDataModel.DialogueOption.FunctionAndMainMissionMenu;
+						//	接任务列表不用做这个处理的
+						//CreateDialogueOptionByList(tMissonOptionList, tFunctionCount);
+					}
+				} else {
+					//	仅有一级对话选项 ======================================================================================
+					_dialogueOption = MissionDataModel.DialogueOption.OnlyMainMissionMenu;
+					
+					//	这里是要处理的，还没弄好
+					//CreateDialogueOptionByList(tMissonOptionList, tFunctionCount);
+				}
+			} else {
+				//	当执行到这里表示没有菜单选项 不做处理=========================================================================
+				GameDebuger.OrangeDebugLog(string.Format("{0}", "1）NPC没有功能选项 2）且该时刻没有对应NPC任务绑定 3）"));
+				_dialogueOption = MissionDataModel.DialogueOption.NothingOption;
+			}
+		}
+		GameDebuger.AquaDebugLog(string.Format("NPC对话选项分类:{0}", _dialogueOption));
+
+		return _dialogueOption;
+	}
+
+	#endregion
+
 	#region 获取Npc一级选项MissionOption
 	/// <summary>
 	/// 获取Npc一级选项MissionOption -- Gets the main menu option list.
@@ -1311,7 +1473,7 @@ public class MissionDataModel {
 	public List<Npc> GetShowMonsterNpcListBySceneID() {
 		List<Npc> tNpcList = new List<Npc>();
 		//	获取当前任务列表
-		List<Mission> tCurMissionMenuList = MissionDataModel.Instance.GetSubMissionMenuList(true);
+		List<Mission> tCurMissionMenuList = GetSubMissionMenuList(true);
 		int sceneID = WorldManager.Instance.GetModel().GetSceneId();
 
 		for (int i = 0, len = tCurMissionMenuList.Count; i < len; i++) {
@@ -1688,10 +1850,11 @@ public class MissionDataModel {
 		                                         acceptAndSubmit? "接受" : "提交", missionID));
 		MissionPlotModel.Instance.StoryPlotInPlotModel(missionID, acceptAndSubmit, StoryEndPlotCallback);
 	}
-	
+
+	//	剧情系统播放完成后调用任务系统
 	public void StoryEndPlotCallback(PlayerMissionDto playerMissionDto) {
 		if (playerMissionDto == null) {
-			GameDebuger.OrangeDebugLog(string.Format("剧情播放结束后回调该信息| 内容：剧情播放结束后没有新的任务"));
+			GameDebuger.AquaDebugLog(string.Format("剧情播放结束后回调该信息| 内容：剧情播放结束后没有新的任务"));
 			return;
 		}
 
@@ -1742,7 +1905,7 @@ public class MissionDataModel {
 			PlayerMissionDto tPlayerMissionDto = e as PlayerMissionDto;
 
 			if (tPlayerMissionDto == null) {
-				GameDebuger.OrangeDebugLog("接受任务返回任务父类（PlayerMissionDto）为空：");
+				GameDebuger.AquaDebugLog("请求任务返回空（PlayerMissionDto）为空：");
 				return;
 			}
 
@@ -1764,6 +1927,11 @@ public class MissionDataModel {
 			
 			//	添加入本地数据
 			PlayerFactionMissionDto tPlayerFactionMissionDto = e as PlayerFactionMissionDto;
+			if (tPlayerFactionMissionDto == null) {
+				GameDebuger.AquaDebugLog(string.Format("请求师门任务返回空"));
+				return;
+			}
+
 			AcceptMissionFinish(tPlayerFactionMissionDto);
 		});
 	}
@@ -1776,7 +1944,15 @@ public class MissionDataModel {
 		                                         tPlayerMissionDto.missionId,
 		                                         tPlayerMissionDto.mission.missionType.name, tPlayerMissionDto.mission.name,
 		                                         tPlayerMissionDto.GetType().ToString().Split('.')[8]));
-		
+
+		//	查看是否已存在当前任务列表中
+		for (int i = 0, len = _playerMissionListDto.bodyMissions.Count; i < len; i++) {
+			if (_playerMissionListDto.bodyMissions[i].missionId == tPlayerMissionDto.missionId) {
+				//	已存在任务列表中的任务直接返回
+				return;
+			}
+		}
+
 		//	添加入本地任务数据列表并进行界面刷新
 		_playerMissionListDto.bodyMissions.Add(tPlayerMissionDto);
 		
@@ -1794,7 +1970,7 @@ public class MissionDataModel {
 			if (_showMonsterNpc != null) {
 				//	_showMonsterNpc表示明雷战斗中，等待战斗结束才生成明雷NPC \ 显示对话内容操作
 			} else {
-				BattleManager.Instance.OnBattleFinishCallback += ShowMonsterBattleFinishCallback;
+				//BattleManager.Instance.OnBattleFinishCallback += ShowMonsterBattleFinishCallback;
 				//	正在进行暗雷战斗任务 等待战斗结束才生成明雷NPC \ 显示对话内容操作
 			}
 
@@ -2037,18 +2213,14 @@ public class MissionDataModel {
 				//	是否师门且第十环
 				if (tPlayerMissionDto is PlayerFactionMissionDto && IsFactionMissionType(tPlayerMissionDto.mission)) {
 					PlayerFactionMissionDto tPlayerFactionMissionDto = tPlayerMissionDto as PlayerFactionMissionDto;
-
-					//	当前Remoce任务数量加一
-					if (++tPlayerFactionMissionDto.dailyFinishCount == 20) {
-						ProxyWindowModule.OpenConfirmWindow(_endDailyFinishStr, tPlayerMissionDto.mission.missionType.name, () => {
-							FindToMasterOrChief(1);
-						});
-					} else if (tPlayerFactionMissionDto.curRings == 10) {
-						ProxyWorldMapModule.OpenCommonDialogue(PlayerModel.Instance.GetPlayerName(),
-						                                       _endRingsFinishStr,
-						                                       new List<string>() {"回师门"}, (selectIndex) => {
-							FindToMasterOrChief(1);
-						});
+					
+					//	判断是否还在战斗中状态
+					if (BattleManager.Instance.IsInBattle()) {
+						_initShowMonsterCallback = () => {
+							FindToMasterNpc(tPlayerFactionMissionDto);
+						};
+					} else {
+						FindToMasterNpc(tPlayerFactionMissionDto);
 					}
 				}
 			}
@@ -2076,8 +2248,23 @@ public class MissionDataModel {
 
 		return b;
 	}
-	#endregion
 
+	private void FindToMasterNpc(PlayerFactionMissionDto playerFactionMissionDto) {
+		//	当前Remoce任务数量加一
+		if (++playerFactionMissionDto.dailyFinishCount == /*20*/2 * _missionRingNum) {
+			ProxyWindowModule.OpenConfirmWindow(_endDailyFinishStr, playerFactionMissionDto.mission.missionType.name, () => {
+				FindToMasterOrChief(1);
+			});
+		} else if (playerFactionMissionDto.curRings == _missionRingNum) {
+			ProxyWorldMapModule.OpenCommonDialogue(PlayerModel.Instance.GetPlayerName(),
+			                                       _endRingsFinishStr,
+			                                       new List<string>() {"回师门"}, (selectIndex) => {
+				FindToMasterOrChief(1);
+			});
+		}
+	}
+	#endregion
+	
 	//	======================================== Notify 相关 =======================================
 	#region 接受任务状态通知更新
 	/// <summary>
@@ -2091,6 +2278,11 @@ public class MissionDataModel {
 		
 		//GameDebuger.OrangeDebugLog(string.Format("获取任务提交项类型 NULL -> 提交项信息（ID：{0} | 完成状态：{1}） | SubmitDto类型:{2}",
 		//                                         submitDto.id, submitDto.finish, submitDto.GetType().ToString().Split('.')[8]));
+		if (notify.playerMissionDto == null) {
+			GameDebuger.AquaDebugLog(string.Format("接受任务状态通知更新返回空"));
+			return;
+		}
+
 		AcceptMissionFinish(notify.playerMissionDto);
 	}
 	#endregion
@@ -2285,14 +2477,14 @@ public class MissionDataModel {
 		string tStr = string.Format("{0}{1}{2}[-]", isMissionCellTitle? IsMainMissionType(mission)? _mainColor : _threadColor : _orange,
 		                            //: IsExistCurMission(mission)? _threadColor : "" : "",
 		                            mission.missionType.name,
-		                            IsMainOrExtension(mission) || IsFactionMissionType(mission)? string.Format("-{0}", mission.name) : "");
+		                            IsMainOrExtension(mission) || (IsFactionMissionType(mission) && isExist)? string.Format("-{0}", mission.name) : "");
 		
 		if (IsFactionMissionType(mission) && isExist) {
 			PlayerMissionDto tPlayerMissionDto = GetPlayerMissionDtoByMissionID(mission.id);
 			if (tPlayerMissionDto is PlayerFactionMissionDto) {
 				PlayerFactionMissionDto tPlayerFactionMissionDto = tPlayerMissionDto as PlayerFactionMissionDto;
 				tStr = string.Format("{0}{1}({2}/{3})[-]", tStr, isMissionCellTitle? _threadColor : _orange,
-				                     tPlayerFactionMissionDto.curRings, "10");
+				                     tPlayerFactionMissionDto.curRings, _missionRingNum);
 			}
 		}
 
@@ -2307,6 +2499,9 @@ public class MissionDataModel {
 
 		} else {
 			tType = mission.missionType.name;
+			if (IsFactionMissionType(mission)) {
+				tType += "任务";
+			}
 		}
 
 		if (isExist) {
@@ -2314,7 +2509,7 @@ public class MissionDataModel {
 				PlayerMissionDto tPlayerMissionDto = GetPlayerMissionDtoByMissionID(mission.id);
 				if (tPlayerMissionDto is PlayerFactionMissionDto) {
 					PlayerFactionMissionDto tPlayerFactionMissionDto = tPlayerMissionDto as PlayerFactionMissionDto;
-					tName = string.Format("-{0}({1}/10)", mission.name, tPlayerFactionMissionDto.curRings);
+					tName = string.Format("-{0}({1}/{2})", mission.name, tPlayerFactionMissionDto.curRings, _missionRingNum);
 				}
 			}
 		} else {
